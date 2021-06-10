@@ -3,18 +3,70 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		35347CBA2671352E00083FCB /* UserSettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35347CB92671352E00083FCB /* UserSettingsPage.swift */; };
+		35347CBB2671352E00083FCB /* UserSettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35347CB92671352E00083FCB /* UserSettingsPage.swift */; };
+		35347CBD2671355400083FCB /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35347CBC2671355400083FCB /* UserSettings.swift */; };
+		35347CBE2671355400083FCB /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35347CBC2671355400083FCB /* UserSettings.swift */; };
+		353B38082663C08D00D1C9B2 /* WorkoutSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353B38072663C08D00D1C9B2 /* WorkoutSessionView.swift */; };
+		353B38092663C08D00D1C9B2 /* WorkoutSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353B38072663C08D00D1C9B2 /* WorkoutSessionView.swift */; };
+		353B380E2663D06C00D1C9B2 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 353B380D2663D06C00D1C9B2 /* Charts */; };
+		353B38102663D09200D1C9B2 /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353B380F2663D09200D1C9B2 /* LineChartView.swift */; };
+		353B38112663D09200D1C9B2 /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353B380F2663D09200D1C9B2 /* LineChartView.swift */; };
+		353B38132663D09C00D1C9B2 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 353B38122663D09C00D1C9B2 /* Charts */; };
+		35512DBC2668098500E7C68B /* MeanMaximalPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DBB2668098500E7C68B /* MeanMaximalPower.swift */; };
+		35512DBD2668098500E7C68B /* MeanMaximalPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DBB2668098500E7C68B /* MeanMaximalPower.swift */; };
+		35512DBE2668098500E7C68B /* MeanMaximalPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DBB2668098500E7C68B /* MeanMaximalPower.swift */; };
+		35512DC12668D64C00E7C68B /* FitDataProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 35512DC02668D64C00E7C68B /* FitDataProtocol */; };
+		35512DC52669009700E7C68B /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DC42669009700E7C68B /* Workout.swift */; };
+		35512DC62669009700E7C68B /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DC42669009700E7C68B /* Workout.swift */; };
+		35512DC72669009700E7C68B /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DC42669009700E7C68B /* Workout.swift */; };
+		35512DC9266A690C00E7C68B /* LSCTDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DC8266A690C00E7C68B /* LSCTDetector.swift */; };
+		35512DCA266A690C00E7C68B /* LSCTDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DC8266A690C00E7C68B /* LSCTDetector.swift */; };
+		35512DCB266A690C00E7C68B /* LSCTDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DC8266A690C00E7C68B /* LSCTDetector.swift */; };
+		35512DCE266A831900E7C68B /* LSCTDetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DCD266A831900E7C68B /* LSCTDetectionView.swift */; };
+		35512DCF266A831900E7C68B /* LSCTDetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DCD266A831900E7C68B /* LSCTDetectionView.swift */; };
+		35512DD0266A831900E7C68B /* LSCTDetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DCD266A831900E7C68B /* LSCTDetectionView.swift */; };
+		355F87CD266A848D00AA5E25 /* MeanMaximumPowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87CC266A848D00AA5E25 /* MeanMaximumPowerView.swift */; };
+		355F87CE266A848D00AA5E25 /* MeanMaximumPowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87CC266A848D00AA5E25 /* MeanMaximumPowerView.swift */; };
+		355F87CF266A848D00AA5E25 /* MeanMaximumPowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87CC266A848D00AA5E25 /* MeanMaximumPowerView.swift */; };
+		355F87D1266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D0266A8A0300AA5E25 /* DataFrameLinearRegression.swift */; };
+		355F87D2266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D0266A8A0300AA5E25 /* DataFrameLinearRegression.swift */; };
+		355F87D3266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D0266A8A0300AA5E25 /* DataFrameLinearRegression.swift */; };
+		355F87D5266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D4266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift */; };
+		355F87D6266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D4266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift */; };
+		355F87D7266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D4266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift */; };
+		355F87DA266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D9266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift */; };
+		355F87DB266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D9266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift */; };
+		355F87DC266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D9266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift */; };
+		355F87DE266AB85900AA5E25 /* FitDataProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 355F87DD266AB85900AA5E25 /* FitDataProtocol */; };
+		35709A672670E53200087EE5 /* DFAStreamModel+testData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35709A662670E53200087EE5 /* DFAStreamModel+testData.swift */; };
+		3584B59126639AE8005993D5 /* DFAStreamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B59026639AE8005993D5 /* DFAStreamModel.swift */; };
+		3584B59226639AE8005993D5 /* DFAStreamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B59026639AE8005993D5 /* DFAStreamModel.swift */; };
+		3584B5942663A21A005993D5 /* LinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B5932663A21A005993D5 /* LinearRegression.swift */; };
+		3584B5952663A21A005993D5 /* LinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B5932663A21A005993D5 /* LinearRegression.swift */; };
+		3584B5962663B061005993D5 /* DFAStreamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B59026639AE8005993D5 /* DFAStreamModel.swift */; };
+		3584B5972663B0AA005993D5 /* LinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B5932663A21A005993D5 /* LinearRegression.swift */; };
+		3584B5992663B6D9005993D5 /* ImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B5982663B6D9005993D5 /* ImportView.swift */; };
+		3584B59A2663B6D9005993D5 /* ImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B5982663B6D9005993D5 /* ImportView.swift */; };
 		35D5D8E02662AA0700A68199 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D8DF2662AA0700A68199 /* Tests_iOS.swift */; };
 		35D5D8EB2662AA0700A68199 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D8EA2662AA0700A68199 /* Tests_macOS.swift */; };
 		35D5D8ED2662AA0700A68199 /* FatigueApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D8C42662AA0600A68199 /* FatigueApp.swift */; };
 		35D5D8EE2662AA0700A68199 /* FatigueApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D8C42662AA0600A68199 /* FatigueApp.swift */; };
-		35D5D8EF2662AA0700A68199 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D8C52662AA0600A68199 /* ContentView.swift */; };
-		35D5D8F02662AA0700A68199 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D8C52662AA0600A68199 /* ContentView.swift */; };
 		35D5D8F12662AA0700A68199 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35D5D8C62662AA0700A68199 /* Assets.xcassets */; };
 		35D5D8F22662AA0700A68199 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35D5D8C62662AA0700A68199 /* Assets.xcassets */; };
+		35D5D9022662AA9300A68199 /* WorkoutListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D9012662AA9300A68199 /* WorkoutListView.swift */; };
+		35D5D9032662AA9300A68199 /* WorkoutListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D9012662AA9300A68199 /* WorkoutListView.swift */; };
+		35D5D90A2662BC9B00A68199 /* WorkoutStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D9092662BC9B00A68199 /* WorkoutStore.swift */; };
+		35D5D90B2662BC9B00A68199 /* WorkoutStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D9092662BC9B00A68199 /* WorkoutStore.swift */; };
+		35D7FDC12671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7FDC02671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift */; };
+		35D7FDC22671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7FDC02671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift */; };
+		35FB0CC7267209DC00CB6573 /* DFAAlpha1RegressionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7FDC02671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift */; };
+		35FB0CC926721CDE00CB6573 /* Array+binarySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CC826721CDE00CB6573 /* Array+binarySearch.swift */; };
+		35FB0CCA26721CDE00CB6573 /* Array+binarySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CC826721CDE00CB6573 /* Array+binarySearch.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,8 +87,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		35347CB92671352E00083FCB /* UserSettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsPage.swift; sourceTree = "<group>"; };
+		35347CBC2671355400083FCB /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		353B38072663C08D00D1C9B2 /* WorkoutSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSessionView.swift; sourceTree = "<group>"; };
+		353B380F2663D09200D1C9B2 /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
+		35512DBB2668098500E7C68B /* MeanMaximalPower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeanMaximalPower.swift; sourceTree = "<group>"; };
+		35512DC42669009700E7C68B /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
+		35512DC8266A690C00E7C68B /* LSCTDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSCTDetector.swift; sourceTree = "<group>"; };
+		35512DCD266A831900E7C68B /* LSCTDetectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSCTDetectionView.swift; sourceTree = "<group>"; };
+		355F87CC266A848D00AA5E25 /* MeanMaximumPowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeanMaximumPowerView.swift; sourceTree = "<group>"; };
+		355F87D0266A8A0300AA5E25 /* DataFrameLinearRegression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFrameLinearRegression.swift; sourceTree = "<group>"; };
+		355F87D4266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DFAAlpha1RegressionView.swift; sourceTree = "<group>"; };
+		355F87D9266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSessionViewModel.swift; sourceTree = "<group>"; };
+		35709A662670E53200087EE5 /* DFAStreamModel+testData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DFAStreamModel+testData.swift"; sourceTree = "<group>"; };
+		35709A682670E8C800087EE5 /* Fatigue.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fatigue.entitlements; sourceTree = "<group>"; };
+		3584B59026639AE8005993D5 /* DFAStreamModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DFAStreamModel.swift; sourceTree = "<group>"; };
+		3584B5932663A21A005993D5 /* LinearRegression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearRegression.swift; sourceTree = "<group>"; };
+		3584B5982663B6D9005993D5 /* ImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.swift; sourceTree = "<group>"; };
 		35D5D8C42662AA0600A68199 /* FatigueApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FatigueApp.swift; sourceTree = "<group>"; };
-		35D5D8C52662AA0600A68199 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		35D5D8C62662AA0700A68199 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		35D5D8CB2662AA0700A68199 /* Fatigue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fatigue.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D5D8CE2662AA0700A68199 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +117,10 @@
 		35D5D8E62662AA0700A68199 /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D5D8EA2662AA0700A68199 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		35D5D8EC2662AA0700A68199 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35D5D9012662AA9300A68199 /* WorkoutListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListView.swift; sourceTree = "<group>"; };
+		35D5D9092662BC9B00A68199 /* WorkoutStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutStore.swift; sourceTree = "<group>"; };
+		35D7FDC02671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DFAAlpha1RegressionSettingsView.swift; sourceTree = "<group>"; };
+		35FB0CC826721CDE00CB6573 /* Array+binarySearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+binarySearch.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +128,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				355F87DE266AB85900AA5E25 /* FitDataProtocol in Frameworks */,
+				353B38132663D09C00D1C9B2 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +137,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35512DC12668D64C00E7C68B /* FitDataProtocol in Frameworks */,
+				353B380E2663D06C00D1C9B2 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,15 +159,62 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		35512DB9266807E700E7C68B /* Computational Models */ = {
+			isa = PBXGroup;
+			children = (
+				3584B5932663A21A005993D5 /* LinearRegression.swift */,
+				355F87D0266A8A0300AA5E25 /* DataFrameLinearRegression.swift */,
+				3584B59026639AE8005993D5 /* DFAStreamModel.swift */,
+				35512DBB2668098500E7C68B /* MeanMaximalPower.swift */,
+				35512DC8266A690C00E7C68B /* LSCTDetector.swift */,
+			);
+			path = "Computational Models";
+			sourceTree = "<group>";
+		};
+		35512DBA266807FF00E7C68B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				35D5D9012662AA9300A68199 /* WorkoutListView.swift */,
+				35FB0CC5267209BB00CB6573 /* WorkoutSessionView */,
+				35347CB92671352E00083FCB /* UserSettingsPage.swift */,
+				35512DCC266A82F800E7C68B /* Workout Analyzis */,
+				3584B5982663B6D9005993D5 /* ImportView.swift */,
+				353B380F2663D09200D1C9B2 /* LineChartView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		35512DC32669008E00E7C68B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				35512DC42669009700E7C68B /* Workout.swift */,
+				35347CBC2671355400083FCB /* UserSettings.swift */,
+				35FB0CC826721CDE00CB6573 /* Array+binarySearch.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		35512DCC266A82F800E7C68B /* Workout Analyzis */ = {
+			isa = PBXGroup;
+			children = (
+				35512DCD266A831900E7C68B /* LSCTDetectionView.swift */,
+				355F87CC266A848D00AA5E25 /* MeanMaximumPowerView.swift */,
+				35FB0CC6267209D200CB6573 /* DFA Alpha Regrssion */,
+			);
+			path = "Workout Analyzis";
+			sourceTree = "<group>";
+		};
 		35D5D8BE2662AA0500A68199 = {
 			isa = PBXGroup;
 			children = (
+				35709A682670E8C800087EE5 /* Fatigue.entitlements */,
 				35D5D8C32662AA0600A68199 /* Shared */,
 				35D5D8CD2662AA0700A68199 /* iOS */,
 				35D5D8D42662AA0700A68199 /* macOS */,
 				35D5D8DE2662AA0700A68199 /* Tests iOS */,
 				35D5D8E92662AA0700A68199 /* Tests macOS */,
 				35D5D8CC2662AA0700A68199 /* Products */,
+				35D5D9122662BF9400A68199 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,7 +222,10 @@
 			isa = PBXGroup;
 			children = (
 				35D5D8C42662AA0600A68199 /* FatigueApp.swift */,
-				35D5D8C52662AA0600A68199 /* ContentView.swift */,
+				35D5D9092662BC9B00A68199 /* WorkoutStore.swift */,
+				35512DC32669008E00E7C68B /* Models */,
+				35512DBA266807FF00E7C68B /* Views */,
+				35512DB9266807E700E7C68B /* Computational Models */,
 				35D5D8C62662AA0700A68199 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -146,9 +272,35 @@
 			isa = PBXGroup;
 			children = (
 				35D5D8EA2662AA0700A68199 /* Tests_macOS.swift */,
+				35709A662670E53200087EE5 /* DFAStreamModel+testData.swift */,
 				35D5D8EC2662AA0700A68199 /* Info.plist */,
 			);
 			path = "Tests macOS";
+			sourceTree = "<group>";
+		};
+		35D5D9122662BF9400A68199 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		35FB0CC5267209BB00CB6573 /* WorkoutSessionView */ = {
+			isa = PBXGroup;
+			children = (
+				353B38072663C08D00D1C9B2 /* WorkoutSessionView.swift */,
+				355F87D9266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift */,
+			);
+			path = WorkoutSessionView;
+			sourceTree = "<group>";
+		};
+		35FB0CC6267209D200CB6573 /* DFA Alpha Regrssion */ = {
+			isa = PBXGroup;
+			children = (
+				35D7FDC02671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift */,
+				355F87D4266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift */,
+			);
+			path = "DFA Alpha Regrssion";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -167,6 +319,10 @@
 			dependencies = (
 			);
 			name = "Fatigue (iOS)";
+			packageProductDependencies = (
+				353B38122663D09C00D1C9B2 /* Charts */,
+				355F87DD266AB85900AA5E25 /* FitDataProtocol */,
+			);
 			productName = "Fatigue (iOS)";
 			productReference = 35D5D8CB2662AA0700A68199 /* Fatigue.app */;
 			productType = "com.apple.product-type.application";
@@ -184,6 +340,10 @@
 			dependencies = (
 			);
 			name = "Fatigue (macOS)";
+			packageProductDependencies = (
+				353B380D2663D06C00D1C9B2 /* Charts */,
+				35512DC02668D64C00E7C68B /* FitDataProtocol */,
+			);
 			productName = "Fatigue (macOS)";
 			productReference = 35D5D8D32662AA0700A68199 /* Fatigue.app */;
 			productType = "com.apple.product-type.application";
@@ -220,6 +380,8 @@
 				35D5D8E82662AA0700A68199 /* PBXTargetDependency */,
 			);
 			name = "Tests macOS";
+			packageProductDependencies = (
+			);
 			productName = "Tests macOS";
 			productReference = 35D5D8E62662AA0700A68199 /* Tests macOS.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -258,6 +420,10 @@
 				Base,
 			);
 			mainGroup = 35D5D8BE2662AA0500A68199;
+			packageReferences = (
+				353B380C2663D06C00D1C9B2 /* XCRemoteSwiftPackageReference "Charts" */,
+				35512DBF2668D64C00E7C68B /* XCRemoteSwiftPackageReference "FitDataProtocol" */,
+			);
 			productRefGroup = 35D5D8CC2662AA0700A68199 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -308,8 +474,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35D5D8EF2662AA0700A68199 /* ContentView.swift in Sources */,
+				3584B5992663B6D9005993D5 /* ImportView.swift in Sources */,
+				355F87D1266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */,
 				35D5D8ED2662AA0700A68199 /* FatigueApp.swift in Sources */,
+				355F87DA266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift in Sources */,
+				35FB0CC926721CDE00CB6573 /* Array+binarySearch.swift in Sources */,
+				35D5D90A2662BC9B00A68199 /* WorkoutStore.swift in Sources */,
+				355F87D5266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift in Sources */,
+				35512DCE266A831900E7C68B /* LSCTDetectionView.swift in Sources */,
+				35512DC52669009700E7C68B /* Workout.swift in Sources */,
+				35512DC9266A690C00E7C68B /* LSCTDetector.swift in Sources */,
+				3584B59126639AE8005993D5 /* DFAStreamModel.swift in Sources */,
+				35D5D9022662AA9300A68199 /* WorkoutListView.swift in Sources */,
+				35347CBA2671352E00083FCB /* UserSettingsPage.swift in Sources */,
+				353B38102663D09200D1C9B2 /* LineChartView.swift in Sources */,
+				35347CBD2671355400083FCB /* UserSettings.swift in Sources */,
+				35512DBC2668098500E7C68B /* MeanMaximalPower.swift in Sources */,
+				353B38082663C08D00D1C9B2 /* WorkoutSessionView.swift in Sources */,
+				35D7FDC12671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift in Sources */,
+				355F87CD266A848D00AA5E25 /* MeanMaximumPowerView.swift in Sources */,
+				3584B5942663A21A005993D5 /* LinearRegression.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,8 +501,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35D5D8F02662AA0700A68199 /* ContentView.swift in Sources */,
+				3584B59A2663B6D9005993D5 /* ImportView.swift in Sources */,
+				355F87D2266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */,
 				35D5D8EE2662AA0700A68199 /* FatigueApp.swift in Sources */,
+				355F87DB266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift in Sources */,
+				35FB0CCA26721CDE00CB6573 /* Array+binarySearch.swift in Sources */,
+				35D5D90B2662BC9B00A68199 /* WorkoutStore.swift in Sources */,
+				355F87D6266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift in Sources */,
+				35512DCF266A831900E7C68B /* LSCTDetectionView.swift in Sources */,
+				35512DC62669009700E7C68B /* Workout.swift in Sources */,
+				35512DCA266A690C00E7C68B /* LSCTDetector.swift in Sources */,
+				3584B59226639AE8005993D5 /* DFAStreamModel.swift in Sources */,
+				35D5D9032662AA9300A68199 /* WorkoutListView.swift in Sources */,
+				35347CBB2671352E00083FCB /* UserSettingsPage.swift in Sources */,
+				353B38112663D09200D1C9B2 /* LineChartView.swift in Sources */,
+				35347CBE2671355400083FCB /* UserSettings.swift in Sources */,
+				35512DBD2668098500E7C68B /* MeanMaximalPower.swift in Sources */,
+				353B38092663C08D00D1C9B2 /* WorkoutSessionView.swift in Sources */,
+				35D7FDC22671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift in Sources */,
+				355F87CE266A848D00AA5E25 /* MeanMaximumPowerView.swift in Sources */,
+				3584B5952663A21A005993D5 /* LinearRegression.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,7 +536,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				355F87D3266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */,
+				35709A672670E53200087EE5 /* DFAStreamModel+testData.swift in Sources */,
+				35512DD0266A831900E7C68B /* LSCTDetectionView.swift in Sources */,
+				35512DBE2668098500E7C68B /* MeanMaximalPower.swift in Sources */,
+				35512DCB266A690C00E7C68B /* LSCTDetector.swift in Sources */,
+				355F87D7266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift in Sources */,
 				35D5D8EB2662AA0700A68199 /* Tests_macOS.swift in Sources */,
+				355F87DC266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift in Sources */,
+				355F87CF266A848D00AA5E25 /* MeanMaximumPowerView.swift in Sources */,
+				3584B5962663B061005993D5 /* DFAStreamModel.swift in Sources */,
+				35512DC72669009700E7C68B /* Workout.swift in Sources */,
+				35FB0CC7267209DC00CB6573 /* DFAAlpha1RegressionSettingsView.swift in Sources */,
+				3584B5972663B0AA005993D5 /* LinearRegression.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,6 +684,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Fatigue.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M276UPEHPQ;
 				ENABLE_PREVIEWS = YES;
@@ -492,6 +707,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Fatigue.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M276UPEHPQ;
 				ENABLE_PREVIEWS = YES;
@@ -696,6 +912,48 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		353B380C2663D06C00D1C9B2 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
+			};
+		};
+		35512DBF2668D64C00E7C68B /* XCRemoteSwiftPackageReference "FitDataProtocol" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MatsMoll/FitDataProtocol";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		353B380D2663D06C00D1C9B2 /* Charts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 353B380C2663D06C00D1C9B2 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = Charts;
+		};
+		353B38122663D09C00D1C9B2 /* Charts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 353B380C2663D06C00D1C9B2 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = Charts;
+		};
+		35512DC02668D64C00E7C68B /* FitDataProtocol */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35512DBF2668D64C00E7C68B /* XCRemoteSwiftPackageReference "FitDataProtocol" */;
+			productName = FitDataProtocol;
+		};
+		355F87DD266AB85900AA5E25 /* FitDataProtocol */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35512DBF2668D64C00E7C68B /* XCRemoteSwiftPackageReference "FitDataProtocol" */;
+			productName = FitDataProtocol;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 35D5D8BF2662AA0500A68199 /* Project object */;
 }
