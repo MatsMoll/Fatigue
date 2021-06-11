@@ -7,7 +7,7 @@
 
 import Foundation
 
-class AverageStreamModel {
+struct AverageStreamModel {
     
     var currentValues: [Double] = []
     var totalSum: Double = 0
@@ -20,7 +20,7 @@ class AverageStreamModel {
     
     var average: Double { totalSum / Double(currentValues.count) }
     
-    func add(value: Double) {
+    mutating func add(value: Double) {
         if currentValues.count < maxValues {
             currentValues.append(value)
             totalSum += value
@@ -39,7 +39,7 @@ struct DataFrameLinearRegressionError: Error {
     static let smallSize = DataFrameLinearRegressionError(reason: "The value size is lower then the averaging interval")
 }
 
-class DataFrameLinearRegression {
+struct DataFrameLinearRegression {
     
     struct Result {
         let regression: LinearRegression.Result
@@ -57,6 +57,7 @@ class DataFrameLinearRegression {
     /// This can be used to offset values that lag behign like heart rate
     let xAxisOffset: Int
     
+    /// If a data point is inclueded in the regression
     let isIncluded: ((Double, Double) -> Bool)
     
     init(yValues: [Double], xValues: [Double], averagingInterval: Int, xAxisOffset: Int, isIncluded: @escaping ((Double, Double) -> Bool) = { _,_ in true }) throws {
@@ -70,9 +71,9 @@ class DataFrameLinearRegression {
         self.isIncluded = isIncluded
     }
     
-    func compute() -> Result {
-        let yAverage = AverageStreamModel(maxValues: averagingInterval)
-        let xAverage = AverageStreamModel(maxValues: averagingInterval)
+    func compute() throws -> Result {
+        var yAverage = AverageStreamModel(maxValues: averagingInterval)
+        var xAverage = AverageStreamModel(maxValues: averagingInterval)
         
         let absXOffset = abs(xAxisOffset)
         let endIndex = yValues.count - absXOffset
@@ -84,8 +85,10 @@ class DataFrameLinearRegression {
             xAverage.add(value: xValues[index + newXAxisOffset])
         }
         
-        var usedXValues: [Double] = .init(repeating: 0, count: endIndex - averagingInterval + 1 - absXOffset)
-        var usedYValues: [Double] = .init(repeating: 0, count: endIndex - averagingInterval + 1 - absXOffset)
+        let dataSize = endIndex - averagingInterval + 1 - absXOffset
+        guard dataSize > 1 else { throw DataFrameLinearRegressionError.smallSize }
+        var usedXValues: [Double] = .init(repeating: 0, count: dataSize)
+        var usedYValues: [Double] = .init(repeating: 0, count: dataSize)
         
         usedXValues[0] = xAverage.average
         usedYValues[0] = yAverage.average

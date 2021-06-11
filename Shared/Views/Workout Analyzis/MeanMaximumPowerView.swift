@@ -11,22 +11,15 @@ struct MeanMaximumPowerView: View {
     
     let aspectRatio: CGFloat
     
-    @Binding
-    var meanMaximumPower: WorkoutSessionViewModel.State<MeanMaximalPower.Curve>
-    
     let minimumSpacing = 0.05
     
+    @EnvironmentObject var viewModel: WorkoutSessionViewModel
+    
     var body: some View {
-        switch meanMaximumPower {
-        case .unavailable: Text("")
-        case .computing(let progress):
-            VStack {
-                Text("Mean Maximum Power Curve")
-                    .font(.title)
-                ProgressView("Computed \(Int(progress * 100))%", value: progress)
-            }
-            .padding()
-        case .computed(let curve):
+        AsyncContentView(
+            value: viewModel.meanMaximumPower,
+            onLoad: { viewModel.computeMeanMaximumPower() }
+        ) { curve in
             LineChartView(data: curve.lineChartData(minimumSpacing: minimumSpacing))
                 .xAxis(formatter: curve.axisFormatter(minimumSpacing: minimumSpacing))
                 .aspectRatio(aspectRatio, contentMode: .fit)
@@ -37,6 +30,6 @@ struct MeanMaximumPowerView: View {
 
 struct MeanMaximumPowerView_Previews: PreviewProvider {
     static var previews: some View {
-        MeanMaximumPowerView(aspectRatio: 1.5, meanMaximumPower: .constant(.computing(progress: 0.5)))
+        MeanMaximumPowerView(aspectRatio: 1.5)
     }
 }

@@ -10,34 +10,55 @@ import SwiftUI
 @main
 struct FatigueApp: App {
     
-    @StateObject
-    var workoutStore: WorkoutStore = .init()
+    @StateObject private var model: AppModel = .init()
     
-    @StateObject
-    var userSettings: UserSettings = .init(ftp: 280)
+    #if os(OSX)
+    @State
+    var presentRecordView = false
+    #endif
     
     var body: some Scene {
         WindowGroup {
             #if os(iOS)
-            TabView {
-                WorkoutListView(
-                    store: workoutStore,
-                    userSettings: userSettings
-                )
-                .tabItem { Label("Workouts", systemImage: "figure.walk") }
+            TabView(selection: $model.selectedTab) {
+                WorkoutListView()
+                    .tabItem {
+                        Label("Workouts", symbol: .figureWalk)
+                    }
+                    .tag(AppTabs.history)
                 
                 NavigationView {
-                    UserSettingsPage(
-                        userSettings: userSettings
-                    )
+                    ActivityRecorderView()
                 }
-                .tabItem { Label("Settings", systemImage: "gearshape.fill") }
+                .tabItem { Label("Record", symbol: .recordCircle) }
+                .tag(AppTabs.recording)
+                
+                NavigationView {
+                    UserSettingsPage()
+                }
+                .tabItem { Label("Settings", symbol: .gearshapeFill) }
+                .tag(AppTabs.settings)
             }
+            .environmentObject(model)
             #elseif os(OSX)
             WorkoutListView(
                 store: workoutStore,
                 userSettings: userSettings
             )
+            .toolbar {
+                ToolbarItem(placement: ToolbarItemPlacement.automatic) {
+                    Button(action: {
+                        presentRecordView = true
+                    }, label: {
+                        Label("Record", symbol: .recordCircle)
+                    })
+                }
+            }
+            .sheet(isPresented: $presentRecordView) {
+                ActivityRecorderView(
+                    recorder: recorder
+                )
+            }
             #endif
         }
         

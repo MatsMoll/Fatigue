@@ -119,6 +119,11 @@ struct LineChartView: NSViewRepresentable {
         view.xAxis.valueFormatter = xAxisFormatter
         view.pinchZoomEnabled = false
         view.doubleTapToZoomEnabled = false
+        view.leftAxis.drawAxisLineEnabled = false
+        view.leftAxis.drawGridLinesEnabled = false
+        view.xAxis.drawAxisLineEnabled = false
+        view.xAxis.drawGridLinesEnabled = false
+        view.xAxis.labelPosition = .bottom
         return view
     }
     
@@ -188,11 +193,17 @@ struct LineChartView: UIViewRepresentable {
         view.rightAxis.enabled = false
         view.highlightPerTapEnabled = true
         view.xAxis.valueFormatter = xAxisFormatter
+        view.leftAxis.drawAxisLineEnabled = false
+        view.leftAxis.drawGridLinesEnabled = false
+        view.xAxis.drawAxisLineEnabled = false
+        view.xAxis.drawGridLinesEnabled = false
+        view.xAxis.labelPosition = .bottom
         return view
     }
     
     func updateUIView(_ nsView: UIViewType, context: Context) {
 //        view.data = data
+        view.data = data
     }
     
     func minYAxis(_ value: Double) -> Self {
@@ -264,7 +275,7 @@ extension Array where Element == Double {
 
 extension LineChartDataSet {
     
-    static func dataSet(values: [Double], maxDataPoints: Int, label: String, color: Color, xScale: Double = 1) -> LineChartDataSet {
+    static func dataSet(values: [Double], maxDataPoints: Int, label: String, color: Color, xScale: Double = 1, fillOpacity: Double = 0.6) -> LineChartDataSet {
         let dataSet = LineChartDataSet(
             entries: values.compress(maxDataPoints: maxDataPoints)
                 .enumerated()
@@ -275,15 +286,18 @@ extension LineChartDataSet {
         dataSet.drawCirclesEnabled = false
         dataSet.drawHorizontalHighlightIndicatorEnabled = false
         dataSet.lineWidth = 3
+        dataSet.drawFilledEnabled = fillOpacity != 0
         #if os(OSX)
+        dataSet.fillColor = NSColor(color.opacity(fillOpacity))
         dataSet.colors = [NSColor(color)]
         #elseif os(iOS)
+        dataSet.fillColor = UIColor(color.opacity(fillOpacity))
         dataSet.colors = [UIColor(color)]
         #endif
         return dataSet
     }
     
-    static func dataSet(values: [(Double, Double)], label: String, color: Color) -> LineChartDataSet {
+    static func dataSet(values: [(Double, Double)], label: String, color: Color, fillOpacity: Double = 0.6) -> LineChartDataSet {
         let dataSet = LineChartDataSet(
             entries: values.map { ChartDataEntry(x: Double($0.0), y: $0.1) },
             label: label
@@ -292,9 +306,12 @@ extension LineChartDataSet {
         dataSet.drawCirclesEnabled = false
         dataSet.drawHorizontalHighlightIndicatorEnabled = false
         dataSet.lineWidth = 3
+        dataSet.drawFilledEnabled = fillOpacity != 0
         #if os(OSX)
+        dataSet.fillColor = NSColor(color.opacity(fillOpacity))
         dataSet.colors = [NSColor(color)]
         #elseif os(iOS)
+        dataSet.fillColor = UIColor(color.opacity(fillOpacity))
         dataSet.colors = [UIColor(color)]
         #endif
         return dataSet
@@ -486,7 +503,7 @@ extension MeanMaximalPower.Curve {
     }
 }
 
-extension DFAAlphaComputation {
+extension DFAAlphaRegression {
     
     func chartData(maxDataPoints: Int) -> CombinedChartData {
         let combined = CombinedChartData()
@@ -503,7 +520,8 @@ extension DFAAlphaComputation {
                 maxDataPoints: maxDataPoints,
                 label: "DFA Alpha - Power Regression",
                 color: .green,
-                xScale: maxDfa
+                xScale: maxDfa,
+                fillOpacity: 0
             )
         )
         combined.scatterData = ScatterChartData(

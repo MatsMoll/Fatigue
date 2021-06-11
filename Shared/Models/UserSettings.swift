@@ -6,13 +6,13 @@
 //
 
 import Foundation
+import OSLog
 
-class UserSettings: ObservableObject {
+struct UserSettings: Codable {
     
-    @Published
     var ftp: Int?
     
-    init(ftp: Int? = nil) {
-        self.ftp = ftp
-    }
+    var artifactCorrection: Double = 0.05
+    
+    var dfaWindow: Int = 120 * 1000
 }

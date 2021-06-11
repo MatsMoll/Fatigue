@@ -31,19 +31,7 @@ extension Array where Element == UTType {
 
 struct WorkoutListView: View {
     
-    init(store: WorkoutStore, userSettings: UserSettings) {
-        self.store = store
-        self.userSettings = userSettings
-        self.importViewModel = ImportViewModel(workoutStore: store)
-    }
-    
-    @ObservedObject
-    var store: WorkoutStore
-    
-    let userSettings: UserSettings
-    
-    @ObservedObject
-    var importViewModel: ImportViewModel
+    @EnvironmentObject var model: AppModel
     
     @State
     var isSelectingFile: Bool = false
@@ -58,20 +46,26 @@ struct WorkoutListView: View {
     var body: some View {
         NavigationView {
             List {
-                if importViewModel.shouldBePresented {
+                if model.imports.shouldBePresented {
                     Section(header: Label("Imports", systemImage: "square.and.arrow.down.fill")) {
-                        ImportView(viewModel: importViewModel)
+                        ImportView()
                     }
                 }
                 Section(header: Label("Workouts", systemImage: "figure.walk")) {
-                    ForEach(store.workouts) { (workoutModel: WorkoutSessionViewModel) in
+                    ForEach(model.workoutStore.workouts) { workout in
+                        
                         NavigationLink(
-                            destination: WorkoutSessionView(viewModel: workoutModel, userSetting: userSettings),
-                            label: {
-                                VStack(content: {
-                                    Text(dateFormatter.string(from: workoutModel.workout.startedAt))
-                                })
+                            destination: WorkoutSessionView(viewModel: WorkoutSessionViewModel(model: model, workout: workout)),
+                            tag: workout.id,
+                            selection: $model.workoutStore.selectedWorkoutId
+                        ) {
+                            VStack(content: {
+                                Text(dateFormatter.string(from: workout.startedAt))
                             })
+                        }
+                    }
+                    .onDelete { indexSet in
+                        model.workoutStore.deleteWorkout(indexSet: indexSet)
                     }
                 }
             }
@@ -92,7 +86,10 @@ struct WorkoutListView: View {
                 allowedContentTypes: .fit,
                 allowsMultipleSelection: true
             ) { result in
-                importViewModel.importFile(result)
+                model.importFile(result)
+            }
+            .onAppear {
+                model.workoutStore.loadWorkouts()
             }
         }
         .navigationViewStyle(DefaultNavigationViewStyle())

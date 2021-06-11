@@ -10,9 +10,9 @@ import SwiftUI
 struct DFAAlpha1RegressionSettingsView: View {
     
     @Binding
-    var config: DFAAlphaRegressionConfig
+    var config: DFAAlphaRegression.Config
     
-    init(config: Binding<DFAAlphaRegressionConfig>, showSettings: Binding<Bool>) {
+    init(config: Binding<DFAAlphaRegression.Config>, showSettings: Binding<Bool>) {
         self._config = config
         self.editableConfig = config.wrappedValue
         self._showSettings = showSettings
@@ -22,7 +22,7 @@ struct DFAAlpha1RegressionSettingsView: View {
     var showSettings: Bool
     
     @State
-    var editableConfig: DFAAlphaRegressionConfig
+    var editableConfig: DFAAlphaRegression.Config
     
     let numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()

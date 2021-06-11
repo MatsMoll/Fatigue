@@ -9,44 +9,40 @@ import SwiftUI
 
 struct DFAAlpha1RegressionView: View {
     
-    internal init(maxDataPoints: Int, aspectRatio: CGFloat, dfaAlphaRegression: WorkoutSessionViewModel.State<DFAAlphaComputation>, config: Binding<DFAAlphaRegressionConfig>) {
-        self.maxDataPoints = maxDataPoints
-        self.aspectRatio = aspectRatio
-        self.dfaAlphaRegression = dfaAlphaRegression
-        self._config = config
-    }
-    
-    
     let maxDataPoints: Int
-    
     let aspectRatio: CGFloat
     
-    let dfaAlphaRegression: WorkoutSessionViewModel.State<DFAAlphaComputation>
+    @State var config: DFAAlphaRegression.Config = .default
     
-    @Binding
-    var config: DFAAlphaRegressionConfig
+    @State var editConfig: Bool = false
     
-    @State
-    var editConfig: Bool = false
+    @EnvironmentObject var viewModel: WorkoutSessionViewModel
+    
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass)
+    var sizeClass
+    #endif
+    
+    static let numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 2
+        formatter.minimumFractionDigits = 0
+        return formatter
+    }()
     
     var body: some View {
-        switch dfaAlphaRegression {
-        case .unavailable: Text("Derived DFA Alpha 1 - Unavailable")
-        case .computing:
-            VStack {
-                Text("Derived DFA Alpha 1")
-                ProgressView("Computing")
-                    .progressViewStyle(CircularProgressViewStyle())
-            }
-            .padding()
-
-        case .computed(let computation):
-            VStack {
-                Button(action: {
-                    editConfig = true
-                }, label: {
-                    Label("Edit DFA Regression Settings", systemImage: "gearshape.fill")
-                })
+        AsyncContentView(
+            value: viewModel.dfaRegression,
+            onLoad: {}
+        ) { regression in
+            VStack(alignment: .leading, spacing: 12) {
+                Menu("Settings") {
+                    Button(action: {
+                        editConfig = true
+                    }, label: {
+                        Label("DFA Regression", symbol: .gearshapeFill)
+                    })
+                }
                 .sheet(isPresented: $editConfig) {
                     #if os(iOS)
                     NavigationView {
@@ -62,66 +58,71 @@ struct DFAAlpha1RegressionView: View {
                     )
                     #endif
                 }
-                
-                HStack {
-                    VStack {
-                        VStack {
-                            Text("Anaerobic Threshold")
-                                .font(.title3)
-                                .foregroundColor(.primary)
 
-                            Text("\(computation.estimate.anarobicThreshold) Watts")
-                                .foregroundColor(.secondary)
-                        }
-                        .padding()
-                        
-                        VStack {
-                            Text("Aerobic Threshold")
-                                .font(.title3)
-                                .foregroundColor(.primary)
+                #if os(iOS)
+                if sizeClass == .compact {
+                    estimates(computation: regression)
 
-                            Text("\(computation.estimate.arobicThreshold) Watts")
-                                .foregroundColor(.secondary)
+                    regressionDetails(regresion: regression.regresion)
+                } else {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            estimates(computation: regression)
                         }
-                        .padding()
+
+                        VStack(alignment: .leading) {
+                            regressionDetails(regresion: regression.regresion)
+                        }
                     }
-                    .padding()
-
-                    Spacer()
-
-                    
-                    VStack {
-                        VStack {
-                            Text("Regression Result")
-                                .font(.title3)
-                                .foregroundColor(.primary)
-
-                            Text("\(computation.regresion.regression.alpha) \(computation.regresion.regression.beta.sign == .plus ? "+" : "-") \(abs(computation.regresion.regression.beta)) * dfa = power")
-                                .foregroundColor(.secondary)
-                        }
-                        .padding()
-                        
-                        VStack {
-                            Text("Mean Square Error")
-                                .font(.title3)
-                                .foregroundColor(.primary)
-
-                            Text("\(computation.regresion.meanSquareError) or sqrt => \(sqrt(computation.regresion.meanSquareError))")
-                                .foregroundColor(.secondary)
-                        }
-                        .padding()
-                    }
-                    .padding()
                 }
-                .padding()
+                #elseif os(OSX)
+                HStack {
+                    VStack(alignment: .leading) {
+                        estimates(computation: regression)
+                    }
+
+                    VStack(alignment: .leading) {
+                        regressionDetails(regresion: regression.regresion)
+                    }
+                }
+                #endif
             }
 
             CombinedChartView(
-                data: computation.chartData(maxDataPoints: maxDataPoints)
+                data: regression.chartData(maxDataPoints: maxDataPoints)
             )
             .aspectRatio(aspectRatio, contentMode: .fit)
             .frame(maxWidth: .infinity)
         }
+        .onAppear {
+            viewModel.computeDFAPowerReg(config: config)
+        }
+    }
+    
+    @ViewBuilder
+    func estimates(computation: DFAAlphaRegression) -> some View {
+        ValueView(
+            title: "Anaerobic Threshold",
+            value: "\(computation.estimate.anarobicThreshold) watts"
+        )
+        
+        ValueView(
+            title: "Aerobic Threshold",
+            value: "\(computation.estimate.arobicThreshold) watts"
+        )
+    }
+    
+    @ViewBuilder
+    func regressionDetails(regresion: DataFrameLinearRegression.Result) -> some View {
+        ValueView(
+            title: "Regression Result",
+            value: regresion.regression.desciption(with: Self.numberFormatter)
+        )
+        
+        ValueView(
+            title: "Mean Square Error",
+            value: Self.numberFormatter.string(from: .init(value: regresion.meanSquareError)) ?? "0"
+        )
     }
 }
 
@@ -129,9 +130,7 @@ struct DFAAlpha1RegressionView_Previews: PreviewProvider {
     static var previews: some View {
         DFAAlpha1RegressionView(
             maxDataPoints: .max,
-            aspectRatio: 1.5,
-            dfaAlphaRegression: .unavailable,
-            config: .constant(.default)
+            aspectRatio: 1.5
         )
     }
 }

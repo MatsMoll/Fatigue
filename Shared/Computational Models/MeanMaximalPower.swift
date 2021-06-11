@@ -9,7 +9,7 @@ import Foundation
 
 class MeanMaximalPower {
     
-    struct Curve {
+    struct Curve: Codable {
         
         /// The max means at a given index / second
         let means: [Int]

@@ -37,8 +37,10 @@ public class DFAStreamModel {
     
     var alpha: Double?
     
+    let lockQueue = DispatchQueue(label: "dfa.stream.model")
+    
     public init(
-        artifactCorrectionThreshold: Double = 0.05,
+        artifactCorrectionThreshold: Double = 0.25,
         scaleDensity: Int = 30,
         lowerScaleLimit: Int = 4,
         upperScaleLimit: Int = 16,
@@ -105,11 +107,11 @@ public class DFAStreamModel {
             addValueWithoutArtifactCorrection(value)
             return
         }
-        lastValue = value
         let lowerBound = Int(Double(last) * (1 - artifactCorrectionThreshold))
         let upperBound = Int(Double(last) * (1 + artifactCorrectionThreshold))
         
-        if lowerBound..<upperBound ~= value {
+        lastValue = value
+        if lowerBound <= value && value <= upperBound {
             addValueWithoutArtifactCorrection(value)
         } else {
             numberOfArtifactsRemoved += 1
@@ -121,7 +123,7 @@ public class DFAStreamModel {
             valueSum += newValue
             values.append(newValue)
             valueSize += 1;
-            while valueSum >= windowDuration {
+            while valueSum >= windowDuration && values.count > 1 {
                 valueSum -= values[0]
                 values.remove(at: 0)
                 valueSize -= 1

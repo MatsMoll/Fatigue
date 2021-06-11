@@ -19,6 +19,10 @@ public struct LinearRegression {
         
         // The beta in the a + b * x equation
         public let beta: Double
+        
+        func desciption(with formatter: NumberFormatter) -> String {
+            return "\(formatter.string(from: .init(value: alpha)) ?? "") \(beta.sign == .minus ? "-" : "+") \(formatter.string(from: .init(value: abs(beta))) ?? "") * x"
+        }
     }
     
     static func compute(xValues: [Double], yValues: [Double]) throws -> Result {

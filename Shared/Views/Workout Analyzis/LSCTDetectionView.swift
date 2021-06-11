@@ -9,61 +9,79 @@ import SwiftUI
 
 struct LSCTDetectionView: View {
     
-    var timeFormatter: DateComponentsFormatter {
+    static let timeFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .positional
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.zeroFormattingBehavior = .dropLeading
         return formatter
-    }
+    }()
     
-    @Binding
-    var lsctDetection: WorkoutSessionViewModel.State<LSCTDetector.Detection>
+    static let numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 2
+        formatter.minimumFractionDigits = 0
+        return formatter
+    }()
+    
+    @EnvironmentObject var viewModel: WorkoutSessionViewModel
+    
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass)
+    var sizeClass
+    #endif
     
     var body: some View {
-        switch lsctDetection {
-        case .unavailable: Text("LSCT Detection - Unavailable")
-        case .computing(let progress):
-            VStack {
-                Text("LSCT Detection")
-                ProgressView("Computing", value: progress)
+        AsyncContentView(
+            value: viewModel.lsctDetection
+        ) {
+            viewModel.detectLSCT()
+        } content: { detection in
+            #if os(iOS)
+            if sizeClass == .compact {
+                compactValues(detection: detection)
+            } else {
+                largeValues(detection: detection)
             }
-            .padding()
-        case .computed(let detection):
+            #elseif os(OSX)
+            largeValues(detection: detection)
+            #endif
+        }
+    }
+    
+    @ViewBuilder
+    func compactValues(detection: LSCTDetector.Detection) -> some View {
+        ValueView(
+            title: "Starting At",
+            value: Self.timeFormatter.string(from: TimeInterval(detection.frameWorkout)) ?? "Unknown"
+        )
+        
+        ValueView(
+            title: "Mean Square Error",
+            value: "\(Int(detection.meanSquareError))"
+        )
+    }
+    
+    @ViewBuilder
+    func largeValues(detection: LSCTDetector.Detection) -> some View {
+        HStack {
+            ValueView(
+                title: "Starting At",
+                value: Self.timeFormatter.string(from: TimeInterval(detection.frameWorkout)) ?? "Unknown"
+            )
             
-                
-            HStack {
-                VStack {
-                    Text("Starting At")
-                        .foregroundColor(.primary)
-                        .font(.title2)
-                    
-                    Text(timeFormatter.string(from: TimeInterval(detection.frameWorkout)) ?? "Unknown")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                }
-                .padding()
-                
-                Spacer()
-                
-                VStack {
-                    Text("Mean Square Error")
-                        .foregroundColor(.primary)
-                        .font(.title2)
-                    
-                    Text("\(detection.meanSquareError) or sqrt => \(sqrt(detection.meanSquareError))")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                }
-                .padding()
-            }
-            .padding()
+            Spacer()
+            
+            ValueView(
+                title: "Mean Square Error",
+                value: Self.numberFormatter.string(from: .init(value: detection.meanSquareError)) ?? "0"
+            )
         }
     }
 }
 
 struct LSCTDetection_Previews: PreviewProvider {
     static var previews: some View {
-        LSCTDetectionView(lsctDetection: .constant(.unavailable))
+        LSCTDetectionView()
     }
 }
