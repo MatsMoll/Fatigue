@@ -32,6 +32,12 @@ struct SFSymbol: ExpressibleByStringLiteral {
     
     static let skew: SFSymbol = "skew"
     static let waveformPathEcg: SFSymbol = "waveform.path.ecg"
+    
+    static let goForwared: SFSymbol = "goforward"
+    
+    static let clock: SFSymbol = "clock"
+    
+    static let sum: SFSymbol = "sum"
 }
 
 extension Label where Title == Text, Icon == Image {

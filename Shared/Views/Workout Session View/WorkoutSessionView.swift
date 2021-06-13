@@ -58,19 +58,27 @@ struct WorkoutSessionView: View {
     var body: some View {
         GeometryReader { proxy in
             List {
-                Section(header: Label("Summary", symbol: .boltFill)) {
+                Section(header: Label("Summary", symbol: .sum)) {
+                    
+                    ValueView(
+                        title: "Elapsed Time",
+                        value: viewModel.duration,
+                        symbol: .clock,
+                        imageColor: .primary
+                    )
+                    
                     if let powerSummary = viewModel.workout.powerSummary {
                         ValueView(
                             title: "Average Power",
                             value: "\(powerSummary.average) watts",
                             symbol: .boltFill,
-                            imageColor: .purple
+                            imageColor: .blue
                         )
                         ValueView(
                             title: "Normalized",
                             value: "\(powerSummary.normalized) watts",
                             symbol: .boltFill,
-                            imageColor: .purple
+                            imageColor: .blue
                         )
                     }
                     
@@ -88,7 +96,16 @@ struct WorkoutSessionView: View {
                             title: "Average DFA",
                             value: Self.numberFormatter.string(from: .init(value: dfaSummary.average)) ?? "NaN",
                             symbol: .heartFill,
-                            imageColor: .green
+                            imageColor: .purple
+                        )
+                    }
+                    
+                    if let cadenceSummary = viewModel.workout.cadenceSummary {
+                        ValueView(
+                            title: "Average Cadence",
+                            value: Self.numberFormatter.string(from: .init(value: cadenceSummary.average)) ?? "NaN",
+                            symbol: .goForwared,
+                            imageColor: .orange
                         )
                     }
                 }
@@ -133,9 +150,6 @@ struct WorkoutSessionView: View {
             }
             .listStyle(listStyle)
         }
-        .onAppear(perform: {
-            viewModel.loadWorkout()
-        })
         .frame(maxWidth: 800, alignment: .center)
         .navigationTitle(viewModel.startedAt)
         .environmentObject(viewModel)

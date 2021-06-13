@@ -46,8 +46,18 @@ class WorkoutSessionViewModel: ObservableObject {
         return formatter
     }()
     
+    let dateComponentFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second]
+        return formatter
+    }()
+    
     var startedAt: String {
         dateFormatter.string(from: workout.startedAt)
+    }
+    
+    var duration: String {
+        dateComponentFormatter.string(from: Double(workout.elapsedTime)) ?? "--"
     }
     
     private var lsctDetectorProgressPublisher: AnyCancellable?
@@ -57,15 +67,10 @@ class WorkoutSessionViewModel: ObservableObject {
         self.model = model
         self.workout = workout
         self.meanMaximumPower = .idle
+        loadWorkout()
     }
     
     func loadWorkout() {
-        if let curve = workout.powerCurve {
-            self.meanMaximumPower = .loaded(curve)
-        }
-        if workout.hasDFAValues {
-            self.dfaAlphaComputation = .loaded(())
-        }
         var dfaValues = [Double].init(repeating: 0, count: workout.values.count)
         var heartRateValues = [Double].init(repeating: 0, count: workout.values.count)
         var powerValues = [Double].init(repeating: 0, count: workout.values.count)
@@ -80,14 +85,21 @@ class WorkoutSessionViewModel: ObservableObject {
         self.heartRateData = heartRateValues
         self.powerData = powerValues
         self.cadenceData = cadenceData
+        
+        if let curve = workout.powerCurve {
+            self.meanMaximumPower = .loaded(curve)
+        }
+        if workout.hasDFAValues {
+            self.dfaAlphaComputation = .loaded(())
+        }
     }
     
     func workoutChartData(maxDataPoints: Int) -> LineChartData {
         LineChartData(
             dataSets: [
+                LineChartDataSet.dataSet(values: powerData, maxDataPoints: maxDataPoints, label: "Power", color: .blue),
                 LineChartDataSet.dataSet(values: heartRateData, maxDataPoints: maxDataPoints, label: "Heart Rate", color: .red),
-                LineChartDataSet.dataSet(values: cadenceData, maxDataPoints: maxDataPoints, label: "Cadence", color: .blue),
-                LineChartDataSet.dataSet(values: powerData, maxDataPoints: maxDataPoints, label: "Power", color: .orange)
+                LineChartDataSet.dataSet(values: cadenceData, maxDataPoints: maxDataPoints, label: "Cadence", color: .orange),
             ]
         )
     }

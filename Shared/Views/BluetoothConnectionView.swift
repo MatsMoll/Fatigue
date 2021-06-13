@@ -40,11 +40,13 @@ struct BluetoothConnectionView: View {
             }
             
             List(connector.devices.sorted(by: { $0.name < $1.name })) { device in
-                if connector.focusedDevice?.state == .connecting {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                } else if connector.focusedDevice?.state == .connected {
-                    Image(symbol: .checkmark)
+                if connector.focusedDevice == device {
+                    if connector.focusedDevice?.state == .connecting {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                    } else if connector.focusedDevice?.state == .connected {
+                        Image(symbol: .checkmark)
+                    }
                 }
                 Label(device.name, systemImage: device.type.systemImage)
                     .id(device)

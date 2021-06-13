@@ -96,19 +96,19 @@ struct LineChartView: NSViewRepresentable {
     private let xAxisFormatter: AxisValueFormatter
     private let view: Charts.LineChartView
     
-    @Binding
-    var highlight: Double?
+//    @Binding
+//    var highlight: Double?
     
     init(
         data: LineChartData,
         xAxisFormatter: AxisValueFormatter = DefaultAxisValueFormatter(),
-        view: Charts.LineChartView = Charts.LineChartView(),
-        highlight: Binding<Double?> = .constant(nil)
+        view: Charts.LineChartView = Charts.LineChartView()
+//        highlight: Binding<Double?> = .constant(nil)
     ) {
         self.data = data
         self.xAxisFormatter = xAxisFormatter
         self.view = view
-        self._highlight = highlight
+//        self._highlight = highlight
     }
     
     func makeNSView(context: Context) -> some NSView {
@@ -124,17 +124,19 @@ struct LineChartView: NSViewRepresentable {
         view.xAxis.drawAxisLineEnabled = false
         view.xAxis.drawGridLinesEnabled = false
         view.xAxis.labelPosition = .bottom
+        print("Making: \(data.dataSets.first!.entryCount)")
         return view
     }
     
     func updateNSView(_ nsView: NSViewType, context: Context) {
-        print(nsView.convert(nsView.bounds, to: nil))
-        
-        if let highlightValue = highlight {
-            view.highlightValue(x: highlightValue, dataSetIndex: 0)
-            var yValues = data.dataSets.map { $0.entriesForXValue(highlightValue).first!.y }
-            print("Y Value: \(yValues)")
-        }
+//        print(nsView.convert(nsView.bounds, to: nil))
+//
+//        if let highlightValue = highlight {
+//            view.highlightValue(x: highlightValue, dataSetIndex: 0)
+//            var yValues = data.dataSets.map { $0.entriesForXValue(highlightValue).first!.y }
+//        }
+        view.data = data
+        print("Updating: \(data.dataSets.first!.entryCount)")
     }
     
     func minYAxis(_ value: Double) -> Self {
@@ -143,7 +145,12 @@ struct LineChartView: NSViewRepresentable {
     }
     
     func xAxis(formatter: AxisValueFormatter) -> Self {
-        .init(data: data, xAxisFormatter: formatter, view: view, highlight: $highlight)
+        .init(
+            data: data,
+            xAxisFormatter: formatter,
+            view: view
+//            highlight: $highlight
+        )
     }
 }
 
@@ -497,7 +504,7 @@ extension MeanMaximalPower.Curve {
                 LineChartDataSet.dataSet(
                     values: nonLinearValues.map(\.values),
                     label: "Mean Maximum Power",
-                    color: .purple
+                    color: .blue
                 )
         )
     }

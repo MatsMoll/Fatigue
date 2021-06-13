@@ -12,7 +12,7 @@ struct UserSettings: Codable {
     
     var ftp: Int?
     
-    var artifactCorrection: Double = 0.05
+    var artifactCorrection: Double = 0.1
     
     var dfaWindow: Int = 120 * 1000
 }

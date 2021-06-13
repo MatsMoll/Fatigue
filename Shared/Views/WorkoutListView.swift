@@ -59,9 +59,7 @@ struct WorkoutListView: View {
                             tag: workout.id,
                             selection: $model.workoutStore.selectedWorkoutId
                         ) {
-                            VStack(content: {
-                                Text(dateFormatter.string(from: workout.startedAt))
-                            })
+                            Text(dateFormatter.string(from: workout.startedAt))
                         }
                     }
                     .onDelete { indexSet in

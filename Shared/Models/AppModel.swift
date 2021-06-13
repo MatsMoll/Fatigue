@@ -33,7 +33,7 @@ class AppModel: ObservableObject {
     
     #if os(iOS)
     @Published
-    var selectedTab: AppTabs = .history
+    var selectedTab: AppTabs = .recording
     #endif
     
     let encoder = PropertyListEncoder()
@@ -47,9 +47,10 @@ class AppModel: ObservableObject {
         ActivityRecorderCollector(
             manager: self.bluetoothManager,
             settings: settings,
-            onNewFrame: { [weak self] frame in
+            onNewFrame: { [weak self] (frame, numberOfArtifactsRemoved) in
             DispatchQueue.main.async {
                 self?.recorder.record(frame: frame)
+                self?.recorder.numberOfArtifactsRemoved = numberOfArtifactsRemoved
             }
         })
     }()

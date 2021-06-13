@@ -69,6 +69,8 @@ struct DFAAlpha1RegressionView: View {
                         VStack(alignment: .leading) {
                             estimates(computation: regression)
                         }
+                        
+                        Spacer()
 
                         VStack(alignment: .leading) {
                             regressionDetails(regresion: regression.regresion)
@@ -80,6 +82,8 @@ struct DFAAlpha1RegressionView: View {
                     VStack(alignment: .leading) {
                         estimates(computation: regression)
                     }
+                    
+                    Spacer()
 
                     VStack(alignment: .leading) {
                         regressionDetails(regresion: regression.regresion)

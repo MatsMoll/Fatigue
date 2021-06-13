@@ -41,31 +41,28 @@ struct FatigueApp: App {
             }
             .environmentObject(model)
             #elseif os(OSX)
-            WorkoutListView(
-                store: workoutStore,
-                userSettings: userSettings
-            )
-            .toolbar {
-                ToolbarItem(placement: ToolbarItemPlacement.automatic) {
-                    Button(action: {
-                        presentRecordView = true
-                    }, label: {
-                        Label("Record", symbol: .recordCircle)
-                    })
+            WorkoutListView()
+                .toolbar {
+                    ToolbarItem(placement: ToolbarItemPlacement.automatic) {
+                        Button(action: {
+                            presentRecordView = true
+                        }, label: {
+                            Label("Record", symbol: .recordCircle)
+                        })
+                    }
                 }
-            }
-            .sheet(isPresented: $presentRecordView) {
-                ActivityRecorderView(
-                    recorder: recorder
-                )
-            }
+                .sheet(isPresented: $presentRecordView) {
+                    ActivityRecorderView()
+                }
+                .environmentObject(model)
             #endif
         }
         
         #if os(OSX)
         Settings {
-            UserSettingsPage(userSettings: userSettings)
+            UserSettingsPage()
                 .frame(width: 350, height: 100)
+                .environmentObject(model)
         }
         #endif
     }

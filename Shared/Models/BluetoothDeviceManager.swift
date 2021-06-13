@@ -143,7 +143,11 @@ extension BluetoothConnector: CBPeripheralDelegate {
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         guard let characteristics = service.characteristics else { return }
+        let uuid = CBUUID(string: handler.characteristicID)
         for char in characteristics {
+            guard char.uuid == uuid else {
+                return
+            }
             if char.properties.contains(.read) {
                 peripheral.readValue(for: char)
             } else if char.properties.contains(.notify) {

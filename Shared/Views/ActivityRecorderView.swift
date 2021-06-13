@@ -22,27 +22,37 @@ struct ActivityRecorderView: View {
     
     var body: some View {
         ScrollView {
-            VStack {
+            VStack(spacing: 18) {
                 ValueView(
                     title: "Elapsed Time",
-                    value: Self.formatter.string(from: Double(model.recorder.currentFrame.timestamp)) ?? ""
+                    value: Self.formatter.string(from: Double(model.recorder.currentFrame.timestamp)) ?? "",
+                    symbol: .clock,
+                    imageColor: .primary
                 )
+                .frame(maxWidth: .infinity, alignment: .leading)
                 
                 if model.recorderCollector.hasHeartRateConnection {
                     ValueView(
                         title: "Heart Rate",
-                        value: "\(model.recorder.currentFrame.heartRate ?? 0)"
+                        value: "\(model.recorder.currentFrame.heartRate ?? 0) bpm",
+                        symbol: .heartFill,
+                        imageColor: .red
                     )
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     
                     ValueView(
-                        title: "Number Of Artifacts Removed",
+                        title: "Number Of Artifacts Removed - with: \(model.recorderCollector.artifactCorrectionSetting)",
                         value: "\(model.recorder.numberOfArtifactsRemoved) (\(Int(model.recorder.artifactsPercentage * 100))%)"
                     )
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     
                     ValueView(
                         title: "DFA Alpha 1",
-                        value: "\(model.recorder.currentFrame.dfaAlpha1 ?? 0)"
+                        value: "\(model.recorder.currentFrame.dfaAlpha1 ?? 0)",
+                        symbol: .heartFill,
+                        imageColor: .purple
                     )
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 } else {
                     Button("Connect Heart Rate") {
                         connectToDeviceType = .heartRate
@@ -53,8 +63,21 @@ struct ActivityRecorderView: View {
                 if model.recorderCollector.hasPowerMeterConnection {
                     ValueView(
                         title: "Power",
-                        value: "\(model.recorder.currentFrame.power ?? 0)"
+                        value: "\(model.recorder.currentFrame.power ?? 0) watts",
+                        symbol: .boltFill,
+                        imageColor: .blue
                     )
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    if let cadence = model.recorder.currentFrame.cadence {
+                        ValueView(
+                            title: "Cadence",
+                            value: "\(cadence) rpm",
+                            symbol: .goForwared,
+                            imageColor: .orange
+                        )
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
                 } else {
                     Button("Connect Power Meter") {
                         connectToDeviceType = .powerMeter
@@ -69,15 +92,28 @@ struct ActivityRecorderView: View {
                         model.recorderCollector.startRecording()
                     }
                 } label: {
-                    Image(symbol: model.recorderCollector.isRecording ? .pauseFill : .playFill)
+                    VStack {
+                        Image(symbol: model.recorderCollector.isRecording ? .pauseFill : .playFill)
+                            .font(.title)
+                        
+                        Text(model.recorderCollector.isRecording ? "Pause" : "Start")
+                    }
                 }
                 .padding()
                 
-                Button(action: saveWorkout) {
-                    Label("Stop and Save", symbol: .stopCircleFill)
+                if !model.recorder.recordedData.isEmpty {
+                    Button(action: saveWorkout) {
+                        VStack {
+                            Image(symbol: .stopCircleFill)
+                                .font(.title)
+                            
+                            Text("Stop and Save")
+                        }
+                    }
+                    .padding()
                 }
-                .padding()
             }
+            .padding()
         }
         .navigationTitle("Record")
         .sheet(item: $connectToDeviceType) { type in
@@ -89,7 +125,7 @@ struct ActivityRecorderView: View {
             }
             #elseif os(OSX)
             BluetoothConnectionView(
-                connector: try! recorder.manager.connector(for: type)
+                connector: try! model.bluetoothManager.connector(for: type)
             )
             #endif
         }

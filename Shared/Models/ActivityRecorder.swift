@@ -34,6 +34,10 @@ class ActivityRecorderCollector {
         dfaAlphaStream.numberOfArtifactsRemoved
     }
     
+    var artifactCorrectionSetting: Double {
+        dfaAlphaStream.artifactCorrectionThreshold
+    }
+    
     var hasHeartRateConnection: Bool { manager.hasConnected(to: .heartRate) }
     
     var hasPowerMeterConnection: Bool { manager.hasConnected(to: .powerMeter) }
@@ -47,7 +51,7 @@ class ActivityRecorderCollector {
     init(
         manager: BluetoothManager,
         settings: UserSettings,
-        onNewFrame: @escaping (Workout.DataFrame) -> Void
+        onNewFrame: @escaping (Workout.DataFrame, Int) -> Void
     ) {
         self.manager = manager
         self.dfaAlphaStream = .init(
@@ -65,8 +69,8 @@ class ActivityRecorderCollector {
         
         recordTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             self?.lockQueue.async {
-                guard let newFrame = self?.collectFrame() else { return }
-                onNewFrame(newFrame)
+                guard let newFrame = self?.collectFrame(), let numberOfArtifactsRemoved = self?.numberOfArtifactsRemoved else { return }
+                onNewFrame(newFrame, numberOfArtifactsRemoved)
             }
         }
     }

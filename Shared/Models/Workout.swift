@@ -24,6 +24,10 @@ struct Workout: Identifiable, Codable {
         let average: Double
     }
     
+    struct CadenceSummary: Codable {
+        let average: Int
+    }
+    
     enum UpdateError: Error {
         case invalidValueLength
     }
@@ -58,6 +62,11 @@ struct Workout: Identifiable, Codable {
     var powerSummary: PowerSummary?
     var heartRateSummary: HeartRateSummary?
     var dfaAlphaSummary: DFAAlphaSummary?
+    var cadenceSummary: CadenceSummary?
+    
+    var elapsedTime: Int {
+        values.last?.timestamp ?? 0
+    }
     
     var hasDFAValues: Bool { dfaAlphaSummary != nil }
     
@@ -71,24 +80,17 @@ struct Workout: Identifiable, Codable {
     }
     
     mutating func calculateSummary() {
-        var dfaValues = [Double].init(repeating: 0, count: values.count)
-        var heartRateValues = [Double].init(repeating: 0, count: values.count)
-        var powerValues = [Double].init(repeating: 0, count: values.count)
-//        var cadenceData = [Double].init(repeating: 0, count: values.count)
-        for (index, frames) in values.enumerated() {
-            dfaValues[index] = frames.dfaAlpha1 ?? 0
-            heartRateValues[index] = Double(frames.heartRate ?? 0)
-            powerValues[index] = Double(frames.power ?? 0)
-//            cadenceData[index] = Double(frames.cadence ?? 0)
-        }
         if powerSummary == nil {
-            computePowerSummary(values: powerValues)
+            computePowerSummary(values: values.compactMap(\.power).map(Double.init))
         }
         if dfaAlphaSummary == nil {
-            computeDfaSummary(values: dfaValues)
+            computeDfaSummary(values: values.compactMap(\.dfaAlpha1))
         }
         if heartRateSummary == nil {
-            computeHeartRateSummary(values: heartRateValues)
+            computeHeartRateSummary(values: values.compactMap(\.heartRate).map(Double.init))
+        }
+        if cadenceSummary == nil {
+            computeCadenceSummary(values: values.compactMap(\.cadence).map(Double.init))
         }
     }
     
@@ -114,6 +116,13 @@ struct Workout: Identifiable, Codable {
         )
     }
     
+    mutating func computeCadenceSummary(values: [Double]) {
+        guard !values.isEmpty else { return }
+        cadenceSummary = CadenceSummary(
+            average: Int(values.average())
+        )
+    }
+    
     mutating func update(dfaAlpha: [Double]) throws {
         guard dfaAlpha.count == values.count else { throw UpdateError.invalidValueLength }
         for (index, frame) in values.enumerated() {
@@ -127,6 +136,7 @@ struct Workout: Identifiable, Codable {
                 ratingOfPervicedEffort: frame.ratingOfPervicedEffort
             )
         }
+        computeDfaSummary(values: dfaAlpha)
     }
 }
 
