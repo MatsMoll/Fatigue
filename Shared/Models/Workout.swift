@@ -33,7 +33,7 @@ struct Workout: Identifiable, Codable {
     }
     
     struct DataFrame: Codable {
-        internal init(timestamp: Int, heartRate: Int? = nil, power: Int? = nil, cadence: Int? = nil, dfaAlpha1: Double? = nil, rrIntervals: [Int]? = nil, ratingOfPervicedEffort: Int? = nil) {
+        internal init(timestamp: Int, heartRate: Int? = nil, power: Int? = nil, cadence: Int? = nil, dfaAlpha1: Double? = nil, rrIntervals: [Double]? = nil, ratingOfPervicedEffort: Int? = nil) {
             self.timestamp = timestamp
             self.heartRate = heartRate
             self.power = power
@@ -48,7 +48,7 @@ struct Workout: Identifiable, Codable {
         let power: Int?
         let cadence: Int?
         let dfaAlpha1: Double?
-        let rrIntervals: [Int]?
+        let rrIntervals: [Double]?
         let ratingOfPervicedEffort: Int?
     }
     
@@ -158,7 +158,7 @@ extension Workout {
         var heartRate: Int?
         var power: Int?
         var cadence: Int?
-        var rrIntervals: [Int]?
+        var rrIntervals: [Double]?
         var startedAt: Date?
         
 //        let numberOfMessages = file.messages.count
@@ -181,7 +181,7 @@ extension Workout {
                 let hrvMessage = message as? HrvMessage,
                 let hrvMessages = hrvMessage.hrv
             {
-                rrIntervals = hrvMessages.map { Int($0.value * 1000) }
+                rrIntervals = hrvMessages.map { $0.value }
             }
             
             if let recordMessage = message as? RecordMessage {

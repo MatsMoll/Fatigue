@@ -16,7 +16,7 @@ class ActivityRecorderCollector {
     
     // Heart Rate Values
     private var newHeartRate: Int?
-    private var newRRIntervals: [Int] = []
+    private var newRRIntervals: [Double] = []
     
     private var heartBeatListner: AnyCancellable?
     private var rrIntervallListner: AnyCancellable?
@@ -25,6 +25,11 @@ class ActivityRecorderCollector {
     private var newPower: Int?
     
     private var powerListner: AnyCancellable?
+    
+    // Cadence Values
+    private var newCadence: Int?
+    
+    private var cadenceListner: AnyCancellable?
     
     private var prevValues: Workout.DataFrame = .init(timestamp: 0)
     
@@ -39,7 +44,6 @@ class ActivityRecorderCollector {
     }
     
     var hasHeartRateConnection: Bool { manager.hasConnected(to: .heartRate) }
-    
     var hasPowerMeterConnection: Bool { manager.hasConnected(to: .powerMeter) }
     
     let manager: BluetoothManager
@@ -80,11 +84,14 @@ class ActivityRecorderCollector {
             .sink(receiveValue: { [weak self] power in
                 self?.newPower = power
             })
+        
+        cadenceListner = powerHandler.cadencePublisher
+            .compactMap { $0 }
+            .assign(to: \.newCadence, on: self)
     }
     
     func register(heartBeatHandler: HeartBeatHandler) {
         heartBeatListner = heartBeatHandler.heartRatePublisher
-            .receive(on: lockQueue)
             .sink(receiveValue: { [weak self] bpm in
                 self?.newHeartRate = bpm
             })
@@ -109,7 +116,7 @@ class ActivityRecorderCollector {
             timestamp: timestamp,
             heartRate: newHeartRate ?? prevValues.heartRate,
             power: newPower ?? prevValues.power,
-            cadence: nil,
+            cadence: newCadence ?? prevValues.cadence,
             dfaAlpha1: dfaValue ?? prevValues.dfaAlpha1,
             rrIntervals: newRRIntervals.isEmpty ? nil : newRRIntervals,
             ratingOfPervicedEffort: nil

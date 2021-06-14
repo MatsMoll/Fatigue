@@ -64,6 +64,7 @@ class AppModel: ObservableObject {
         self.imports = .init()
         
         loadSettings()
+        workoutStore.loadWorkouts()
     }
     
     

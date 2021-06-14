@@ -58,7 +58,7 @@ struct LSCTDetectionView: View {
         
         ValueView(
             title: "Mean Square Error",
-            value: "\(Int(detection.meanSquareError))"
+            value: Self.numberFormatter.string(from: .init(value: detection.meanSquareError)) ?? "0"
         )
     }
     

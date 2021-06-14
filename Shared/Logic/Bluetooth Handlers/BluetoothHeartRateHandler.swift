@@ -16,7 +16,7 @@ protocol BluetoothHandler {
 
 protocol HeartBeatHandler {
     var heartRatePublisher: AnyPublisher<Int, Never> { get }
-    var rrIntervalPublisher: AnyPublisher<Int, Never> { get }
+    var rrIntervalPublisher: AnyPublisher<Double, Never> { get }
 }
 
 extension String {
@@ -44,12 +44,35 @@ extension Int {
         self = Int(value) + Int(exponent) * 256
     }
     
-    init(_ values: Array<UInt8>, index: Int, format: ArrayIntegerFormat) {
+    init(_ values: Array<UInt8>, index: inout Int, format: ArrayIntegerFormat, exponent: UInt = 0) {
         // Raw value is the exponent
         self = 0
         for i in 0..<format.rawValue {
-            self += Int(values[index + i]) * Int(pow(2, Double(i)))
+            self += Int(values[index + i]) * Int(pow(Double(UInt8.max), Double(i)))
         }
+        self = self * Int(pow(2, Double(exponent)))
+        index += format.rawValue
+    }
+    
+    init(_ values: Array<UInt8>, format: ArrayIntegerFormat, exponent: UInt = 0) {
+        // Raw value is the exponent
+        self = 0
+        for i in 0..<format.rawValue {
+            self += Int(values[i]) * Int(pow(Double(UInt8.max), Double(i)))
+        }
+        self = self * Int(pow(2, Double(exponent)))
+    }
+}
+
+extension Double {
+    init(_ values: Array<UInt8>, index: inout Int, format: ArrayIntegerFormat, exponent: Int = 0) {
+        // Raw value is the exponent
+        self = 0
+        for i in 0..<format.rawValue {
+            self += Double(values[index + i]) * pow(Double(UInt8.max), Double(i))
+        }
+        self = self * pow(2, Double(exponent))
+        index += format.rawValue
     }
 }
 
@@ -66,7 +89,7 @@ struct BluetoothHeartRateFlag {
     let flags: [Bool]
     
     init(values: [UInt8]) {
-        self.flags = String(Int(values, index: 0, format: .format8), radix: 2)
+        self.flags = String(Int(values, format: .format8), radix: 2)
             .pad(toSize: 8)
             .reversed()
             .map { Int(String($0)) == 1 }
@@ -81,10 +104,10 @@ struct BluetoothHeartRateFlag {
     }
     
     var status: HeartRateSensorStatus {
-        if flags[3] {
+        if flags[2] {
             // Is value 0 and 1
             return .notSupported
-        } else if flags[2] {
+        } else if flags[1] {
             // Is value 3
             return .supportedWithDetectedContact
         } else {
@@ -93,20 +116,20 @@ struct BluetoothHeartRateFlag {
         }
     }
     
-    var isEnergyExpendedPressent: Bool { flags[4] }
+    var isEnergyExpendedPresent: Bool { flags[3] }
     
-    var isRRIntervalsPresent: Bool { flags[5] }
+    var isRRIntervalsPresent: Bool { flags[4] }
 }
 
 struct BluetoothHeartRateHandler: BluetoothHandler, HeartBeatHandler {
     
     var heartRatePublisher: AnyPublisher<Int, Never> { heartRateSubject.eraseToAnyPublisher() }
-    var rrIntervalPublisher: AnyPublisher<Int, Never> { rrIntervalSubject.eraseToAnyPublisher() }
+    var rrIntervalPublisher: AnyPublisher<Double, Never> { rrIntervalSubject.eraseToAnyPublisher() }
     
     private let heartRateSubject = PassthroughSubject<Int, Never>()
-    private let rrIntervalSubject = PassthroughSubject<Int, Never>()
+    private let rrIntervalSubject = PassthroughSubject<Double, Never>()
     
-    var characteristicID: String = "2a37"
+    let characteristicID: String = "2A37"
     
     func handle(values: Array<UInt8>) {
         
@@ -114,23 +137,23 @@ struct BluetoothHeartRateHandler: BluetoothHandler, HeartBeatHandler {
         let flag = BluetoothHeartRateFlag(values: values)
         var valueOffset = 1
         
-        let heartRate = Int(values, index: valueOffset, format: flag.heartRateFormat)
+        let heartRate = Int(values, index: &valueOffset, format: flag.heartRateFormat)
         heartRateSubject.send(heartRate)
-        valueOffset += flag.heartRateFormat.rawValue
         
-        if flag.isEnergyExpendedPressent {
-            let energy = Int(values, index: valueOffset, format: .format16)
+        if flag.isEnergyExpendedPresent {
+            let energy = Int(values, index: &valueOffset, format: .format16)
             print("Energy Expended: \(energy)")
-            valueOffset += 2
         }
         
         if flag.isRRIntervalsPresent {
             let rrIntervals = (values.count - valueOffset) / 2
             guard rrIntervals > 0 else { return }
-            for i in 0..<rrIntervals {
-                let rrInterval = Int(
-                    value: values[i * 2 + valueOffset],
-                    exponent: values[i * 2 + valueOffset + 1]
+            for _ in 0..<rrIntervals {
+                let rrInterval = Double(
+                    values,
+                    index: &valueOffset,
+                    format: .format16,
+                    exponent: -10
                 )
                 rrIntervalSubject.send(rrInterval)
             }

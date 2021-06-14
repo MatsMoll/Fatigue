@@ -16,13 +16,13 @@ public class DFAStreamModel {
     
     let artifactCorrectionThreshold: Double
     
-    var values: [Int] = []
+    var values: [Double] = []
     var valueAvg: Double = 0
     var valueSize: Int = 0
-    var valueSum: Int = 0
-    var lastValue: Int?
+    var valueSum: Double = 0
+    var lastValue: Double?
     
-    let xValues: [Int]
+    let xValues: [Double]
     let cumXValues: [Double]
     let cumXPowValues: [Double]
     
@@ -32,7 +32,8 @@ public class DFAStreamModel {
     let scales: [Int]
     let scaleMagnitude: [Int]
     
-    let windowDuration: Int
+    /// The window duration in seconds
+    let windowDuration: TimeInterval
     var numberOfArtifactsRemoved: Int = 0
     
     var alpha: Double?
@@ -44,7 +45,7 @@ public class DFAStreamModel {
         scaleDensity: Int = 30,
         lowerScaleLimit: Int = 4,
         upperScaleLimit: Int = 16,
-        windowDuration: Int = 60 * 2 * 1000
+        windowDuration: TimeInterval = 60 * 2
     ) {
 
         self.artifactCorrectionThreshold = artifactCorrectionThreshold
@@ -82,12 +83,12 @@ public class DFAStreamModel {
         let largesScale = scales[uniqueScales - 1]
         
         // Setting up xValues
-        var xValues = [Int]()
+        var xValues = [Double]()
         var cumXPowValues = [Double]()
         var cumXValues = [Double]()
         
         for i in 0..<largesScale {
-            xValues.append(i)
+            xValues.append(Double(i))
             if i > 0 {
                 cumXPowValues.append(cumXPowValues[i - 1] + pow(Double(i), 2))
                 cumXValues.append(cumXValues[i - 1] + Double(i))
@@ -101,14 +102,14 @@ public class DFAStreamModel {
         self.cumXPowValues = cumXPowValues
     }
     
-    public func add(value: Int) {
+    public func add(value: Double) {
         guard let last = lastValue else {
             lastValue = value
             addValueWithoutArtifactCorrection(value)
             return
         }
-        let lowerBound = Int(Double(last) * (1 - artifactCorrectionThreshold))
-        let upperBound = Int(Double(last) * (1 + artifactCorrectionThreshold))
+        let lowerBound = last * (1 - artifactCorrectionThreshold)
+        let upperBound = last * (1 + artifactCorrectionThreshold)
         
         lastValue = value
         if lowerBound <= value && value <= upperBound {
@@ -118,7 +119,7 @@ public class DFAStreamModel {
         }
     }
     
-    func addValueWithoutArtifactCorrection(_ newValue: Int) {
+    func addValueWithoutArtifactCorrection(_ newValue: Double) {
         if valueSum > windowDuration {
             valueSum += newValue
             values.append(newValue)
@@ -186,7 +187,7 @@ public class DFAStreamModel {
                 for z in 0..<shapeX {
                     let valueIndex = j * shapeX + z
                     ySum += cumMeanDiff[valueIndex]
-                    xySum += cumMeanDiff[valueIndex] * Double(xValues[z])
+                    xySum += cumMeanDiff[valueIndex] * xValues[z]
                     linRegValues[z] = cumMeanDiff[valueIndex]
                 }
                 
@@ -216,7 +217,7 @@ public class DFAStreamModel {
                     for z in 0..<shapeX {
                         let valueIndex = j * shapeX + z + lowerBound
                         ySum += cumMeanDiff[valueIndex]
-                        xySum += cumMeanDiff[valueIndex] * Double(xValues[z])
+                        xySum += cumMeanDiff[valueIndex] * xValues[z]
                         linRegValues[z] = cumMeanDiff[valueIndex]
                     }
                     

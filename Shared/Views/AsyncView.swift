@@ -70,7 +70,7 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
     @ObservedObject var source: Source
     var content: (Source.Output) -> Content
     
-    var loadingText: String = ""
+    var loadingText: String = "Loading..."
 
     var body: some View {
         switch source.state {
@@ -81,6 +81,7 @@ struct AsyncContentView<Source: LoadableObject, Content: View>: View {
                 ProgressView("\(loadingText) \(Int(value * 100))%", value: value)
             } else {
                 ProgressView(loadingText)
+                    .frame(maxWidth: .infinity)
             }
         case .failed(let error):
             ErrorView(error: error, retryHandler: source.load)

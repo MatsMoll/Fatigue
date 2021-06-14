@@ -86,9 +86,6 @@ struct WorkoutListView: View {
             ) { result in
                 model.importFile(result)
             }
-            .onAppear {
-                model.workoutStore.loadWorkouts()
-            }
         }
         .navigationViewStyle(DefaultNavigationViewStyle())
     }

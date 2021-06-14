@@ -19,6 +19,15 @@
 		3525BD7C2676130C00138BA9 /* BluetoothCSCHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BD7A2676130C00138BA9 /* BluetoothCSCHandler.swift */; };
 		3525BD7E2676230B00138BA9 /* RevolutionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BD7D2676230B00138BA9 /* RevolutionHandler.swift */; };
 		3525BD7F2676230B00138BA9 /* RevolutionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BD7D2676230B00138BA9 /* RevolutionHandler.swift */; };
+		3525BD8026768F5100138BA9 /* BluetoothHeartRateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CD826725A1800CB6573 /* BluetoothHeartRateHandler.swift */; };
+		3525BD93267691AB00138BA9 /* NormalizedPowerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BD742673AE9900138BA9 /* NormalizedPowerModel.swift */; };
+		3525BD94267691AC00138BA9 /* NormalizedPowerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BD742673AE9900138BA9 /* NormalizedPowerModel.swift */; };
+		3525BD992676946A00138BA9 /* FitDataProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 3525BD982676946A00138BA9 /* FitDataProtocol */; };
+		3525BD9B2676947500138BA9 /* FitDataProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 3525BD9A2676947500138BA9 /* FitDataProtocol */; };
+		3525BDA426769EAD00138BA9 /* BluetoothPowerHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CE32672C44200CB6573 /* BluetoothPowerHandler.swift */; };
+		3525BDA526769EE900138BA9 /* RevolutionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BD7D2676230B00138BA9 /* RevolutionHandler.swift */; };
+		3525BDA72676A19900138BA9 /* LSCTAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BDA62676A19900138BA9 /* LSCTAnalysis.swift */; };
+		3525BDA82676A19900138BA9 /* LSCTAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BDA62676A19900138BA9 /* LSCTAnalysis.swift */; };
 		35347CBA2671352E00083FCB /* UserSettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35347CB92671352E00083FCB /* UserSettingsPage.swift */; };
 		35347CBB2671352E00083FCB /* UserSettingsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35347CB92671352E00083FCB /* UserSettingsPage.swift */; };
 		35347CBD2671355400083FCB /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35347CBC2671355400083FCB /* UserSettings.swift */; };
@@ -32,29 +41,21 @@
 		35512DBC2668098500E7C68B /* MeanMaximalPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DBB2668098500E7C68B /* MeanMaximalPower.swift */; };
 		35512DBD2668098500E7C68B /* MeanMaximalPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DBB2668098500E7C68B /* MeanMaximalPower.swift */; };
 		35512DBE2668098500E7C68B /* MeanMaximalPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DBB2668098500E7C68B /* MeanMaximalPower.swift */; };
-		35512DC12668D64C00E7C68B /* FitDataProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 35512DC02668D64C00E7C68B /* FitDataProtocol */; };
 		35512DC52669009700E7C68B /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DC42669009700E7C68B /* Workout.swift */; };
 		35512DC62669009700E7C68B /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DC42669009700E7C68B /* Workout.swift */; };
-		35512DC72669009700E7C68B /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DC42669009700E7C68B /* Workout.swift */; };
 		35512DC9266A690C00E7C68B /* LSCTDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DC8266A690C00E7C68B /* LSCTDetector.swift */; };
 		35512DCA266A690C00E7C68B /* LSCTDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DC8266A690C00E7C68B /* LSCTDetector.swift */; };
-		35512DCB266A690C00E7C68B /* LSCTDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DC8266A690C00E7C68B /* LSCTDetector.swift */; };
 		35512DCE266A831900E7C68B /* LSCTDetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DCD266A831900E7C68B /* LSCTDetectionView.swift */; };
 		35512DCF266A831900E7C68B /* LSCTDetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DCD266A831900E7C68B /* LSCTDetectionView.swift */; };
-		35512DD0266A831900E7C68B /* LSCTDetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DCD266A831900E7C68B /* LSCTDetectionView.swift */; };
 		355F87CD266A848D00AA5E25 /* MeanMaximumPowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87CC266A848D00AA5E25 /* MeanMaximumPowerView.swift */; };
 		355F87CE266A848D00AA5E25 /* MeanMaximumPowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87CC266A848D00AA5E25 /* MeanMaximumPowerView.swift */; };
-		355F87CF266A848D00AA5E25 /* MeanMaximumPowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87CC266A848D00AA5E25 /* MeanMaximumPowerView.swift */; };
 		355F87D1266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D0266A8A0300AA5E25 /* DataFrameLinearRegression.swift */; };
 		355F87D2266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D0266A8A0300AA5E25 /* DataFrameLinearRegression.swift */; };
 		355F87D3266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D0266A8A0300AA5E25 /* DataFrameLinearRegression.swift */; };
 		355F87D5266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D4266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift */; };
 		355F87D6266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D4266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift */; };
-		355F87D7266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D4266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift */; };
 		355F87DA266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D9266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift */; };
 		355F87DB266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D9266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift */; };
-		355F87DC266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D9266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift */; };
-		355F87DE266AB85900AA5E25 /* FitDataProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 355F87DD266AB85900AA5E25 /* FitDataProtocol */; };
 		35709A672670E53200087EE5 /* DFAStreamModel+testData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35709A662670E53200087EE5 /* DFAStreamModel+testData.swift */; };
 		3584B59126639AE8005993D5 /* DFAStreamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B59026639AE8005993D5 /* DFAStreamModel.swift */; };
 		3584B59226639AE8005993D5 /* DFAStreamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B59026639AE8005993D5 /* DFAStreamModel.swift */; };
@@ -76,7 +77,6 @@
 		35D5D90B2662BC9B00A68199 /* WorkoutStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D9092662BC9B00A68199 /* WorkoutStore.swift */; };
 		35D7FDC12671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7FDC02671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift */; };
 		35D7FDC22671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7FDC02671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift */; };
-		35FB0CC7267209DC00CB6573 /* DFAAlpha1RegressionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7FDC02671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift */; };
 		35FB0CC926721CDE00CB6573 /* Array+binarySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CC826721CDE00CB6573 /* Array+binarySearch.swift */; };
 		35FB0CCA26721CDE00CB6573 /* Array+binarySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CC826721CDE00CB6573 /* Array+binarySearch.swift */; };
 		35FB0CCC2672247000CB6573 /* BluetoothDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CCB2672247000CB6573 /* BluetoothDeviceManager.swift */; };
@@ -85,7 +85,6 @@
 		35FB0CD326722D0100CB6573 /* ValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CD126722D0100CB6573 /* ValueView.swift */; };
 		35FB0CD526723CE200CB6573 /* BluetoothConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CD426723CE200CB6573 /* BluetoothConnectionView.swift */; };
 		35FB0CD626723CE200CB6573 /* BluetoothConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CD426723CE200CB6573 /* BluetoothConnectionView.swift */; };
-		35FB0CD726723E6300CB6573 /* BluetoothDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CCB2672247000CB6573 /* BluetoothDeviceManager.swift */; };
 		35FB0CD926725A1800CB6573 /* BluetoothHeartRateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CD826725A1800CB6573 /* BluetoothHeartRateHandler.swift */; };
 		35FB0CDA26725A1800CB6573 /* BluetoothHeartRateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CD826725A1800CB6573 /* BluetoothHeartRateHandler.swift */; };
 		35FB0CDE2672627E00CB6573 /* ActivityRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CDD2672627E00CB6573 /* ActivityRecorder.swift */; };
@@ -120,6 +119,7 @@
 		3525BD772673CE9C00138BA9 /* Image+SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+SFSymbol.swift"; sourceTree = "<group>"; };
 		3525BD7A2676130C00138BA9 /* BluetoothCSCHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothCSCHandler.swift; sourceTree = "<group>"; };
 		3525BD7D2676230B00138BA9 /* RevolutionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevolutionHandler.swift; sourceTree = "<group>"; };
+		3525BDA62676A19900138BA9 /* LSCTAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSCTAnalysis.swift; sourceTree = "<group>"; };
 		35347CB92671352E00083FCB /* UserSettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsPage.swift; sourceTree = "<group>"; };
 		35347CBC2671355400083FCB /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		353B38072663C08D00D1C9B2 /* WorkoutSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSessionView.swift; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				355F87DE266AB85900AA5E25 /* FitDataProtocol in Frameworks */,
+				3525BD992676946A00138BA9 /* FitDataProtocol in Frameworks */,
 				353B38132663D09C00D1C9B2 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -177,7 +177,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35512DC12668D64C00E7C68B /* FitDataProtocol in Frameworks */,
+				3525BD9B2676947500138BA9 /* FitDataProtocol in Frameworks */,
 				353B380E2663D06C00D1C9B2 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -208,6 +208,7 @@
 				3584B59026639AE8005993D5 /* DFAStreamModel.swift */,
 				35512DBB2668098500E7C68B /* MeanMaximalPower.swift */,
 				35512DC8266A690C00E7C68B /* LSCTDetector.swift */,
+				3525BDA62676A19900138BA9 /* LSCTAnalysis.swift */,
 			);
 			path = "Computational Models";
 			sourceTree = "<group>";
@@ -390,7 +391,7 @@
 			name = "Fatigue (iOS)";
 			packageProductDependencies = (
 				353B38122663D09C00D1C9B2 /* Charts */,
-				355F87DD266AB85900AA5E25 /* FitDataProtocol */,
+				3525BD982676946A00138BA9 /* FitDataProtocol */,
 			);
 			productName = "Fatigue (iOS)";
 			productReference = 35D5D8CB2662AA0700A68199 /* Fatigue.app */;
@@ -411,7 +412,7 @@
 			name = "Fatigue (macOS)";
 			packageProductDependencies = (
 				353B380D2663D06C00D1C9B2 /* Charts */,
-				35512DC02668D64C00E7C68B /* FitDataProtocol */,
+				3525BD9A2676947500138BA9 /* FitDataProtocol */,
 			);
 			productName = "Fatigue (macOS)";
 			productReference = 35D5D8D32662AA0700A68199 /* Fatigue.app */;
@@ -491,7 +492,7 @@
 			mainGroup = 35D5D8BE2662AA0500A68199;
 			packageReferences = (
 				353B380C2663D06C00D1C9B2 /* XCRemoteSwiftPackageReference "Charts" */,
-				35512DBF2668D64C00E7C68B /* XCRemoteSwiftPackageReference "FitDataProtocol" */,
+				3525BD972676946A00138BA9 /* XCRemoteSwiftPackageReference "FitDataProtocol" */,
 			);
 			productRefGroup = 35D5D8CC2662AA0700A68199 /* Products */;
 			projectDirPath = "";
@@ -576,6 +577,7 @@
 				35FB0CE1267264B100CB6573 /* ActivityRecorderView.swift in Sources */,
 				35FB0CD926725A1800CB6573 /* BluetoothHeartRateHandler.swift in Sources */,
 				3584B5942663A21A005993D5 /* LinearRegression.swift in Sources */,
+				3525BDA72676A19900138BA9 /* LSCTAnalysis.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,6 +618,7 @@
 				35FB0CE2267264B100CB6573 /* ActivityRecorderView.swift in Sources */,
 				35FB0CDA26725A1800CB6573 /* BluetoothHeartRateHandler.swift in Sources */,
 				3584B5952663A21A005993D5 /* LinearRegression.swift in Sources */,
+				3525BDA82676A19900138BA9 /* LSCTAnalysis.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,8 +626,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35FB0CD726723E6300CB6573 /* BluetoothDeviceManager.swift in Sources */,
 				35D5D8E02662AA0700A68199 /* Tests_iOS.swift in Sources */,
+				3525BD93267691AB00138BA9 /* NormalizedPowerModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,19 +635,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3525BDA426769EAD00138BA9 /* BluetoothPowerHandler.swift in Sources */,
 				355F87D3266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */,
 				35709A672670E53200087EE5 /* DFAStreamModel+testData.swift in Sources */,
-				35512DD0266A831900E7C68B /* LSCTDetectionView.swift in Sources */,
+				3525BD8026768F5100138BA9 /* BluetoothHeartRateHandler.swift in Sources */,
+				3525BD94267691AC00138BA9 /* NormalizedPowerModel.swift in Sources */,
 				35512DBE2668098500E7C68B /* MeanMaximalPower.swift in Sources */,
-				35512DCB266A690C00E7C68B /* LSCTDetector.swift in Sources */,
-				355F87D7266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift in Sources */,
 				35D5D8EB2662AA0700A68199 /* Tests_macOS.swift in Sources */,
-				355F87DC266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift in Sources */,
-				355F87CF266A848D00AA5E25 /* MeanMaximumPowerView.swift in Sources */,
 				3584B5962663B061005993D5 /* DFAStreamModel.swift in Sources */,
-				35512DC72669009700E7C68B /* Workout.swift in Sources */,
-				35FB0CC7267209DC00CB6573 /* DFAAlpha1RegressionSettingsView.swift in Sources */,
 				3584B5972663B0AA005993D5 /* LinearRegression.swift in Sources */,
+				3525BDA526769EE900138BA9 /* RevolutionHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -919,6 +919,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = M276UPEHPQ;
@@ -941,6 +942,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = M276UPEHPQ;
@@ -1010,6 +1012,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3525BD972676946A00138BA9 /* XCRemoteSwiftPackageReference "FitDataProtocol" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MatsMoll/FitDataProtocol";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		353B380C2663D06C00D1C9B2 /* XCRemoteSwiftPackageReference "Charts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielgindi/Charts";
@@ -1018,17 +1028,19 @@
 				minimumVersion = 4.0.1;
 			};
 		};
-		35512DBF2668D64C00E7C68B /* XCRemoteSwiftPackageReference "FitDataProtocol" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MatsMoll/FitDataProtocol";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3525BD982676946A00138BA9 /* FitDataProtocol */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3525BD972676946A00138BA9 /* XCRemoteSwiftPackageReference "FitDataProtocol" */;
+			productName = FitDataProtocol;
+		};
+		3525BD9A2676947500138BA9 /* FitDataProtocol */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3525BD972676946A00138BA9 /* XCRemoteSwiftPackageReference "FitDataProtocol" */;
+			productName = FitDataProtocol;
+		};
 		353B380D2663D06C00D1C9B2 /* Charts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 353B380C2663D06C00D1C9B2 /* XCRemoteSwiftPackageReference "Charts" */;
@@ -1038,16 +1050,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 353B380C2663D06C00D1C9B2 /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = Charts;
-		};
-		35512DC02668D64C00E7C68B /* FitDataProtocol */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 35512DBF2668D64C00E7C68B /* XCRemoteSwiftPackageReference "FitDataProtocol" */;
-			productName = FitDataProtocol;
-		};
-		355F87DD266AB85900AA5E25 /* FitDataProtocol */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 35512DBF2668D64C00E7C68B /* XCRemoteSwiftPackageReference "FitDataProtocol" */;
-			productName = FitDataProtocol;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

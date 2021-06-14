@@ -22,7 +22,7 @@ extension Array where Element == LSCTStage {
     static func defaultWith(ftp: Double) -> [LSCTStage] {
         return [
             LSCTStage(duration: 6 * 60, targetPower: ftp * 0.7),
-            LSCTStage(duration: 3 * 60, targetPower: ftp * 0.9),
+            LSCTStage(duration: 6 * 60, targetPower: ftp * 0.9),
             LSCTStage(duration: 3 * 60, targetPower: ftp),
             LSCTStage(duration: 60, targetPower: 0),
         ]
@@ -47,9 +47,6 @@ class LSCTDetector {
     
     let stages: [LSCTStage]
     
-    var progressPublisher: AnyPublisher<Double, Never> { progressPassthroughSubject.eraseToAnyPublisher() }
-    private let progressPassthroughSubject = PassthroughSubject<Double, Never>()
-    
     init(dataFrames: [Workout.DataFrame], stages: [LSCTStage]) {
         self.dataFrames = dataFrames
         self.stages = stages
@@ -70,8 +67,10 @@ class LSCTDetector {
             meanSquareError: .infinity
         )
         
-        let nubmerOfComputations = Double(endIndex * totalDuration)
-        var lastProgress: Double = 0.0
+        // Min power target or 1
+        let minTargetPower = stages
+            .filter({ $0.targetPower != 0 })
+            .min(by: { $0.targetPower < $1.targetPower })?.targetPower ?? 1
         
         for index in 0..<endIndex {
             
@@ -79,21 +78,21 @@ class LSCTDetector {
             var stageOffset = 0
             
             for stage in stages {
-                
                 for j in 0..<stage.duration {
                     let power = Double(dataFrames[index + stageOffset + j].power ?? 0)
-                    meanSquareError += pow(power - stage.targetPower, 2) / Double(totalDuration)
+                    if stage.targetPower == 0 {
+                        let fractionalDiff = pow(abs(power / minTargetPower) + 1, 2)
+                        meanSquareError += fractionalDiff / Double(totalDuration)
+                    } else {
+                        let fractionalDiff = pow(abs((power - stage.targetPower) / stage.targetPower) + 1, 2)
+                        meanSquareError += fractionalDiff / Double(totalDuration)
+                    }
                 }
                 
                 stageOffset += stage.duration
-                
-                let newProgress = Double(index * totalDuration + stageOffset) / nubmerOfComputations
-                if newProgress - lastProgress > 0.01 {
-                    lastProgress = newProgress
-                    progressPassthroughSubject.send(newProgress)
-                }
             }
             
+            meanSquareError -= 1
             if detection.meanSquareError > meanSquareError {
                 detection = Detection(
                     frameWorkout: index,

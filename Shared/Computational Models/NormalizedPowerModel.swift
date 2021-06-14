@@ -17,13 +17,13 @@ struct NormalizedPowerModel {
         guard numberOfRolingAverages > 0 else { return 0 }
         
         for index in 0..<29 {
-            averageModel.add(value: pow(values[index], 4))
+            averageModel.add(value: values[index])
         }
         
         var averageSum: Double = 0
         for index in 29...numberOfRolingAverages {
-            averageModel.add(value: pow(values[index], 4))
-            averageSum += averageModel.average
+            averageModel.add(value: values[index])
+            averageSum += pow(averageModel.average, 4)
         }
         
         return Int(pow(averageSum / Double(numberOfRolingAverages), 0.25)

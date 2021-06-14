@@ -10,19 +10,20 @@ import Foundation
 class RevolutionHandler {
     
     var hasRevicedValues: Bool = false
-    var lastEvent: Int = 0
+    // The last event converted into seconds
+    var lastEvent: TimeInterval = 0
     var cumulativeRevolutions: Int = 0
     var rpm: Int = 0
     
-    var maxEventValue: Int
+    var maxEventValue: TimeInterval
     var maxRevolutionValue: Int
     
-    init(maxEventValue: Int = Int(UInt16.max), maxRevolutionValue: Int = Int(UInt16.max)) {
+    init(maxEventValue: TimeInterval, maxRevolutionValue: Int) {
         self.maxEventValue = maxEventValue
         self.maxRevolutionValue = maxRevolutionValue
     }
     
-    func update(event: Int, revolutions: Int) -> Int {
+    func update(event: TimeInterval, revolutions: Int) -> Int {
         guard hasRevicedValues else {
             self.lastEvent = event
             self.cumulativeRevolutions = revolutions
@@ -30,18 +31,20 @@ class RevolutionHandler {
             return rpm
         }
         var revolutionsSinceLastEvent = revolutions - cumulativeRevolutions
-        if event < lastEvent {
-            lastEvent = lastEvent - maxEventValue
+        var eventDuration = event - lastEvent
+        
+        if eventDuration < 0 {
+            eventDuration = eventDuration + maxEventValue
         }
         if revolutionsSinceLastEvent == 0 {
             lastEvent = event
             rpm = 0
             return 0
         } else if revolutionsSinceLastEvent < 0 {
-            revolutionsSinceLastEvent = revolutions + (maxRevolutionValue - cumulativeRevolutions)
+            revolutionsSinceLastEvent = revolutionsSinceLastEvent + maxRevolutionValue
         }
         cumulativeRevolutions = revolutions
-        rpm = 60 * 1024 * revolutionsSinceLastEvent / (event - lastEvent)
+        rpm = Int(60 * Double(revolutionsSinceLastEvent) * 1024 / eventDuration)
         lastEvent = event
         return rpm
     }

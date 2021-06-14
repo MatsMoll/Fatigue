@@ -36,10 +36,16 @@ struct BluetoothCSCHandler: CyclingSpeedAndCadenceHandler, BluetoothHandler {
     private let speedSubject = PassthroughSubject<Int, Never>()
     private let cadenceSubject = PassthroughSubject<Int, Never>()
     
-    private let speedHandler = RevolutionHandler(maxRevolutionValue: Int(UInt32.max))
-    private let cadenceHandler = RevolutionHandler()
+    private let speedHandler = RevolutionHandler(
+        maxEventValue: Double(UInt16.max) / pow(2, 11),
+        maxRevolutionValue: Int(UInt32.max)
+    )
+    private let cadenceHandler = RevolutionHandler(
+        maxEventValue: Double(UInt16.max) / pow(2, 10),
+        maxRevolutionValue: Int(UInt16.max)
+    )
     
-    var characteristicID: String = ""
+    let characteristicID: String = ""
     
     func handle(values: Array<UInt8>) {
         let flags = CyclingSpeedAndCadenceFlag(flag: values[0])
@@ -47,12 +53,15 @@ struct BluetoothCSCHandler: CyclingSpeedAndCadenceHandler, BluetoothHandler {
         var valueOffset = 1
         
         if flags.isWheelRevolutionPresent {
-            let wheelRevolutions = Int(values, index: valueOffset, format: .format32)
-            valueOffset += 4
+            let wheelRevolutions = Int(values, index: &valueOffset, format: .format32)
             
             // Is a unit of 1/1024 sec
-            let lastWheelEvent = Int(values, index: valueOffset, format: .format16)
-            valueOffset += 2
+            let lastWheelEvent = Double(
+                values,
+                index: &valueOffset,
+                format: .format16,
+                exponent: -11
+            )
             
             speedSubject.send(
                 speedHandler.update(event: lastWheelEvent, revolutions: wheelRevolutions)
@@ -61,12 +70,15 @@ struct BluetoothCSCHandler: CyclingSpeedAndCadenceHandler, BluetoothHandler {
         
         // Cadence revolution is present
         if flags.isCadenceRevolutionPresent {
-            let crankRevolutions = Int(values, index: valueOffset, format: .format16)
-            valueOffset += 2
+            let crankRevolutions = Int(values, index: &valueOffset, format: .format16)
             
             // Is a unit of 1/1024 sec
-            let lastCrankEvent = Int(values, index: valueOffset, format: .format16)
-            valueOffset += 2
+            let lastCrankEvent = Double(
+                values,
+                index: &valueOffset,
+                format: .format16,
+                exponent: -10
+            )
             
             cadenceSubject.send(
                 cadenceHandler.update(event: lastCrankEvent, revolutions: crankRevolutions)

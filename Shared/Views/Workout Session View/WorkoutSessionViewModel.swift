@@ -22,7 +22,7 @@ class WorkoutSessionViewModel: ObservableObject {
     
     var workout: Workout
     
-    @Published var meanMaximumPower: LoadingState<MeanMaximalPower.Curve>
+    @Published var meanMaximumPower: LoadingState<MeanMaximalPower.Curve> = .idle
     
     @Published var dfaRegression: LoadingState<DFAAlphaRegression> = .idle
     
@@ -66,31 +66,39 @@ class WorkoutSessionViewModel: ObservableObject {
     init(model: AppModel, workout: Workout) {
         self.model = model
         self.workout = workout
-        self.meanMaximumPower = .idle
         loadWorkout()
     }
     
     func loadWorkout() {
-        var dfaValues = [Double].init(repeating: 0, count: workout.values.count)
-        var heartRateValues = [Double].init(repeating: 0, count: workout.values.count)
-        var powerValues = [Double].init(repeating: 0, count: workout.values.count)
-        var cadenceData = [Double].init(repeating: 0, count: workout.values.count)
+        let valuesCount = workout.values.count
+        
+        var dfaValues = [Double].init(repeating: 0, count: valuesCount)
+        var heartRateValues = [Double].init(repeating: 0, count: valuesCount)
+        var powerValues = [Double].init(repeating: 0, count: valuesCount)
+        var cadenceData = [Double].init(repeating: 0, count: valuesCount)
+        
         for (index, frames) in workout.values.enumerated() {
             dfaValues[index] = frames.dfaAlpha1 ?? 0
             heartRateValues[index] = Double(frames.heartRate ?? 0)
             powerValues[index] = Double(frames.power ?? 0)
             cadenceData[index] = Double(frames.cadence ?? 0)
         }
-        self.dfaAlphaValues = dfaValues
-        self.heartRateData = heartRateValues
-        self.powerData = powerValues
-        self.cadenceData = cadenceData
         
+        if workout.hasDFAValues {
+            self.dfaAlphaValues = dfaValues
+            self.dfaAlphaComputation = .loaded(())
+        }
+        if workout.heartRateSummary != nil {
+            self.heartRateData = heartRateValues
+        }
+        if workout.powerSummary != nil {
+            self.powerData = powerValues
+        }
+        if workout.cadenceSummary != nil {
+            self.cadenceData = cadenceData
+        }
         if let curve = workout.powerCurve {
             self.meanMaximumPower = .loaded(curve)
-        }
-        if workout.hasDFAValues {
-            self.dfaAlphaComputation = .loaded(())
         }
     }
     
@@ -226,7 +234,7 @@ class WorkoutSessionViewModel: ObservableObject {
     func detectLSCT() {
         guard case LoadingState.idle = lsctDetection else { return }
         let dataFrames = workout.values
-        lsctDetection = .loading(progress: 0)
+        lsctDetection = .loading(progress: nil)
         let ftp = Double(model.settings.ftp ?? 280)
         DispatchQueue.global().async { [weak self] in
             
@@ -234,10 +242,6 @@ class WorkoutSessionViewModel: ObservableObject {
                 dataFrames: dataFrames,
                 stages: .defaultWith(ftp: ftp)
             )
-            
-            self?.lsctDetectorProgressPublisher = detector.progressPublisher
-                .receive(on: DispatchQueue.main)
-                .sink(receiveValue: { self?.lsctDetection = .loading(progress: $0) })
             
             do {
                 let detection = try detector.detectTest()
