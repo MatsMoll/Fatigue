@@ -44,7 +44,7 @@ class RevolutionHandler {
             revolutionsSinceLastEvent = revolutionsSinceLastEvent + maxRevolutionValue
         }
         cumulativeRevolutions = revolutions
-        rpm = Int(60 * Double(revolutionsSinceLastEvent) * 1024 / eventDuration)
+        rpm = Int(60 * Double(revolutionsSinceLastEvent) / eventDuration)
         lastEvent = event
         return rpm
     }

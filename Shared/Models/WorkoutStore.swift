@@ -24,6 +24,8 @@ struct WorkoutStore {
     
     var selectedWorkoutId: UUID?
     
+    var hasLoadedFromFile: Bool = false
+    
     private (set) var workouts: [Workout] = []
     
     let encoder = PropertyListEncoder()
@@ -49,6 +51,7 @@ struct WorkoutStore {
                 loadedWorkouts[index].calculateSummary()
             }
             workouts = loadedWorkouts
+            hasLoadedFromFile = true
             logger.debug("Loaded Workouts")
         } catch {
             logger.debug("Error Loading: \(error.localizedDescription)")
@@ -66,6 +69,9 @@ struct WorkoutStore {
     }
     
     mutating func add(_ workout: Workout) {
+        if !hasLoadedFromFile {
+            loadWorkouts()
+        }
         workouts.append(workout)
         try? saveWorkouts()
     }
@@ -80,5 +86,9 @@ struct WorkoutStore {
         guard let index = workouts.firstIndex(where: { $0.id == id }) else { return }
         workouts[index].powerCurve = curve
         try? saveWorkouts()
+    }
+    
+    func workout(with id: UUID) -> Workout? {
+        workouts.first(where: { $0.id == id })
     }
 }

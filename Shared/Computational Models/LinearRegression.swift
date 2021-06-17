@@ -13,7 +13,7 @@ enum LinearRegressionError: Error {
 
 public struct LinearRegression {
     
-    public struct Result {
+    public struct Result: Codable {
         // The alpha in the a + b * x equation
         public let alpha: Double
         

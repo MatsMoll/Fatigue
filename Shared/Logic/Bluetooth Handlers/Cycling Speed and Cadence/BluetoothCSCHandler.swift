@@ -13,20 +13,6 @@ protocol CyclingSpeedAndCadenceHandler {
     var speedPublisher: AnyPublisher<Int, Never> { get }
 }
 
-struct CyclingSpeedAndCadenceFlag {
-    let flags: [Bool]
-    
-    init(flag: UInt8) {
-        self.flags = String(flag, radix: 2)
-            .pad(toSize: 8)
-            .reversed()
-            .map { Int(String($0)) == 1 }
-    }
-    
-    var isWheelRevolutionPresent: Bool { flags[0] }
-    var isCadenceRevolutionPresent: Bool { flags[1] }
-}
-
 struct BluetoothCSCHandler: CyclingSpeedAndCadenceHandler, BluetoothHandler {
     
     var cadencePublisher: AnyPublisher<Int, Never> { cadenceSubject.eraseToAnyPublisher() }

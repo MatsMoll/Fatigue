@@ -24,7 +24,11 @@ class ActivityRecorderCollector {
     // Power Values
     private var newPower: Int?
     
+    private var newPowerBalance: PowerBalance?
+    
     private var powerListner: AnyCancellable?
+    
+    private var powerBalanceListner: AnyCancellable?
     
     // Cadence Values
     private var newCadence: Int?
@@ -79,7 +83,12 @@ class ActivityRecorderCollector {
         }
     }
     
-    func register(powerHandler: PowerHandler) {
+    func update(for settings: UserSettings) {
+        dfaAlphaStream.artifactCorrectionThreshold = settings.artifactCorrection
+        dfaAlphaStream.windowDuration = settings.dfaWindow
+    }
+    
+    func register(powerHandler: PowerMeterHandler) {
         powerListner = powerHandler.powerPublisher
             .sink(receiveValue: { [weak self] power in
                 self?.newPower = power
@@ -88,6 +97,10 @@ class ActivityRecorderCollector {
         cadenceListner = powerHandler.cadencePublisher
             .compactMap { $0 }
             .assign(to: \.newCadence, on: self)
+        
+        powerBalanceListner = powerHandler.pedalPowerBalancePublisher
+            .compactMap { $0 }
+            .assign(to: \.newPowerBalance, on: self)
     }
     
     func register(heartBeatHandler: HeartBeatHandler) {

@@ -133,8 +133,20 @@ struct WorkoutSessionView: View {
                     }
                 }
                 
-                Section(header: Label("LSCT Detection", symbol: .crossFill)) {
-                    LSCTDetectionView()
+                if viewModel.settings.baselineWorkoutID == nil {
+                    Section(header: Label("LSCT Detection", symbol: .crossFill)) {
+                        LSCTDetectionView()
+                    }
+                } else {
+                    Section(header: Label("LSCT Result", symbol: .crossFill)) {
+                        AsyncContentView(
+                            value: viewModel.lsctRun
+                        ) {
+                            viewModel.computeLsctResult()
+                        } content: { result in
+                            LSCTResultView(lsctResult: .init(lsctResult: result))
+                        }
+                    }
                 }
 
                 Section(header: Label("DFA Alpha Regression", symbol: .waveformPathEcg)) {

@@ -33,6 +33,10 @@ struct WorkoutListView: View {
     
     @EnvironmentObject var model: AppModel
     
+    @EnvironmentObject var settings: UserSettings
+    
+    @EnvironmentObject var computationStore: ComputationStore
+    
     @State
     var isSelectingFile: Bool = false
     
@@ -55,7 +59,14 @@ struct WorkoutListView: View {
                     ForEach(model.workoutStore.workouts) { workout in
                         
                         NavigationLink(
-                            destination: WorkoutSessionView(viewModel: WorkoutSessionViewModel(model: model, workout: workout)),
+                            destination: WorkoutSessionView(
+                                viewModel: WorkoutSessionViewModel(
+                                    model: model,
+                                    workout: workout,
+                                    computationStore: computationStore,
+                                    settings: settings
+                                )
+                            ),
                             tag: workout.id,
                             selection: $model.workoutStore.selectedWorkoutId
                         ) {
@@ -86,6 +97,9 @@ struct WorkoutListView: View {
             ) { result in
                 model.importFile(result)
             }
+            .onAppear(perform: {
+                model.workoutStore.loadWorkouts()
+            })
         }
         .navigationViewStyle(DefaultNavigationViewStyle())
     }

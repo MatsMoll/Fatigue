@@ -14,7 +14,7 @@ public enum DFAStreamModelError: Error {
 
 public class DFAStreamModel {
     
-    let artifactCorrectionThreshold: Double
+    var artifactCorrectionThreshold: Double
     
     var values: [Double] = []
     var valueAvg: Double = 0
@@ -33,7 +33,7 @@ public class DFAStreamModel {
     let scaleMagnitude: [Int]
     
     /// The window duration in seconds
-    let windowDuration: TimeInterval
+    var windowDuration: TimeInterval
     var numberOfArtifactsRemoved: Int = 0
     
     var alpha: Double?

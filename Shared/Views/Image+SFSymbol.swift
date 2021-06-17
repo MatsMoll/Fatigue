@@ -38,6 +38,14 @@ struct SFSymbol: ExpressibleByStringLiteral {
     static let clock: SFSymbol = "clock"
     
     static let sum: SFSymbol = "sum"
+    
+    static let arrowUp: SFSymbol = "arrow.up"
+    static let arrowDown: SFSymbol = "arrow.down"
+    
+    static let handThumbsup: SFSymbol = "hand.thumbsup"
+    static let handThumbsupFill: SFSymbol = "hand.thumbsup.fill"
+    
+    static let lineHorizontalThree: SFSymbol = "line.horizontal.3"
 }
 
 extension Label where Title == Text, Icon == Image {

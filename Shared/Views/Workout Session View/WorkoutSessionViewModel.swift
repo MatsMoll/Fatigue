@@ -10,6 +10,19 @@ import Combine
 import Charts
 import SwiftUI
 
+enum WorkoutComputationState {
+    case idle
+    case computing(prosess: Double?)
+    case computed
+}
+
+protocol WorkoutComputation {
+    
+    var id: String { get }
+    var state: WorkoutComputationState { get }
+    func startComputation(with settings: UserSettings) -> AnyPublisher<Void, Never>
+}
+
 class WorkoutSessionViewModel: ObservableObject {
     
     enum State<T> {
@@ -20,13 +33,21 @@ class WorkoutSessionViewModel: ObservableObject {
     
     let model: AppModel
     
-    var workout: Workout
+    let workout: Workout
+    
+    let computationStore: ComputationStore
+    
+    let settings: UserSettings
+    
+    var listners: Set<AnyCancellable> = []
     
     @Published var meanMaximumPower: LoadingState<MeanMaximalPower.Curve> = .idle
     
     @Published var dfaRegression: LoadingState<DFAAlphaRegression> = .idle
     
     @Published var lsctDetection: LoadingState<LSCTDetector.Detection> = .idle
+    
+    @Published var lsctRun: LoadingState<LSCTResult> = .idle
     
     @Published var dfaAlphaComputation: LoadingState<Void> = .idle
     
@@ -63,9 +84,11 @@ class WorkoutSessionViewModel: ObservableObject {
     private var lsctDetectorProgressPublisher: AnyCancellable?
     private var dfaRegressionConfigDidUpdate: AnyCancellable?
     
-    init(model: AppModel, workout: Workout) {
+    init(model: AppModel, workout: Workout, computationStore: ComputationStore, settings: UserSettings) {
         self.model = model
         self.workout = workout
+        self.computationStore = computationStore
+        self.settings = settings
         loadWorkout()
     }
     
@@ -123,67 +146,78 @@ class WorkoutSessionViewModel: ObservableObject {
         )
     }
     
+    func computeLsctResult() {
+        guard
+            let baselineID = settings.baselineWorkoutID,
+            let baseline = model.workoutStore.workout(with: baselineID)
+        else { return }
+        var computation = LSCTResultComputation(
+            workout: workout,
+            baseline: baseline
+        )
+        if let lsctRun = computationStore.computation(for: computation.id) as? LSCTResultComputation {
+            computation = lsctRun
+        }
+        lsctRun = .loading(progress: nil)
+        computation.onResultPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] result in
+                self?.lsctRun = .loaded(result)
+            }
+            .store(in: &listners)
+        computationStore.start(computation, with: settings)
+    }
+    
     func computeDfaAlpha1() {
         guard case LoadingState.idle = dfaAlphaComputation else { return }
         if workout.hasDFAValues { return }
         
         dfaAlphaComputation = .loading(progress: 0)
-        let artifactCorrectionThreshold = model.settings.artifactCorrection
-        let strongValues = workout.values
-        let workoutID = workout.id
-        DispatchQueue.global().async { [weak self] in
-            let numberOfValues = Double(strongValues.count)
-            let dfaAlphaModel = DFAStreamModel(artifactCorrectionThreshold: artifactCorrectionThreshold)
-            var lastProgress = 0.0
-            
-            var dfaValues = [Double].init(repeating: 0, count: strongValues.count)
-            
-            for (index, frame) in strongValues.enumerated() {
-                var dfaAlpha1: Double?
-                if let rrIntervals = frame.rrIntervals {
-                    for rrValue in rrIntervals {
-                        dfaAlphaModel.add(value: rrValue)
-                    }
-                    dfaAlpha1 = try? dfaAlphaModel.compute().beta
-                }
-                
-                dfaValues[index] = dfaAlpha1 ?? 0
-                
-                let newProgress = Double(index + 1) / numberOfValues
-                if newProgress - lastProgress > 0.01 {
-                    lastProgress = newProgress
-                    DispatchQueue.main.async {
-                        self?.dfaAlphaComputation = .loading(progress: newProgress)
-                    }
-                }
-            }
-            DispatchQueue.main.async {
-                self?.model.workoutStore.update(dfa: dfaValues, for: workoutID)
-                self?.dfaAlphaValues = dfaValues
-                self?.dfaAlphaComputation = .loaded(())
-                self?.computeDFAPowerReg(config: .default)
-            }
+        
+        var computation = DFAComputation(workout: workout)
+        if let existing = computationStore.computation(for: computation.id) as? DFAComputation {
+            computation = existing
         }
+        let workoutID = workout.id
+        computation.onProgressPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] progress in
+                self?.dfaAlphaComputation = .loading(progress: progress)
+            }
+            .store(in: &listners)
+        
+        computation.onResultPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] dfaValues in
+                self?.dfaAlphaComputation = .loaded(())
+                self?.model.workoutStore.update(dfa: dfaValues, for: workoutID)
+            }
+            .store(in: &listners)
+        computationStore.start(computation, with: settings)
     }
     
     func computeMeanMaximumPower() {
         guard case LoadingState.idle = meanMaximumPower else { return }
-        if workout.powerCurve != nil { return }
-        
-        self.meanMaximumPower = .loading(progress: 0)
-        let powerData = self.powerData
-        let workoutID = workout.id
-        DispatchQueue.global().async { [weak self] in
-            let curve = MeanMaximalPower().generate(powers: powerData) { progress in
-                DispatchQueue.main.async {
-                    self?.meanMaximumPower = .loading(progress: progress)
-                }
-            }
-            DispatchQueue.main.async {
-                self?.model.workoutStore.update(curve, for: workoutID)
-                self?.meanMaximumPower = .loaded(curve)
-            }
+        var computation = MeanMaximumPowerComputation(workout: workout)
+        if let meanMax = computationStore.computation(for: computation.id) as? MeanMaximumPowerComputation {
+            computation = meanMax
         }
+        computation.onProgress
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] progress in
+                self?.meanMaximumPower = .loading(progress: progress)
+            }
+            .store(in: &listners)
+        
+        computation.onResult
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] curve in
+                self?.model.workoutStore.update(curve, for: computation.workout.id)
+                self?.meanMaximumPower = .loaded(curve)
+            })
+            .store(in: &listners)
+        
+        computationStore.start(computation, with: settings)
     }
     
     func computeDFAPowerReg(config: DFAAlphaRegression.Config) {
@@ -235,7 +269,8 @@ class WorkoutSessionViewModel: ObservableObject {
         guard case LoadingState.idle = lsctDetection else { return }
         let dataFrames = workout.values
         lsctDetection = .loading(progress: nil)
-        let ftp = Double(model.settings.ftp ?? 280)
+        let ftp = Double(settings.ftp ?? 280)
+        print("Used FTP: \(ftp)")
         DispatchQueue.global().async { [weak self] in
             
             let detector = LSCTDetector(

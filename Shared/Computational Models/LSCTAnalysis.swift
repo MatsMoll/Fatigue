@@ -33,20 +33,104 @@ struct LSCTStageSummary: Codable {
     let averageDfaAlpha1: Double?
 }
 
-struct LSCTSubresult: Codable {
+struct LSCTConfig {
     
-    enum ValueDevelopment: Int, Codable {
-        case insignificant
-        case significantBetter
-        case significantWorse
+    let power: Significanse
+    let cadence: Significanse
+    let dfaAlpha: Significanse
+    let heartRate: Significanse
+    let heartRateRecovery: Significanse
+    
+    struct Significanse: Codable {
+        let value: Double
+        let method: ComparisonMethod
+        let wantedDevelopment: DevelopemntDirections
+        
+        func development(value compareValue: Double) -> LSCTResult.Subresult.ValueDevelopment {
+            if abs(compareValue) >= value {
+                if wantedDevelopment.sign == compareValue.sign {
+                    return .significantBetter
+                } else {
+                    return .significantWorse
+                }
+            } else {
+                return .insignificant
+            }
+        }
     }
     
-    let relativDifferance: Double
-    let absoluteDifferance: Double
-    let development: ValueDevelopment
+    enum DevelopemntDirections: Int, Codable {
+        case higher
+        case lower
+        case stable
+        
+        var sign: FloatingPointSign? {
+            switch self {
+            case .higher: return .plus
+            case .lower: return .minus
+            default: return nil
+            }
+        }
+    }
+    
+    enum ComparisonMethod: Int, Codable {
+        case relative
+        case absolute
+    }
+    
+    static let `default` = LSCTConfig(
+        power: .init(value: 0.06, method: .relative, wantedDevelopment: .higher),
+        cadence: .init(value: 0.06, method: .relative, wantedDevelopment: .stable),
+        dfaAlpha: .init(value: 0.06, method: .relative, wantedDevelopment: .higher),
+        heartRate: .init(value: 0.06, method: .relative, wantedDevelopment: .lower),
+        heartRateRecovery: .init(value: 5, method: .absolute, wantedDevelopment: .lower)
+    )
+}
+
+struct LSCTResult: Codable {
+    
+    struct HeartRateSubresults: Codable {
+        let lastStageDiff: Subresult
+        let intensityResponse: LinearRegression.Result
+        let hrrAnalysis: Subresult
+    }
+    
+    struct Subresult: Codable {
+        
+        enum ValueDevelopment: Int, Codable {
+            case insignificant
+            case significantBetter
+            case significantWorse
+        }
+        
+        let relativDifferance: Double
+        let absoluteDifferance: Double
+        let development: ValueDevelopment
+    }
+    
+    let power: Subresult?
+    let cadence: Subresult?
+    let dfaAlpha1: Subresult?
+    
+    // HR Values
+    let heartRate: HeartRateSubresults?
+    
+    /// An identifer that presents which run is used as baseline
+    let baselineRunIdentifier: LSCTRun.Identifier
+    
+    /// THe identifier of the processed run
+    let runIdentifer: LSCTRun.Identifier
 }
 
 struct LSCTRun: Codable {
+    
+    struct Identifier: Codable {
+        /// When the run starts at
+        let startingAt: Int
+        
+        /// The date the workout starts
+        let workoutDate: Date
+    }
     
     /// The total duration of all the stages
     var totalDuration: Int {
@@ -63,30 +147,79 @@ struct LSCTRun: Codable {
     /// How much the heart rate reduces when stopping the intervals
     let hrrAnalysis: RegressionResult?
     
-    func compare(with baseline: LSCTRun) throws {
+    /// Identifing which run it is
+    let identifier: Identifier
+    
+    func compare(with baseline: LSCTRun, lsctConfig: LSCTConfig = .default) throws -> LSCTResult {
         guard baseline.totalDuration == totalDuration else { throw LSCTAnalysisError.tooFewValuesInWorkout }
         guard
             let lastStageBaseline = baseline.stages.last,
             let lastStage = stages.last
         else { throw LSCTAnalysisError.missingLastStage }
         
-        let heartRateDiff   = subresult(\.averageHeartRate, baseline: lastStageBaseline, summary: lastStage)
-        let powerDiff       = subresult(\.averagePower,     baseline: lastStageBaseline, summary: lastStage)
-        let cadenceDiff     = subresult(\.averageCadence,   baseline: lastStageBaseline, summary: lastStage)
-        let dfaAlpha1Diff   = subresult(\.averageDfaAlpha1, baseline: lastStageBaseline, summary: lastStage)
+        let powerDiff       = subresult(\.averagePower,     baseline: lastStageBaseline, summary: lastStage, significanse: lsctConfig.power)
+        let cadenceDiff     = subresult(\.averageCadence,   baseline: lastStageBaseline, summary: lastStage, significanse: lsctConfig.cadence)
+        let dfaAlpha1Diff   = subresult(\.averageDfaAlpha1, baseline: lastStageBaseline, summary: lastStage, significanse: lsctConfig.dfaAlpha)
+        let heartRateDiff   = subresult(\.averageHeartRate, baseline: lastStageBaseline, summary: lastStage, significanse: lsctConfig.heartRate)
+        
+        var heartRateSubresult: LSCTResult.HeartRateSubresults?
+        
+        if let heartRateDiff = heartRateDiff {
+            
+            var intensityResponse: LinearRegression.Result = .init(alpha: 0, beta: 0)
+            var returnedHrrAnalysis: LSCTResult.Subresult = .init(relativDifferance: 0, absoluteDifferance: 0, development: .insignificant)
+            
+            if
+                let baselineHeartRateResponse = baseline.heartRateResponse,
+                let heartRateResponse = heartRateResponse
+            {
+                intensityResponse = LinearRegression.Result(
+                    alpha: heartRateResponse.alpha - baselineHeartRateResponse.alpha,
+                    beta: heartRateResponse.beta - baselineHeartRateResponse.beta
+                )
+            }
+            if
+                let baselineHrr = baseline.hrrAnalysis,
+                let hrrAnalysis = hrrAnalysis
+            {
+                let absDiff = hrrAnalysis.alpha - baselineHrr.alpha
+                returnedHrrAnalysis = LSCTResult.Subresult(
+                    relativDifferance: absDiff / baselineHrr.alpha,
+                    absoluteDifferance: absDiff,
+                    development: lsctConfig.heartRateRecovery.development(value: absDiff)
+                )
+            }
+            heartRateSubresult = LSCTResult.HeartRateSubresults(
+                lastStageDiff: heartRateDiff,
+                intensityResponse: intensityResponse,
+                hrrAnalysis: returnedHrrAnalysis
+            )
+        }
+        
+        return LSCTResult(
+            power: powerDiff,
+            cadence: cadenceDiff,
+            dfaAlpha1: dfaAlpha1Diff,
+            heartRate: heartRateSubresult,
+            baselineRunIdentifier: baseline.identifier,
+            runIdentifer: identifier
+        )
     }
     
-    func subresult(_ valuePath: KeyPath<LSCTStageSummary, Double?>, baseline: LSCTStageSummary, summary: LSCTStageSummary) -> LSCTSubresult? {
+    func subresult(_ valuePath: KeyPath<LSCTStageSummary, Double?>, baseline: LSCTStageSummary, summary: LSCTStageSummary, significanse: LSCTConfig.Significanse) -> LSCTResult.Subresult? {
         guard
             let baselineValue = baseline[keyPath: valuePath],
             let value = summary[keyPath: valuePath]
         else { return nil }
         let absoluteDiff = value - baselineValue
         let relativeDiff = absoluteDiff / baselineValue
-        return LSCTSubresult(
+        
+        let compareValue = significanse.method == .absolute ? absoluteDiff : relativeDiff
+        
+        return LSCTResult.Subresult(
             relativDifferance: relativeDiff,
             absoluteDifferance: absoluteDiff,
-            development: .insignificant
+            development: significanse.development(value: compareValue)
         )
     }
 }
@@ -158,7 +291,11 @@ extension Workout {
         return LSCTRun(
             stages: stageSummaries,
             heartRateResponse: heartRateResponse,
-            hrrAnalysis: hrrAnalysis
+            hrrAnalysis: hrrAnalysis,
+            identifier: .init(
+                startingAt: startingAt,
+                workoutDate: self.startedAt
+            )
         )
     }
 }
