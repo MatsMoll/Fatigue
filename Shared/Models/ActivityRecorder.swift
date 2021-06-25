@@ -7,8 +7,13 @@
 
 import Foundation
 import Combine
+#if os(iOS)
+import WatchConnectivity
+#endif
 
-class ActivityRecorderCollector {
+/// Has the purpuse to collect raw stream data and convert it into
+/// A more maintainable format
+class ActivityRecorderCollector: ObservableObject {
     
     var isRecording = false
     
@@ -39,12 +44,18 @@ class ActivityRecorderCollector {
     
     private let dfaAlphaStream: DFAStreamModel
     
+    private var lsctDetector: LSCTStreamDetector?
+    
+    private(set) var lsctDetection: LSCTDetector.Detection?
+    
+    private var settingsDFAThreshold: Double?
+    
     var numberOfArtifactsRemoved: Int {
         dfaAlphaStream.numberOfArtifactsRemoved
     }
     
     var artifactCorrectionSetting: Double {
-        dfaAlphaStream.artifactCorrectionThreshold
+        dfaAlphaStream.artifactCorrectionThresholdValue
     }
     
     var hasHeartRateConnection: Bool { manager.hasConnected(to: .heartRate) }
@@ -52,20 +63,57 @@ class ActivityRecorderCollector {
     
     let manager: BluetoothManager
     
+    #if os(iOS)
+    class WatchDelegate: NSObject, WCSessionDelegate {
+        func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+            print("activationDidCompleteWith, \(activationState), error: \(error)")
+        }
+        
+        func sessionDidBecomeInactive(_ session: WCSession) {
+            print("sessionDidBecomeInactive")
+        }
+        
+        func sessionDidDeactivate(_ session: WCSession) {
+            print("sessionDidDeactivate")
+        }
+    }
+    
+    let watchDelegate: WatchDelegate = WatchDelegate()
+    let watchSession: WCSession
+    let encoder = JSONEncoder()
+    #endif
+    
+    var baselineWorkoutID: UUID?
+    
+    @Published
+    var recorder: ActivityRecorder
+    
     private var recordTimer: Timer?
     
     let lockQueue = DispatchQueue(label: "activity.recorder")
     
-    init(
-        manager: BluetoothManager,
-        settings: UserSettings,
-        onNewFrame: @escaping (Workout.DataFrame, Int) -> Void
-    ) {
+    init(manager: BluetoothManager, settings: UserSettings, activityRecorder: ActivityRecorder) {
         self.manager = manager
+        self.settingsDFAThreshold = settings.artifactCorrection
+        #if os(iOS)
+        watchSession = .default
+        watchSession.delegate = watchDelegate
+        watchSession.activate()
+        #endif
         self.dfaAlphaStream = .init(
-            artifactCorrectionThreshold: settings.artifactCorrection,
+            artifactCorrectionThreshold: settings.artifactCorrectionThreshold,
             windowDuration: settings.dfaWindow
         )
+        if let ftp = settings.ftp {
+            self.lsctDetector = LSCTStreamDetector(
+                stages: .defaultWith(ftp: Double(ftp)),
+                threshold: 0.4
+            )
+        } else {
+            self.lsctDetector = nil
+        }
+        self.recorder = activityRecorder
+        self.baselineWorkoutID = settings.baselineWorkoutID
         
         let heartRateHandler = BluetoothHeartRateHandler()
         register(heartBeatHandler: heartRateHandler)
@@ -77,21 +125,55 @@ class ActivityRecorderCollector {
         
         recordTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             self?.lockQueue.async {
-                guard let newFrame = self?.collectFrame(), let numberOfArtifactsRemoved = self?.numberOfArtifactsRemoved else { return }
-                onNewFrame(newFrame, numberOfArtifactsRemoved)
+                self?.recordData()
             }
         }
     }
     
+    func recordData() {
+        let newFrame = collectFrame()
+        let totalArtifacts = numberOfArtifactsRemoved
+        sendToWatch(frame: newFrame, state: isRecording ? .recording : .stop)
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.recorder.record(frame: newFrame)
+            self?.recorder.numberOfArtifactsRemoved = totalArtifacts
+        }
+    }
+    
+    func sendToWatch(frame: Workout.DataFrame, state: RecordingState) {
+        #if os(iOS)
+        let message = WatchMessage(frame: frame, recordingState: state)
+        if
+            watchSession.isReachable,
+            let messageData = try? encoder.encode(message)
+        {
+            watchSession.sendMessageData(messageData, replyHandler: nil, errorHandler: nil)
+        }
+        #endif
+    }
+    
     func update(for settings: UserSettings) {
-        dfaAlphaStream.artifactCorrectionThreshold = settings.artifactCorrection
+        dfaAlphaStream.artifactCorrectionThreshold = settings.artifactCorrectionThreshold
         dfaAlphaStream.windowDuration = settings.dfaWindow
+        baselineWorkoutID = settings.baselineWorkoutID
+        
+        if let ftp = settings.ftp {
+            lsctDetector = LSCTStreamDetector(
+                stages: .defaultWith(ftp: Double(ftp)),
+                threshold: 0.4
+            )
+        } else {
+            lsctDetector = nil
+        }
     }
     
     func register(powerHandler: PowerMeterHandler) {
         powerListner = powerHandler.powerPublisher
             .sink(receiveValue: { [weak self] power in
                 self?.newPower = power
+                self?.lsctDetector?.add(power: Double(power))
+                self?.checkForNewLSCTDetection()
             })
         
         cadenceListner = powerHandler.cadencePublisher
@@ -132,7 +214,8 @@ class ActivityRecorderCollector {
             cadence: newCadence ?? prevValues.cadence,
             dfaAlpha1: dfaValue ?? prevValues.dfaAlpha1,
             rrIntervals: newRRIntervals.isEmpty ? nil : newRRIntervals,
-            ratingOfPervicedEffort: nil
+            ratingOfPervicedEffort: nil,
+            powerBalance: newPowerBalance ?? prevValues.powerBalance
         )
         resetValues()
         prevValues = newFrame
@@ -151,10 +234,34 @@ class ActivityRecorderCollector {
         pauseRecording()
         timestamp = 0
         prevValues = .init(timestamp: 0)
+        sendToWatch(frame: .init(timestamp: 0), state: .stop)
         resetValues()
+    }
+    
+    private func checkForNewLSCTDetection() {
+        if
+            lsctDetector?.isBelowThreshold == true,
+            let meanSquareError = lsctDetector?.meanSquareError
+        {
+            if
+                let prevDetection = lsctDetection,
+                meanSquareError < prevDetection.meanSquareError
+            {
+                lsctDetection = .init(
+                    frameWorkout: timestamp,
+                    meanSquareError: meanSquareError
+                )
+            } else if lsctDetection == nil {
+                lsctDetection = .init(
+                    frameWorkout: timestamp,
+                    meanSquareError: meanSquareError
+                )
+            }
+        }
     }
 }
 
+/// Records and generates a workout
 struct ActivityRecorder {
     
     var workoutID: UUID

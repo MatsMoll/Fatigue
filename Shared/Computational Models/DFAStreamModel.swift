@@ -14,7 +14,27 @@ public enum DFAStreamModelError: Error {
 
 public class DFAStreamModel {
     
-    var artifactCorrectionThreshold: Double
+    public enum Threshold {
+        case constant(Double)
+        case automatic
+    }
+    
+    var artifactCorrectionThreshold: Threshold
+    var artifactCorrectionThresholdValue: Double {
+        let thresholdValue: Double
+        switch artifactCorrectionThreshold {
+        case .constant(let value): thresholdValue = value
+        case .automatic:
+            if 60 / shortRRstream.average > 99 {
+                thresholdValue = 0.05
+            } else {
+                thresholdValue = 0.25
+            }
+        }
+        return thresholdValue
+    }
+    
+    var shortRRstream = AverageStreamModel(maxValues: 5)
     
     var values: [Double] = []
     var valueAvg: Double = 0
@@ -36,12 +56,10 @@ public class DFAStreamModel {
     var windowDuration: TimeInterval
     var numberOfArtifactsRemoved: Int = 0
     
-    var alpha: Double?
-    
     let lockQueue = DispatchQueue(label: "dfa.stream.model")
     
     public init(
-        artifactCorrectionThreshold: Double = 0.25,
+        artifactCorrectionThreshold: Threshold = .automatic,
         scaleDensity: Int = 30,
         lowerScaleLimit: Int = 4,
         upperScaleLimit: Int = 16,
@@ -103,13 +121,15 @@ public class DFAStreamModel {
     }
     
     public func add(value: Double) {
+        shortRRstream.add(value: value)
         guard let last = lastValue else {
             lastValue = value
             addValueWithoutArtifactCorrection(value)
             return
         }
-        let lowerBound = last * (1 - artifactCorrectionThreshold)
-        let upperBound = last * (1 + artifactCorrectionThreshold)
+        
+        let lowerBound = last * (1 - artifactCorrectionThresholdValue)
+        let upperBound = last * (1 + artifactCorrectionThresholdValue)
         
         lastValue = value
         if lowerBound <= value && value <= upperBound {

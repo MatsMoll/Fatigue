@@ -12,7 +12,7 @@ class DFAComputation: WorkoutComputation {
     
     var id: String { "DFAComputation\(workout.id.uuidString)" }
     
-    var state: WorkoutComputationState { .idle }
+    var state: WorkoutComputationState = .idle
     
     let workout: Workout
     
@@ -25,20 +25,21 @@ class DFAComputation: WorkoutComputation {
     
     private let onResultSubject = PassthroughSubject<[Double], Never>()
     private let onProgressSubject = PassthroughSubject<Double, Never>()
-    private let onCompletion = PassthroughSubject<Void, Never>()
     
-    func startComputation(with settings: UserSettings) -> AnyPublisher<Void, Never> {
+    func startComputation(with settings: UserSettings) {
         
-        defer { onCompletion.send(()) }
+        guard workout.heartRateSummary != nil, state == .idle else { return }
         
+        state = .computing
         let numberOfValues = Double(workout.values.count)
-        let dfaAlphaModel = DFAStreamModel(artifactCorrectionThreshold: settings.artifactCorrection)
+        let dfaAlphaModel = DFAStreamModel(artifactCorrectionThreshold: settings.artifactCorrectionThreshold)
         var lastProgress = 0.0
         
         var dfaValues = [Double].init(repeating: 0, count: workout.values.count)
         
         for (index, frame) in workout.values.enumerated() {
             var dfaAlpha1: Double?
+            
             if let rrIntervals = frame.rrIntervals {
                 for rrValue in rrIntervals {
                     dfaAlphaModel.add(value: rrValue)
@@ -56,6 +57,6 @@ class DFAComputation: WorkoutComputation {
         }
         
         onResultSubject.send(dfaValues)
-        return onCompletion.eraseToAnyPublisher()
+        state = .computed
     }
 }

@@ -124,7 +124,6 @@ struct LineChartView: NSViewRepresentable {
         view.xAxis.drawAxisLineEnabled = false
         view.xAxis.drawGridLinesEnabled = false
         view.xAxis.labelPosition = .bottom
-        print("Making: \(data.dataSets.first!.entryCount)")
         return view
     }
     
@@ -136,7 +135,6 @@ struct LineChartView: NSViewRepresentable {
 //            var yValues = data.dataSets.map { $0.entriesForXValue(highlightValue).first!.y }
 //        }
         view.data = data
-        print("Updating: \(data.dataSets.first!.entryCount)")
     }
     
     func minYAxis(_ value: Double) -> Self {

@@ -47,6 +47,12 @@ struct TrainingMetricDefinition {
     )
 }
 
+extension FloatingPointSign {
+    var description: String {
+        return self == .minus ? "-" : "+"
+    }
+}
+
 struct LSCTResultViewModel {
     
     static let numberFormatter: NumberFormatter = .defaultFormatter
@@ -108,7 +114,7 @@ struct LSCTResultViewModel {
             .map { (metric, subresult) in
                 SubresultViewModel(
                     value: metric.metric,
-                    development: Self.numberFormatter.string(from: .init(value: subresult.absoluteDifferance)) ?? "\(subresult.absoluteDifferance)",
+                    development: subresult.absoluteDifferance.sign.description + (Self.numberFormatter.string(from: .init(value: abs(subresult.absoluteDifferance))) ?? "\(abs(subresult.absoluteDifferance))"),
                     symbol: metric.symbol,
                     color: metric.color
                 )
@@ -121,7 +127,7 @@ struct LSCTResultViewModel {
             .map { (metric, subresult) in
                 SubresultViewModel(
                     value: metric.metric,
-                    development: Self.numberFormatter.string(from: .init(value: subresult.absoluteDifferance)) ?? "\(subresult.absoluteDifferance)",
+                    development: subresult.absoluteDifferance.sign.description + (Self.numberFormatter.string(from: .init(value: abs(subresult.absoluteDifferance))) ?? "\(abs(subresult.absoluteDifferance))"),
                     symbol: metric.symbol,
                     color: metric.color
                 )
@@ -134,7 +140,7 @@ struct LSCTResultViewModel {
         } else if developmentSummary < -1 {
             return .arrowDown
         } else {
-            return .lineHorizontalThree
+            return .arrowRight
         }
     }
     

@@ -6,7 +6,31 @@
 //
 
 import XCTest
-@testable import Fatigue
+import Algorithms
+import Fatigue
+
+extension Array where Element == Double {
+    func meanSquareError(targers: [LSCTStage], startingAt: Int) -> Double? {
+        var currentIndex = startingAt
+        let totalDuration = targers.map(\.duration).reduce(0, +)
+        var error: Double = 0
+        var minTargetPower = targers.map(\.targetPower).min() ?? 1
+        for target in targers {
+            for _ in 0..<target.duration {
+                guard currentIndex < self.count else { return nil }
+                if target.targetPower == 0 {
+                    let fractionalDiff = pow(abs(self[currentIndex] / minTargetPower) + 1, 2) - 1
+                    error += fractionalDiff
+                } else {
+                    let fractionalDiff = pow(abs((self[currentIndex] - target.targetPower) / target.targetPower) + 1, 2) - 1
+                    error += fractionalDiff
+                }
+                currentIndex += 1
+            }
+        }
+        return error / Double(totalDuration)
+    }
+}
 
 class Tests_macOS: XCTestCase {
 
@@ -33,8 +57,43 @@ class Tests_macOS: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
     
+    func testLSCTStreamDetector() {
+        let targets: [LSCTStage] = [
+            .init(duration: 2, targetPower: 20),
+            .init(duration: 2, targetPower: 30),
+            .init(duration: 2, targetPower: 50),
+        ]
+        let detector = LSCTStreamDetector(stages: targets, threshold: 0.4)
+        let totalDuration = targets.map(\.duration).reduce(0, +)
+        let values: [Double] = [10, 20, 25, 30, 40, 50, 60, 67, 40, 50, 60, 67, 20, 20, 30, 30, 50, 50,]
+        let meanSquareErrors: [Double] = [
+            values.meanSquareError(targers: targets, startingAt: 0)!,
+            values.meanSquareError(targers: targets, startingAt: 1)!,
+            values.meanSquareError(targers: targets, startingAt: 2)!,
+            values.meanSquareError(targers: targets, startingAt: 3)!,
+            values.meanSquareError(targers: targets, startingAt: 4)!,
+            values.meanSquareError(targers: targets, startingAt: 5)!,
+            values.meanSquareError(targers: targets, startingAt: 6)!,
+            values.meanSquareError(targers: targets, startingAt: 7)!,
+            values.meanSquareError(targers: targets, startingAt: 8)!,
+            values.meanSquareError(targers: targets, startingAt: 9)!,
+            values.meanSquareError(targers: targets, startingAt: 10)!,
+            values.meanSquareError(targers: targets, startingAt: 11)!,
+            values.meanSquareError(targers: targets, startingAt: 12)!,
+        ]
+        var errorIndex = 0
+        for value in values {
+            detector.add(power: value)
+            if detector.valueCount == totalDuration {
+                print(meanSquareErrors[errorIndex])
+                XCTAssertEqual(meanSquareErrors[errorIndex], detector.meanSquareError, accuracy: 0.0001)
+                errorIndex += 1
+            }
+        }
+    }
+    
     func testHeartRateHandler() {
-        let rrInterval = 1084
+        let rrInterval: Double = 1084 / 1024
         let heartRate = 59
         let values: [UInt8] = [16, 59, 60, 4]
         

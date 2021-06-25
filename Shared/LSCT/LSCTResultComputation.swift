@@ -12,7 +12,7 @@ class LSCTResultComputation: WorkoutComputation {
     
     var id: String { "LSCTResult\(workout.id.uuidString)" }
     
-    var state: WorkoutComputationState { .idle }
+    var state: WorkoutComputationState = .idle
     
     let workout: Workout
     let baseline: Workout
@@ -25,11 +25,11 @@ class LSCTResultComputation: WorkoutComputation {
     var onResultPublisher: AnyPublisher<LSCTResult, Never> { onResultSubject.eraseToAnyPublisher() }
     
     private var onResultSubject = PassthroughSubject<LSCTResult, Never>()
-    private var onComplete = PassthroughSubject<Void, Never>()
     
-    func startComputation(with settings: UserSettings) -> AnyPublisher<Void, Never> {
+    func startComputation(with settings: UserSettings) {
         
-        defer { onComplete.send(()) }
+        guard workout.powerSummary != nil, state == .idle else { return }
+        state = .computing
         
         let stages: [LSCTStage] = .defaultWith(ftp: Double(settings.ftp ?? 280))
         let mainDetector = LSCTDetector(dataFrames: workout.values, stages: stages)
@@ -49,10 +49,9 @@ class LSCTResultComputation: WorkoutComputation {
             
             let result = try mainRun.compare(with: baselineRun)
             onResultSubject.send(result)
+            state = .computed
         } catch {
             print(error)
         }
-        
-        return onComplete.eraseToAnyPublisher()
     }
 }

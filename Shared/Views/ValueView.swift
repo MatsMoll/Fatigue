@@ -22,7 +22,7 @@ struct ValueView: View {
                     Image(systemName: systemImage)
                         .foregroundColor(imageColor)
                     
-                    Text(title)
+                    Text(title) 
                         .font(.body)
                         .foregroundColor(.secondary)
                 }

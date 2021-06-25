@@ -7,13 +7,13 @@
 
 import Foundation
 import Combine
-import FitDataProtocol
 
 struct Workout: Identifiable, Codable {
     
     struct PowerSummary: Codable {
         let average: Int
         let normalized: Int
+        let powerBalance: PowerBalance?
     }
     
     struct HeartRateSummary: Codable {
@@ -33,7 +33,16 @@ struct Workout: Identifiable, Codable {
     }
     
     struct DataFrame: Codable {
-        internal init(timestamp: Int, heartRate: Int? = nil, power: Int? = nil, cadence: Int? = nil, dfaAlpha1: Double? = nil, rrIntervals: [Double]? = nil, ratingOfPervicedEffort: Int? = nil) {
+        internal init(
+            timestamp: Int,
+            heartRate: Int? = nil,
+            power: Int? = nil,
+            cadence: Int? = nil,
+            dfaAlpha1: Double? = nil,
+            rrIntervals: [Double]? = nil,
+            ratingOfPervicedEffort: Int? = nil,
+            powerBalance: PowerBalance? = nil
+        ) {
             self.timestamp = timestamp
             self.heartRate = heartRate
             self.power = power
@@ -41,6 +50,7 @@ struct Workout: Identifiable, Codable {
             self.dfaAlpha1 = dfaAlpha1
             self.rrIntervals = rrIntervals
             self.ratingOfPervicedEffort = ratingOfPervicedEffort
+            self.powerBalance = powerBalance
         }
         
         let timestamp: Int
@@ -50,6 +60,7 @@ struct Workout: Identifiable, Codable {
         let dfaAlpha1: Double?
         let rrIntervals: [Double]?
         let ratingOfPervicedEffort: Int?
+        let powerBalance: PowerBalance?
     }
     
     let id: UUID
@@ -58,6 +69,8 @@ struct Workout: Identifiable, Codable {
     private (set) var values: [DataFrame]
     
     var powerCurve: MeanMaximalPower.Curve?
+    
+    var lsctDetection: LSCTDetector.Detection?
     
     var powerSummary: PowerSummary?
     var heartRateSummary: HeartRateSummary?
@@ -81,7 +94,10 @@ struct Workout: Identifiable, Codable {
     
     mutating func calculateSummary() {
         if powerSummary == nil {
-            computePowerSummary(values: values.compactMap(\.power).map(Double.init))
+            computePowerSummary(
+                values: values.compactMap(\.power).map(Double.init),
+                powerBalance: values.compactMap(\.powerBalance)
+            )
         }
         if dfaAlphaSummary == nil {
             computeDfaSummary(values: values.compactMap(\.dfaAlpha1))
@@ -94,11 +110,19 @@ struct Workout: Identifiable, Codable {
         }
     }
     
-    mutating func computePowerSummary(values: [Double]) {
+    mutating func computePowerSummary(values: [Double], powerBalance: [PowerBalance]) {
         guard !values.isEmpty else { return }
+        var balance: PowerBalance?
+        if let firstBalance = powerBalance.first {
+            balance = PowerBalance(
+                percentage: powerBalance.map(\.percentage).average(),
+                reference: firstBalance.reference
+            )
+        }
         powerSummary = PowerSummary(
             average: Int(values.average()),
-            normalized: NormalizedPowerModel.compute(values: values)
+            normalized: NormalizedPowerModel.compute(values: values),
+            powerBalance: balance
         )
     }
     
@@ -140,92 +164,11 @@ struct Workout: Identifiable, Codable {
     }
 }
 
-
-extension Workout {
+struct GenericError: Error {
+    let reason: String
     
-    static func importFit(_ url: URL, progress: @escaping (Double) -> Void) throws -> Workout {
-        guard url.startAccessingSecurityScopedResource() else {
-            throw GenericError(reason: "Couldn’t be opened because you don’t have permission to view it.")
-        }
-        defer {
-            url.stopAccessingSecurityScopedResource()
-        }
-        let data = try Data(contentsOf: url)
-        
-        var dataFrames: [Workout.DataFrame] = []
-        
-        var timestamp = 0
-        var heartRate: Int?
-        var power: Int?
-        var cadence: Int?
-        var rrIntervals: [Double]?
-        var startedAt: Date?
-        
-//        let numberOfMessages = file.messages.count
-        var lastProgress: Double = 0
-        progress(lastProgress)
-        
-        
-        var decoder =  FitFileDecoder(crcCheckingStrategy: .throws)
-        try decoder.decode(data: data, messages: FitFileDecoder.defaultMessages) { (message, decodeProgress) in
-            
-            if
-                let activityMessage = message as? ActivityMessage,
-                let startDate = activityMessage.timeStamp?.recordDate,
-                startedAt == nil
-            {
-                startedAt = startDate
-            }
-            
-            if
-                let hrvMessage = message as? HrvMessage,
-                let hrvMessages = hrvMessage.hrv
-            {
-                rrIntervals = hrvMessages.map { $0.value }
-            }
-            
-            if let recordMessage = message as? RecordMessage {
-                
-                if let powerValue = recordMessage.power {
-                    power = Int(powerValue.value)
-                }
-                
-                if let cadenceValue = recordMessage.cadence {
-                    cadence = Int(cadenceValue.value)
-                }
-                
-                if let heartRateValue = recordMessage.heartRate {
-                    heartRate = Int(heartRateValue.value)
-                }
-                
-                dataFrames.append(
-                    .init(
-                        timestamp: timestamp,
-                        heartRate: heartRate,
-                        power: power,
-                        cadence: cadence,
-                        rrIntervals: rrIntervals
-                    )
-                )
-                heartRate = nil
-                power = nil
-                cadence = nil
-                rrIntervals = nil
-                timestamp += 1
-            }
-            
-            if decodeProgress - lastProgress > 0.01 {
-                lastProgress = decodeProgress
-                progress(decodeProgress)
-            }
-        }
-        
-        return .init(
-            id: .init(),
-            startedAt: startedAt ?? Date(),
-            values: dataFrames,
-            powerCurve: nil
-        )
+    init(reason: String) {
+        self.reason = reason
     }
 }
 
@@ -248,5 +191,46 @@ extension Array where Element == Int {
             sum += value
         }
         return Double(sum) / Double(self.count)
+    }
+}
+
+extension Workout.DataFrame {
+    struct Old: Codable {
+        var elapsedSeconds: Int
+        var power: Int?
+        var heartRate: Int?
+        var cadence: Int?
+        var ratingOfPervicedEffort: Int?
+        var rrInterval: [Int]?
+        var dfaAlpha: Double?
+        
+        var frame: Workout.DataFrame {
+            .init(
+                timestamp: elapsedSeconds,
+                heartRate: heartRate,
+                power: power,
+                cadence: cadence,
+                dfaAlpha1: dfaAlpha,
+                rrIntervals: rrInterval?.map { Double($0) / 1000 },
+                ratingOfPervicedEffort: ratingOfPervicedEffort
+            )
+        }
+    }
+}
+
+extension Workout {
+    struct Old: Codable {
+        let id: UUID?
+        let dataPoints: [DataFrame.Old]
+        let startedAt: Date?
+        
+        var workout: Workout {
+            .init(
+                id: id ?? .init(),
+                startedAt: startedAt ?? .init(),
+                values: dataPoints.map(\.frame),
+                powerCurve: nil
+            )
+        }
     }
 }

@@ -12,8 +12,6 @@ struct DFAAlpha1RegressionView: View {
     let maxDataPoints: Int
     let aspectRatio: CGFloat
     
-    @State var config: DFAAlphaRegression.Config = .default
-    
     @State var editConfig: Bool = false
     
     @EnvironmentObject var viewModel: WorkoutSessionViewModel
@@ -47,13 +45,13 @@ struct DFAAlpha1RegressionView: View {
                     #if os(iOS)
                     NavigationView {
                         DFAAlpha1RegressionSettingsView(
-                            config: $config,
+                            config: $viewModel.config,
                             showSettings: $editConfig
                         )
                     }
                     #elseif os(OSX)
                     DFAAlpha1RegressionSettingsView(
-                        config: $config,
+                        config: $viewModel.config,
                         showSettings: $editConfig
                     )
                     #endif
@@ -99,7 +97,7 @@ struct DFAAlpha1RegressionView: View {
             .frame(maxWidth: .infinity)
         }
         .onAppear {
-            viewModel.computeDFAPowerReg(config: config)
+            viewModel.computeDFAPowerReg(config: viewModel.config)
         }
     }
     

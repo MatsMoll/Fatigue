@@ -10,18 +10,6 @@ import Combine
 import Charts
 import SwiftUI
 
-enum WorkoutComputationState {
-    case idle
-    case computing(prosess: Double?)
-    case computed
-}
-
-protocol WorkoutComputation {
-    
-    var id: String { get }
-    var state: WorkoutComputationState { get }
-    func startComputation(with settings: UserSettings) -> AnyPublisher<Void, Never>
-}
 
 class WorkoutSessionViewModel: ObservableObject {
     
@@ -33,13 +21,17 @@ class WorkoutSessionViewModel: ObservableObject {
     
     let model: AppModel
     
-    let workout: Workout
+    let workoutID: Workout.ID
+    
+    var workout: Workout { model.workoutStore.workout(with: workoutID)! }
     
     let computationStore: ComputationStore
     
     let settings: UserSettings
     
     var listners: Set<AnyCancellable> = []
+    
+    @Published var config: DFAAlphaRegression.Config = .default
     
     @Published var meanMaximumPower: LoadingState<MeanMaximalPower.Curve> = .idle
     
@@ -49,7 +41,7 @@ class WorkoutSessionViewModel: ObservableObject {
     
     @Published var lsctRun: LoadingState<LSCTResult> = .idle
     
-    @Published var dfaAlphaComputation: LoadingState<Void> = .idle
+    @Published var dfaAlphaComputation: LoadingState<WorkoutSessionViewModel> = .idle
     
     
     @Published var dfaAlphaValues: [Double] = []
@@ -84,12 +76,13 @@ class WorkoutSessionViewModel: ObservableObject {
     private var lsctDetectorProgressPublisher: AnyCancellable?
     private var dfaRegressionConfigDidUpdate: AnyCancellable?
     
-    init(model: AppModel, workout: Workout, computationStore: ComputationStore, settings: UserSettings) {
+    init(model: AppModel, workoutID: Workout.ID, computationStore: ComputationStore, settings: UserSettings) {
         self.model = model
-        self.workout = workout
+        self.workoutID = workoutID
         self.computationStore = computationStore
         self.settings = settings
         loadWorkout()
+        listenToConfigChanges()
     }
     
     func loadWorkout() {
@@ -109,7 +102,7 @@ class WorkoutSessionViewModel: ObservableObject {
         
         if workout.hasDFAValues {
             self.dfaAlphaValues = dfaValues
-            self.dfaAlphaComputation = .loaded(())
+            self.dfaAlphaComputation = .loaded(self)
         }
         if workout.heartRateSummary != nil {
             self.heartRateData = heartRateValues
@@ -123,6 +116,15 @@ class WorkoutSessionViewModel: ObservableObject {
         if let curve = workout.powerCurve {
             self.meanMaximumPower = .loaded(curve)
         }
+    }
+    
+    func listenToConfigChanges() {
+        $config
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] config in
+                self?.computeDFAPowerReg(config: config)
+            }
+            .store(in: &listners)
     }
     
     func workoutChartData(maxDataPoints: Int) -> LineChartData {
@@ -189,8 +191,10 @@ class WorkoutSessionViewModel: ObservableObject {
         computation.onResultPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] dfaValues in
-                self?.dfaAlphaComputation = .loaded(())
-                self?.model.workoutStore.update(dfa: dfaValues, for: workoutID)
+                guard let self = self else { return }
+                self.model.workoutStore.update(dfa: dfaValues, for: workoutID)
+                self.dfaAlphaComputation = .loaded(self)
+                self.dfaAlphaValues = dfaValues
             }
             .store(in: &listners)
         computationStore.start(computation, with: settings)

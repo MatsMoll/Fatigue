@@ -41,11 +41,14 @@ struct SFSymbol: ExpressibleByStringLiteral {
     
     static let arrowUp: SFSymbol = "arrow.up"
     static let arrowDown: SFSymbol = "arrow.down"
+    static let arrowRight: SFSymbol = "arrow.right"
     
     static let handThumbsup: SFSymbol = "hand.thumbsup"
     static let handThumbsupFill: SFSymbol = "hand.thumbsup.fill"
     
     static let lineHorizontalThree: SFSymbol = "line.horizontal.3"
+    
+    static let arrowtriangleAndLineVertical: SFSymbol = "arrowtriangle.right.fill.and.line.vertical.and.arrowtriangle.left.fill"
 }
 
 extension Label where Title == Text, Icon == Image {

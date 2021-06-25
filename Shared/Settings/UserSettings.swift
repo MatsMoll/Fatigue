@@ -22,7 +22,12 @@ public class UserSettings: ObservableObject, Codable {
     var ftp: Int?
     
     @Published
-    var artifactCorrection: Double = 0.05
+    var artifactCorrection: Double?
+    
+    var artifactCorrectionThreshold: DFAStreamModel.Threshold {
+        guard let value = artifactCorrection else { return .automatic }
+        return .constant(value)
+    }
     
     @Published
     var dfaWindow: TimeInterval = 120
@@ -34,7 +39,7 @@ public class UserSettings: ObservableObject, Codable {
     
     internal init(
         ftp: Int? = nil,
-        artifactCorrection: Double = 0.05,
+        artifactCorrection: Double? = nil,
         dfaWindow: TimeInterval = 120,
         baselineWorkoutID: Workout.ID? = nil
     ) {
@@ -48,7 +53,7 @@ public class UserSettings: ObservableObject, Codable {
     public required init(from decoder: Decoder) throws {
         let keys = try decoder.container(keyedBy: CodingKeys.self)
         self.ftp = try keys.decodeIfPresent(Int.self, forKey: .ftp)
-        self.artifactCorrection = try keys.decodeIfPresent(Double.self, forKey: .artifactCorrection) ?? 0.05
+        self.artifactCorrection = try keys.decodeIfPresent(Double.self, forKey: .artifactCorrection)
         self.dfaWindow = try keys.decodeIfPresent(TimeInterval.self, forKey: .dfaWindow) ?? 120
         self.baselineWorkoutID = try keys.decodeIfPresent(Workout.ID.self, forKey: .baselineWorkoutID)
         setupListners()

@@ -12,11 +12,12 @@ struct FatigueApp: App {
     
     @StateObject private var model: AppModel = .init()
     @StateObject private var settings: UserSettings = .init(key: UserSettings.storageKey, defaults: .standard)
+    @StateObject private var bluetoothManager: BluetoothManager = .init()
     @StateObject private var computationStore: ComputationStore = .init()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(settings: settings, manager: bluetoothManager)
                 .environmentObject(model)
                 .environmentObject(settings)
                 .environmentObject(computationStore)

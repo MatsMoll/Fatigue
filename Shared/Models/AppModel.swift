@@ -23,12 +23,6 @@ class AppModel: ObservableObject {
     var workoutStore: WorkoutStore
     
     @Published
-    var recorder: ActivityRecorder
-    
-    @Published
-    var bluetoothManager: BluetoothManager
-    
-    @Published
     var imports: ImportsModel
     
     #if os(iOS)
@@ -40,23 +34,8 @@ class AppModel: ObservableObject {
     
     let settingsDefaults = UserDefaults(suiteName: "fatigue.settings")!
     
-    lazy var recorderCollector: ActivityRecorderCollector = {
-        ActivityRecorderCollector(
-            manager: self.bluetoothManager,
-            settings: .init(),
-            onNewFrame: { [weak self] (frame, numberOfArtifactsRemoved) in
-            DispatchQueue.main.async {
-                self?.recorder.record(frame: frame)
-                self?.recorder.numberOfArtifactsRemoved = numberOfArtifactsRemoved
-            }
-        })
-    }()
-    
     init() {
-        self.workoutStore = .init(userDefaults: .init(suiteName: "fatigue.workout.store")!)
-        let manager = BluetoothManager()
-        self.bluetoothManager = manager
-        self.recorder = .init(workoutID: .init(), startedAt: Date())
+        self.workoutStore = .init(userDefaults: .init(suiteName: "fatigue.workout.store")!, fileManager: .default)
         self.imports = .init()
         
         #if os(iOS)
@@ -93,13 +72,13 @@ class AppModel: ObservableObject {
         }
     }
     
-    func saveRecordedActivity() {
-        let workout = recorder.workout
-        recorderCollector.stopRecording()
+    func save(recorder: ActivityRecorderCollector) {
+        let workout = recorder.recorder.workout
+        recorder.stopRecording()
         guard !workout.values.isEmpty else { return }
         workoutStore.add(workout)
         workoutStore.selectedWorkoutId = workout.id
-        recorder = .init(workoutID: .init(), startedAt: .init())
+        recorder.recorder = .init(workoutID: .init(), startedAt: .init())
         #if os(iOS)
         selectedTab = .history
         #endif

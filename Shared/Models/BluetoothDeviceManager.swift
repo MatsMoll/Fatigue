@@ -164,7 +164,7 @@ extension BluetoothConnector: CBPeripheralDelegate {
 }
 
 
-class BluetoothManager {
+class BluetoothManager: ObservableObject {
     
     var connectors = [BluetoothDeviceType: BluetoothConnector]()
     var handlers = [BluetoothDeviceType: BluetoothHandler]()

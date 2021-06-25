@@ -80,6 +80,14 @@ struct WorkoutSessionView: View {
                             symbol: .boltFill,
                             imageColor: .blue
                         )
+                        if let balance = powerSummary.powerBalance {
+                            ValueView(
+                                title: "Power Balance",
+                                value: balance.description(),
+                                symbol: .arrowtriangleAndLineVertical,
+                                imageColor: .blue
+                            )
+                        }
                     }
                     
                     if let heartRateSummary = viewModel.workout.heartRateSummary {
@@ -123,13 +131,16 @@ struct WorkoutSessionView: View {
                     AsyncContentView(
                         value: viewModel.dfaAlphaComputation,
                         onLoad: { viewModel.computeDfaAlpha1() }
-                    ) {
+                    ) { viewModel in
                         LineChartView(
                             data: viewModel.dfaAlpha(maxDataPoints: Int(proxy.size.width / sizeModifier))
                         )
                         .xAxis(formatter: TimeAxisValueFormatter(scale: scale(width: proxy.size.width)))
                         .aspectRatio(chartAspectRatio, contentMode: .fit)
                         .frame(maxWidth: .infinity)
+                        .onAppear {
+                            viewModel.computeDFAPowerReg(config: viewModel.config)
+                        }
                     }
                 }
                 

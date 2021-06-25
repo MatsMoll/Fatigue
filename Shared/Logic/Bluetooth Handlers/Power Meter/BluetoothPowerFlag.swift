@@ -8,7 +8,7 @@
 import Foundation
 
 enum PowerBalanceReferance: Int, Codable {
-    case unknown
+    case right
     case left
 }
 
@@ -31,7 +31,7 @@ struct BluetoothPowerFlag {
     }
     
     var isPowerBalancePresent: Bool { flags[0] }
-    var powerBalanceReferance: PowerBalanceReferance { flags[1] ? .left : .unknown }
+    var powerBalanceReferance: PowerBalanceReferance { flags[1] ? .left : .right }
     
     var isAccumulatedTorquePresent: Bool { flags[2] }
     var accumulatedTorqueSource: AccumulatedTorqueSource { flags[3] ? .crankBased : .wheelBased }

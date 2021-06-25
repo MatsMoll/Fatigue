@@ -11,6 +11,16 @@ struct ContentView: View {
     
     @EnvironmentObject var model: AppModel
     
+    @StateObject private var recorder: ActivityRecorderCollector
+    
+    init(settings: UserSettings, manager: BluetoothManager) {
+        _recorder = StateObject(wrappedValue: ActivityRecorderCollector(
+            manager: manager,
+            settings: settings,
+            activityRecorder: .init(workoutID: .init(), startedAt: .init())
+        ))
+    }
+    
     #if os(OSX)
     @State
     var presentRecordView = false
@@ -38,6 +48,7 @@ struct ContentView: View {
             .tag(AppTabs.settings)
         }
         .environmentObject(model)
+        .environmentObject(recorder)
         #elseif os(OSX)
         WorkoutListView()
             .toolbar {
@@ -53,12 +64,13 @@ struct ContentView: View {
                 ActivityRecorderView()
             }
             .environmentObject(model)
+            .environmentObject(recorder)
         #endif
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(settings: .init(), manager: .init())
     }
 }

@@ -47,7 +47,7 @@ struct BluetoothPowerHandler: PowerMeterHandler, BluetoothHandler {
                 index: &valueOffset,
                 format: .format8,
                 exponent: -1
-            )
+            ) / 100
             pedalPowerSubject.send(
                 PowerBalance(
                     percentage: balance,

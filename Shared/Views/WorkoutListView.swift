@@ -40,6 +40,9 @@ struct WorkoutListView: View {
     @State
     var isSelectingFile: Bool = false
     
+    @State
+    var isLoading = false
+    
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -56,13 +59,17 @@ struct WorkoutListView: View {
                     }
                 }
                 Section(header: Label("Workouts", systemImage: "figure.walk")) {
+                    if isLoading {
+                        ProgressView("Loading...")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
                     ForEach(model.workoutStore.workouts) { workout in
                         
                         NavigationLink(
                             destination: WorkoutSessionView(
                                 viewModel: WorkoutSessionViewModel(
                                     model: model,
-                                    workout: workout,
+                                    workoutID: workout.id,
                                     computationStore: computationStore,
                                     settings: settings
                                 )
@@ -98,7 +105,17 @@ struct WorkoutListView: View {
                 model.importFile(result)
             }
             .onAppear(perform: {
-                model.workoutStore.loadWorkouts()
+                if model.workoutStore.hasLoadedFromFile { return }
+                isLoading = true
+                DispatchQueue.global().async {
+                    let workouts = model.workoutStore.loadWorkouts()
+                    
+                    DispatchQueue.main.async {
+                        isLoading = false
+                        model.workoutStore.workouts = workouts
+                        model.workoutStore.hasLoadedFromFile = true
+                    }
+                }
             })
         }
         .navigationViewStyle(DefaultNavigationViewStyle())

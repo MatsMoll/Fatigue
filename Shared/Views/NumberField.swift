@@ -7,15 +7,6 @@
 
 import SwiftUI
 
-extension NumberFormatter {
-    static let defaultFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 3
-        formatter.minimumFractionDigits = 0
-        return formatter
-    }()
-}
-
 #if os(iOS)
 struct NumberField<V>: UIViewRepresentable where V: Numeric & LosslessStringConvertible {
     

@@ -34,22 +34,38 @@ struct DFAAlpha1RegressionSettingsView: View {
 //        NavigationView {
             Form {
                 Section(header: Text("Averaging interval")) {
+                    #if os(iOS)
+                    NumberField($editableConfig.averageInterval)
+                    #elseif os(macOS)
                     TextField("Averaging Interval", value: $editableConfig.averageInterval, formatter: numberFormatter)
+                    #endif
 //                        .keyboardType(.numberPad)
                 }
                 
                 Section(header: Text("DFA Alpha Offset")) {
+                    #if os(iOS)
+                    NumberField($editableConfig.dfaAlphaOffset)
+                    #elseif os(macOS)
                     TextField("DFA Alpha Offset", value: $editableConfig.dfaAlphaOffset, formatter: numberFormatter)
+                    #endif
 //                        .keyboardType(.numberPad)
                 }
                 
                 Section(header: Text("DFA Alpha Upper Bound")) {
+                    #if os(iOS)
+                    NumberField($editableConfig.dfaUpperBound, keyboardType: .decimalPad)
+                    #elseif os(macOS)
                     TextField("DFA Alpha Upper Bound", value: $editableConfig.dfaUpperBound, formatter: numberFormatter)
+                    #endif
 //                        .keyboardType(.numberPad)
                 }
                 
                 Section(header: Text("DFA Alpha Lower Bound")) {
+                    #if os(iOS)
+                    NumberField($editableConfig.dfaLowerBound, keyboardType: .decimalPad)
+                    #elseif os(macOS)
                     TextField("DFA Alpha Lower Bound", value: $editableConfig.dfaLowerBound, formatter: numberFormatter)
+                    #endif
 //                        .keyboardType(.numberPad)
                 }
                 

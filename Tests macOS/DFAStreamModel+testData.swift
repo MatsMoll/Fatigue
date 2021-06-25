@@ -9,9 +9,9 @@ import Foundation
 
 extension DFAStreamModel {
     
-    static let testData: ([Int], Double) = (beatToBeatVar, expextedValue)
+    static let testData: ([Double], Double) = (beatToBeatVar, expextedValue)
     private static let expextedValue = 0.7686284596895074
-    private static let beatToBeatVar: [Int] = [
+    private static let beatToBeatVar: [Double] = [
         477,
         475,
         478,
@@ -264,5 +264,5 @@ extension DFAStreamModel {
         471,
         469,
         470
-    ]
+    ].map { $0 / 1000 }
 }
