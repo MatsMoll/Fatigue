@@ -193,16 +193,24 @@ struct LineChartView: UIViewRepresentable {
     }
     
     func makeUIView(context: Context) -> some UIView {
+        let lineColor: UIColor = .init(white: 0.15, alpha: 1)
+        let textColor: UIColor = .lightText
+        
         view.data = data
         view.leftAxis.axisMinimum = 0
         view.rightAxis.enabled = false
-        view.highlightPerTapEnabled = true
         view.xAxis.valueFormatter = xAxisFormatter
-        view.leftAxis.drawAxisLineEnabled = false
-        view.leftAxis.drawGridLinesEnabled = false
-        view.xAxis.drawAxisLineEnabled = false
-        view.xAxis.drawGridLinesEnabled = false
+        view.leftAxis.axisLineColor = lineColor
+        view.leftAxis.gridColor = lineColor
+        view.leftAxis.labelTextColor = textColor
+        view.xAxis.axisLineColor = lineColor
+        view.xAxis.gridColor = lineColor
         view.xAxis.labelPosition = .bottom
+        view.xAxis.labelTextColor = textColor
+        view.legend.textColor = textColor
+        view.doubleTapToZoomEnabled = false
+        view.highlightPerTapEnabled = false
+        view.highlightPerDragEnabled = false
         return view
     }
     
@@ -232,10 +240,22 @@ struct CombinedChartView: UIViewRepresentable {
     let view = Charts.CombinedChartView()
     
     func makeUIView(context: Context) -> some UIView {
+        
+        let lineColor: UIColor = .init(white: 0.15, alpha: 1)
+        let textColor: UIColor = .lightText
+        
         view.data = data
         view.leftAxis.axisMinimum = 0
         view.rightAxis.enabled = false
-        view.highlightPerTapEnabled = true
+        view.xAxis.labelTextColor = textColor
+        view.xAxis.axisLineColor = lineColor
+        view.xAxis.gridColor = lineColor
+        view.leftAxis.labelTextColor = textColor
+        view.leftAxis.axisLineColor = lineColor
+        view.leftAxis.gridColor = lineColor
+        view.legend.textColor = textColor
+        view.highlightPerTapEnabled = false
+        view.highlightPerDragEnabled = false
         return view
     }
     
@@ -280,11 +300,11 @@ extension Array where Element == Double {
 
 extension LineChartDataSet {
     
-    static func dataSet(values: [Double], maxDataPoints: Int, label: String, color: Color, xScale: Double = 1, fillOpacity: Double = 0.6) -> LineChartDataSet {
+    static func dataSet(values: [Double], maxDataPoints: Int, label: String, color: Color, xScale: Double = 1, fillOpacity: Double = 0.6, startX: Double = 0) -> LineChartDataSet {
         let dataSet = LineChartDataSet(
             entries: values.compress(maxDataPoints: maxDataPoints)
                 .enumerated()
-                .map { ChartDataEntry(x: Double($0.offset) * xScale, y: $0.element) },
+                .map { ChartDataEntry(x: Double($0.offset) * xScale + startX, y: $0.element) },
             label: label
         )
         dataSet.drawCircleHoleEnabled = false
@@ -300,6 +320,10 @@ extension LineChartDataSet {
         dataSet.colors = [UIColor(color)]
         #endif
         return dataSet
+    }
+    
+    static func dataSet(type: WorkoutValueType, values: [Double], maxDataPoints: Int, xScale: Double = 1, fillOpacity: Double = 0.6) -> LineChartDataSet {
+        return .dataSet(values: values, maxDataPoints: maxDataPoints, label: type.name, color: type.tintColor, xScale: xScale, fillOpacity: fillOpacity)
     }
     
     static func dataSet(values: [(Double, Double)], label: String, color: Color, fillOpacity: Double = 0.6) -> LineChartDataSet {
@@ -510,30 +534,27 @@ extension MeanMaximalPower.Curve {
 
 extension DFAAlphaRegression {
     
-    func chartData(maxDataPoints: Int) -> CombinedChartData {
+    func chartData(title: String, maxDataPoints: Int, startX: Double = 0.2, endX: Double = 1, lineColor: Color = .green, dotColor: Color = .purple.opacity(0.5)) -> CombinedChartData {
         let combined = CombinedChartData()
         
         let regresion = self.regresion.regression
-        // Finding where the line crosses the x-axis
-//        let maxPower = -regresion.alpha / regresion.beta
-        
-        let maxDfa = 1.4
         
         combined.lineData = LineChartData(
             dataSet: LineChartDataSet.dataSet(
-                values: [regresion.alpha, regresion.alpha + regresion.beta * maxDfa],
+                values: [regresion.alpha + regresion.beta * startX, regresion.alpha + regresion.beta * endX],
                 maxDataPoints: maxDataPoints,
-                label: "DFA Alpha - Power Regression",
-                color: .green,
-                xScale: maxDfa,
-                fillOpacity: 0
+                label: title,
+                color: lineColor,
+                xScale: endX - startX,
+                fillOpacity: 0,
+                startX: startX
             )
         )
         combined.scatterData = ScatterChartData(
             dataSet: ScatterChartDataSet.dataSet(
                 values: self.regresion.values,
                 label: "Data Points",
-                color: Color.blue.opacity(0.3)
+                color: dotColor
             )
         )
         

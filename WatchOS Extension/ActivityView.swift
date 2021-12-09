@@ -12,7 +12,7 @@ import WatchConnectivity
 class ActivityModel: NSObject, ObservableObject, WCSessionDelegate {
     
     @Published
-    var currentFrame: Workout.DataFrame?
+    var currentFrame: WorkoutFrame?
     
     @Published
     var recorderState: RecordingState = .pause
@@ -33,7 +33,7 @@ class ActivityModel: NSObject, ObservableObject, WCSessionDelegate {
     }
     
     var dfaValue: String? {
-        guard let value = currentFrame?.dfaAlpha1 else { return nil }
+        guard let value = currentFrame?.heartRate?.dfaAlpha1 else { return nil }
         return NumberFormatter.defaultFormatter.string(from: .init(value: value)) ?? "\(value)"
     }
     

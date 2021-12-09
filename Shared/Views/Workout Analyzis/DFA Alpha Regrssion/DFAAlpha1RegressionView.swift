@@ -91,7 +91,7 @@ struct DFAAlpha1RegressionView: View {
             }
 
             CombinedChartView(
-                data: regression.chartData(maxDataPoints: maxDataPoints)
+                data: regression.chartData(title: "DFA Alpha 1 Regression", maxDataPoints: maxDataPoints)
             )
             .aspectRatio(aspectRatio, contentMode: .fit)
             .frame(maxWidth: .infinity)

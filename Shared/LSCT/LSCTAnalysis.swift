@@ -108,6 +108,8 @@ struct LSCTResult: Codable {
         let development: ValueDevelopment
     }
     
+    let duration: Int
+    let hrrStart: Int
     let power: Subresult?
     let cadence: Subresult?
     let dfaAlpha1: Subresult?
@@ -118,7 +120,7 @@ struct LSCTResult: Codable {
     /// An identifer that presents which run is used as baseline
     let baselineRunIdentifier: LSCTRun.Identifier
     
-    /// THe identifier of the processed run
+    /// The identifier of the processed run
     let runIdentifer: LSCTRun.Identifier
 }
 
@@ -130,6 +132,9 @@ struct LSCTRun: Codable {
         
         /// The date the workout starts
         let workoutDate: Date
+        
+        // The id of the workout
+        let workoutID: UUID
     }
     
     /// The total duration of all the stages
@@ -197,6 +202,8 @@ struct LSCTRun: Codable {
         }
         
         return LSCTResult(
+            duration: totalDuration + 60,
+            hrrStart: totalDuration,
             power: powerDiff,
             cadence: cadenceDiff,
             dfaAlpha1: dfaAlpha1Diff,
@@ -233,30 +240,31 @@ struct LSCTAnalysisError: Error {
 }
 
 extension Workout {
-    func lsctRun(startingAt: Int, stageDurations: [Int], hrrDuration: Int) throws -> LSCTRun {
+    func lsctRun(startingAt: Int, stageDurations: [Int], hrrDuration: Int) async throws -> LSCTRun {
         let totalDuration = hrrDuration + stageDurations.reduce(0, +)
-        guard startingAt + totalDuration < values.count else { throw LSCTAnalysisError.tooFewValuesInReference }
+        guard startingAt + totalDuration < frames.count else { throw LSCTAnalysisError.tooFewValuesInReference }
         
         var stageSummaries = [LSCTStageSummary]()
+        var index = startingAt
         for stageDuration in stageDurations {
             var heartRateSum: Double = 0
             var powerSum: Double = 0
             var cadenceSum: Double = 0
             var dfaAlphaSum: Double = 0
-            for stageIndex in 0..<stageDuration {
-                let index = startingAt + stageIndex
-                if let heartRate = values[index].heartRate {
+            for _ in 0..<stageDuration {
+                if let heartRate = frames[index].heartRate?.value {
                     heartRateSum += Double(heartRate)
                 }
-                if let power = values[index].power {
+                if let power = frames[index].power?.value {
                     powerSum += Double(power)
                 }
-                if let cadence = values[index].cadence {
+                if let cadence = frames[index].cadence?.value {
                     cadenceSum += Double(cadence)
                 }
-                if let dfaAlpha1 = values[index].dfaAlpha1 {
+                if let dfaAlpha1 = frames[index].heartRate?.dfaAlpha1 {
                     dfaAlphaSum += dfaAlpha1
                 }
+                index += 1
             }
             stageSummaries.append(
                 .init(
@@ -280,8 +288,8 @@ extension Workout {
             )
         }
         if
-            let hrrStartValue = values[startingAt + totalDuration - hrrDuration].heartRate,
-            let hrrEndValue = values[startingAt + totalDuration].heartRate
+            let hrrStartValue = frames[startingAt + totalDuration - hrrDuration].heartRate?.value,
+            let hrrEndValue = frames[startingAt + totalDuration].heartRate?.value
         {
             hrrAnalysis = .init(
                 alpha: Double(hrrStartValue),
@@ -294,7 +302,8 @@ extension Workout {
             hrrAnalysis: hrrAnalysis,
             identifier: .init(
                 startingAt: startingAt,
-                workoutDate: self.startedAt
+                workoutDate: self.startedAt,
+                workoutID: id
             )
         )
     }
@@ -322,10 +331,10 @@ class LSCTAnalysis {
     
     func analyse() throws {
         let totalStageDuration = stepDurations.reduce(0, +)
-        guard referenceWorkout.values.count > referenceStartingPoint + totalStageDuration else {
+        guard referenceWorkout.frames.count > referenceStartingPoint + totalStageDuration else {
             throw LSCTAnalysisError.tooFewValuesInReference
         }
-        guard analysisWorkout.values.count > analysisStartingPoint + totalStageDuration else {
+        guard analysisWorkout.frames.count > analysisStartingPoint + totalStageDuration else {
             throw LSCTAnalysisError.tooFewValuesInReference
         }
     }

@@ -8,26 +8,21 @@
 import Foundation
 import Combine
 
-protocol BluetoothHandler {
-    func handle(values: Array<UInt8>)
-    
-    var characteristicID: String { get }
+struct HeartRateDeviceValue: Codable {
+    let heartRate: Int
+    let rrIntervals: [Double]
 }
 
-protocol HeartBeatHandler {
-    var heartRatePublisher: AnyPublisher<Int, Never> { get }
-    var rrIntervalPublisher: AnyPublisher<Double, Never> { get }
+protocol HeartRateHandler: BluetoothHandler {
+    var heartRateListner: AnyPublisher<HeartRateDeviceValue, Never> { get }
 }
 
-struct BluetoothHeartRateHandler: BluetoothHandler, HeartBeatHandler {
+struct BluetoothHeartRateHandler: BluetoothHandler, HeartRateHandler {
     
-    var heartRatePublisher: AnyPublisher<Int, Never> { heartRateSubject.eraseToAnyPublisher() }
-    var rrIntervalPublisher: AnyPublisher<Double, Never> { rrIntervalSubject.eraseToAnyPublisher() }
+    var heartRateListner: AnyPublisher<HeartRateDeviceValue, Never> { valuesSubject.eraseToAnyPublisher() }
+    private let valuesSubject = PassthroughSubject<HeartRateDeviceValue, Never>()
     
-    private let heartRateSubject = PassthroughSubject<Int, Never>()
-    private let rrIntervalSubject = PassthroughSubject<Double, Never>()
-    
-    let characteristicID: String = "2A37"
+    var characteristic: BluetoothCharacteristics = .heartRateMeasurement
     
     func handle(values: Array<UInt8>) {
         
@@ -36,7 +31,7 @@ struct BluetoothHeartRateHandler: BluetoothHandler, HeartBeatHandler {
         var valueOffset = 1
         
         let heartRate = Int(values, index: &valueOffset, format: flag.heartRateFormat)
-        heartRateSubject.send(heartRate)
+        var rrIntervals: [Double] = []
         
         if flag.isEnergyExpendedPresent {
             let energy = Int(values, index: &valueOffset, format: .format16)
@@ -44,17 +39,25 @@ struct BluetoothHeartRateHandler: BluetoothHandler, HeartBeatHandler {
         }
         
         if flag.isRRIntervalsPresent {
-            let rrIntervals = (values.count - valueOffset) / 2
-            guard rrIntervals > 0 else { return }
-            for _ in 0..<rrIntervals {
-                let rrInterval = Double(
-                    values,
-                    index: &valueOffset,
-                    format: .format16,
-                    exponent: -10
+            let rrIntervalsCount = (values.count - valueOffset) / 2
+            guard rrIntervalsCount > 0 else { return }
+            for _ in 0..<rrIntervalsCount {
+                rrIntervals.append(
+                    Double(
+                        values,
+                        index: &valueOffset,
+                        format: .format16,
+                        exponent: -10
+                    )
                 )
-                rrIntervalSubject.send(rrInterval)
             }
         }
+        
+        valuesSubject.send(
+            HeartRateDeviceValue(
+                heartRate: heartRate,
+                rrIntervals: rrIntervals
+            )
+        )
     }
 }

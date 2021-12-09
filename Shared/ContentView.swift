@@ -10,15 +10,14 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var model: AppModel
+    @EnvironmentObject var settings: UserSettings
     
-    @StateObject private var recorder: ActivityRecorderCollector
+    @StateObject private var recorder: ActivityRecorder
+    @StateObject var computationStore: WorkoutComputationStore
     
-    init(settings: UserSettings, manager: BluetoothManager) {
-        _recorder = StateObject(wrappedValue: ActivityRecorderCollector(
-            manager: manager,
-            settings: settings,
-            activityRecorder: .init(workoutID: .init(), startedAt: .init())
-        ))
+    init(settings: UserSettings, manager: DeviceManager) {
+        _computationStore = StateObject(wrappedValue: WorkoutComputationStore(settings: settings))
+        _recorder = StateObject(wrappedValue: ActivityRecorder(settings: settings, deviceManager: manager))
     }
     
     #if os(OSX)
@@ -36,19 +35,40 @@ struct ContentView: View {
                 .tag(AppTabs.history)
             
             NavigationView {
-                ActivityRecorderView()
+                RecordWorkoutView()
+                    .task {
+                        Task {
+                            do {
+                                try loadBaseline()
+                                recorder.enableLsctDetection(workoutStore: model.workoutStore)
+                            } catch {
+                                print("Error loading baseline workout \(error)")
+                            }
+                        }
+                    }
             }
             .tabItem { Label("Record", symbol: .recordCircle) }
             .tag(AppTabs.recording)
+            .navigationViewStyle(.stack)
             
             NavigationView {
                 UserSettingsPage()
             }
             .tabItem { Label("Settings", symbol: .gearshapeFill) }
             .tag(AppTabs.settings)
+            .navigationViewStyle(.stack)
         }
         .environmentObject(model)
         .environmentObject(recorder)
+        .environmentObject(computationStore)
+        .onReceive(settings.$baselineWorkoutID) { workoutID in
+            do {
+                try loadBaseline()
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+        
         #elseif os(OSX)
         WorkoutListView()
             .toolbar {
@@ -61,11 +81,23 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $presentRecordView) {
-                ActivityRecorderView()
+                RecordWorkoutView()
             }
             .environmentObject(model)
             .environmentObject(recorder)
         #endif
+    }
+    
+    func loadBaseline() throws {
+        var baselineID = settings.baselineWorkoutID
+        if baselineID == nil {
+            baselineID = model.workoutStore.workouts.first?.id
+        }
+        guard let baselineID = baselineID else { return }
+        let baselineWorkout = try model.workoutStore.workout(with: baselineID)
+        DispatchQueue.main.async {
+            model.workoutStore.baseline = baselineWorkout
+        }
     }
 }
 

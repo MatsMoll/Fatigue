@@ -238,6 +238,8 @@ struct LSCTResultView_Previews: PreviewProvider {
 
 extension LSCTResult {
     static let testData = LSCTResult(
+        duration: 10 * 60,
+        hrrStart: 9 * 60,
         power: LSCTResult.Subresult(relativDifferance: 13, absoluteDifferance: 13, development: .significantBetter),
         cadence: LSCTResult.Subresult(relativDifferance: 3, absoluteDifferance: 3, development: .significantWorse),
         dfaAlpha1: LSCTResult.Subresult(relativDifferance: 0.01, absoluteDifferance: 0.01, development: .significantBetter),
@@ -248,11 +250,13 @@ extension LSCTResult {
         ),
         baselineRunIdentifier: .init(
             startingAt: 500,
-            workoutDate: .init()
+            workoutDate: .init(),
+            workoutID: .init()
         ),
         runIdentifer: .init(
             startingAt: 32,
-            workoutDate: .init()
+            workoutDate: .init(),
+            workoutID: .init()
         )
     )
 }

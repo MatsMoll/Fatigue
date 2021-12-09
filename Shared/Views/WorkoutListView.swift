@@ -11,9 +11,10 @@ import UniformTypeIdentifiers
 extension View {
     func card() -> some View {
         self
-            .background(Color.white)
-            .cornerRadius(3)
-            .shadow(radius: 10)
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+            .background(Color(UIColor.secondarySystemBackground))
+            .cornerRadius(10)
     }
 }
 
@@ -35,8 +36,6 @@ struct WorkoutListView: View {
     
     @EnvironmentObject var settings: UserSettings
     
-    @EnvironmentObject var computationStore: ComputationStore
-    
     @State
     var isSelectingFile: Bool = false
     
@@ -46,7 +45,13 @@ struct WorkoutListView: View {
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-        formatter.timeStyle = .medium
+        formatter.timeStyle = .short
+        return formatter
+    }()
+    
+    let durationFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second]
         return formatter
     }()
     
@@ -66,22 +71,26 @@ struct WorkoutListView: View {
                     ForEach(model.workoutStore.workouts) { workout in
                         
                         NavigationLink(
-                            destination: WorkoutSessionView(
-                                viewModel: WorkoutSessionViewModel(
-                                    model: model,
-                                    workoutID: workout.id,
-                                    computationStore: computationStore,
-                                    settings: settings
-                                )
-                            ),
+                            destination: WorkoutDetailLoaderView(workout: workout),
                             tag: workout.id,
                             selection: $model.workoutStore.selectedWorkoutId
                         ) {
-                            Text(dateFormatter.string(from: workout.startedAt))
+                            VStack(alignment: .leading) {
+                                Text(dateFormatter.string(from: workout.startedAt))
+                                    .font(.system(.footnote))
+                                    .foregroundColor(.secondary)
+                                
+                                Text(durationFormatter.string(from: TimeInterval(workout.duration)) ?? "\(workout.duration)")
+                                    .font(.system(.headline))
+                            }
                         }
                     }
                     .onDelete { indexSet in
-                        model.workoutStore.deleteWorkout(indexSet: indexSet)
+                        do {
+                            try model.workoutStore.deleteWorkout(indexSet: indexSet)
+                        } catch {
+                            print("Error when deleting \(error.localizedDescription)")
+                        }
                     }
                 }
             }

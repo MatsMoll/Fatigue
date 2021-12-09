@@ -71,7 +71,7 @@ struct DataFrameLinearRegression {
         self.isIncluded = isIncluded
     }
     
-    func compute() throws -> Result {
+    func compute() async throws -> Result {
         var yAverage = AverageStreamModel(maxValues: averagingInterval)
         var xAverage = AverageStreamModel(maxValues: averagingInterval)
         

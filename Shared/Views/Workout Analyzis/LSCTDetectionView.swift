@@ -24,7 +24,8 @@ struct LSCTDetectionView: View {
         return formatter
     }()
     
-    @EnvironmentObject var viewModel: WorkoutSessionViewModel
+    @EnvironmentObject
+    var viewModel: WorkoutSessionViewModel
     
     #if os(iOS)
     @Environment(\.horizontalSizeClass)

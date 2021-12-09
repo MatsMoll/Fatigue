@@ -7,28 +7,50 @@
 
 import Foundation
 import Combine
+import OSLog
 
-class ComputationStore: ObservableObject {
+class WorkoutComputationStore: ObservableObject {
     
-    @Published
-    var computations: [WorkoutComputation] = []
-    
-    var queue: DispatchQueue = .global()
-    
-    func computation(for id: String) -> WorkoutComputation? {
-        computations.first(where: { $0.id == id })
+    struct ComputationError: Error {
+        let id: String
+        let error: Error
     }
     
-    func start(_ computation: WorkoutComputation, with settings: UserSettings) {
-        if computations.first(where: { $0.id == computation.id && $0.state == .computing }) != nil {
-            return
-        }
-        computations.append(computation)
-        queue.async { [weak self] in
-            computation.startComputation(with: settings)
-            DispatchQueue.main.async {
-                self?.computations.removeAll(where: { $0.id == computation.id })
-            }
+    struct CompletedComputation {
+        let id: String
+        let workout: Workout
+    }
+    
+    let settings: UserSettings
+    
+    var runningComputations = Set<String>()
+    var progressListners: [String : AnyPublisher<Double, Never>] = [:]
+    var onComplete: AnyPublisher<CompletedComputation, ComputationError> { onCompleteSubject.eraseToAnyPublisher() }
+    private let onCompleteSubject = PassthroughSubject<CompletedComputation, ComputationError>()
+    
+    let logger: Logger
+    
+    init(settings: UserSettings, logger: Logger = Logger(subsystem: "fatigue.workout-computation-store", category: "workout-computation-store")) {
+        self.settings = settings
+        self.logger = logger
+    }
+    
+    func register<T: ComputationalTask>(_ computation: T) async throws -> T.Output {
+        logger.info("Adding computation with id: \(computation.id)")
+        guard !runningComputations.contains(computation.id) else { throw GenericError(reason: "Already registerd task") }
+        runningComputations.insert(computation.id)
+        logger.info("Running computation with id: \(computation.id)")
+        do {
+            let output = try await computation.compute(with: settings)
+            runningComputations.remove(computation.id)
+            logger.info("Finnshed computation with id: \(computation.id)")
+            return output
+        } catch {
+            logger.error("Error for computation with id: \(computation.id), Error: \(error.localizedDescription)")
+            runningComputations.remove(computation.id)
+            throw error
         }
     }
 }
+
+

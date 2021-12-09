@@ -15,6 +15,6 @@ enum RecordingState: Int, Codable, Equatable {
 
 struct WatchMessage: Codable {
     
-    let frame: Workout.DataFrame?
+    let frame: WorkoutFrame?
     let recordingState: RecordingState
 }

@@ -8,12 +8,11 @@
 import Foundation
 import Combine
 
-class MeanMaximumPowerComputation: WorkoutComputation {
+class MeanMaximumPowerComputation: ComputationalTask {
     
     var id: String { "MeanMaximumPower\(workout.id.uuidString)" }
     
     let workout: Workout
-    var state: WorkoutComputationState = .idle
     
     var onProgress: AnyPublisher<Double, Never> { onProgressSubject.eraseToAnyPublisher() }
     var onResult: AnyPublisher<MeanMaximalPower.Curve, Never> { onResultSubject.eraseToAnyPublisher() }
@@ -26,24 +25,19 @@ class MeanMaximumPowerComputation: WorkoutComputation {
         self.workout = workout
     }
     
-    func startComputation(with settings: UserSettings) {
+    func compute(with settings: UserSettings) async throws -> MeanMaximalPower.Curve {
         
-        if workout.powerCurve != nil, state == .idle { return }
-        
-        state = .computing
-        let powerData = workout.values.compactMap({ frame -> Double? in
-            guard let power = frame.power else { return nil }
+        let powerData = workout.frames.compactMap({ frame -> Double? in
+            guard let power = frame.power?.value else { return nil }
             return Double(power)
         })
         guard !powerData.isEmpty else {
-            state = .computed
-            return
+            throw GenericError(reason: "Missing power data")
         }
         let curve = MeanMaximalPower().generate(powers: powerData) { progress in
             onProgressSubject.send(progress)
         }
         
-        onResultSubject.send(curve)
-        state = .computed
+        return curve
     }
 }

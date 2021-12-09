@@ -8,11 +8,9 @@
 import Foundation
 import Combine
 
-class DFAComputation: WorkoutComputation {
+class DFAComputation: ComputationalTask {
     
     var id: String { "DFAComputation\(workout.id.uuidString)" }
-    
-    var state: WorkoutComputationState = .idle
     
     let workout: Workout
     
@@ -20,27 +18,21 @@ class DFAComputation: WorkoutComputation {
         self.workout = workout
     }
     
-    var onResultPublisher: AnyPublisher<[Double], Never> { onResultSubject.eraseToAnyPublisher() }
     var onProgressPublisher: AnyPublisher<Double, Never> { onProgressSubject.eraseToAnyPublisher() }
-    
-    private let onResultSubject = PassthroughSubject<[Double], Never>()
     private let onProgressSubject = PassthroughSubject<Double, Never>()
     
-    func startComputation(with settings: UserSettings) {
+    func compute(with settings: UserSettings) async throws -> [Double] {
         
-        guard workout.heartRateSummary != nil, state == .idle else { return }
-        
-        state = .computing
-        let numberOfValues = Double(workout.values.count)
+        let numberOfValues = Double(workout.frames.count)
         let dfaAlphaModel = DFAStreamModel(artifactCorrectionThreshold: settings.artifactCorrectionThreshold)
         var lastProgress = 0.0
         
-        var dfaValues = [Double].init(repeating: 0, count: workout.values.count)
+        var dfaValues = [Double].init(repeating: 0, count: workout.frames.count)
         
-        for (index, frame) in workout.values.enumerated() {
+        for (index, frame) in workout.frames.enumerated() {
             var dfaAlpha1: Double?
             
-            if let rrIntervals = frame.rrIntervals {
+            if let rrIntervals = frame.heartRate?.rrIntervals {
                 for rrValue in rrIntervals {
                     dfaAlphaModel.add(value: rrValue)
                 }
@@ -56,7 +48,6 @@ class DFAComputation: WorkoutComputation {
             }
         }
         
-        onResultSubject.send(dfaValues)
-        state = .computed
+        return dfaValues
     }
 }

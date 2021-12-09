@@ -64,10 +64,13 @@ class LSCTStreamDetector {
     private var values: [FixedSizeArray<Double>]
     private let totalDuration: Int
     private(set) var valueCount: Int = 0
+    private(set) var totalValueCount: Int = 0
     private let minTargetPower: Double
     
     let threshold: Double
-    var isBelowThreshold: Bool { meanSquareError < threshold }
+    var isBelowThreshold: Bool { (detection?.meanSquareError ?? .infinity) < threshold }
+    
+    var detection: LSCTDetector.Detection?
     
     init(stages: [LSCTStage], threshold: Double) {
         self.threshold = threshold
@@ -79,6 +82,7 @@ class LSCTStreamDetector {
     }
     
     func add(power: Double) {
+        totalValueCount += 1
         var duration = 0
         if valueCount < totalDuration {
             valueCount += 1
@@ -123,5 +127,15 @@ class LSCTStreamDetector {
                 }
             }
         }
+        
+        guard
+            totalValueCount > totalDuration,
+            totalError < (detection?.meanSquareError ?? .infinity)
+        else { return }
+        
+        detection = .init(
+            frameWorkout: totalValueCount - valueCount,
+            meanSquareError: totalError
+        )
     }
 }
