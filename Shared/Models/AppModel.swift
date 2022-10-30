@@ -43,7 +43,7 @@ class AppModel: ObservableObject {
         #endif
     }
     
-    func importFile(_ result: Result<[URL], Error>) {
+    func importFile(_ result: Result<[URL], Error>, settings: UserSettings) {
         switch result {
         case .failure(let error):
             logger.debug("Error when importing file: \(error.localizedDescription)")
@@ -58,7 +58,13 @@ class AppModel: ObservableObject {
                         }
                         
                         DispatchQueue.main.async {
-                            self?.workoutStore.add(newWorkout)
+                            do {
+                                newWorkout.calculateSummary(settings: settings)
+                                try self?.workoutStore.save(workout: newWorkout)
+                                self?.workoutStore.add(newWorkout)
+                            } catch {
+                                print(error)
+                            }
                         }
                     } catch {
                         self?.logger.debug("Error when importing: \(error.localizedDescription)")

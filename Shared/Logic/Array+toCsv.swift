@@ -19,6 +19,8 @@ extension Array {
             for path in keyPaths {
                 if let value = element[keyPath: path] {
                     line += value + ","
+                } else {
+                    line += ","
                 }
             }
             line.removeLast()

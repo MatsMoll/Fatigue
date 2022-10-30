@@ -140,9 +140,9 @@ struct WorkoutStore {
     }
     
     mutating func update(_ curve: MeanMaximalPower.Curve, for id: UUID) {
-//        guard let index = workouts.firstIndex(where: { $0.id == id }) else { return }
-//        workouts[index].powerCurve = curve
-//        try? saveWorkouts()
+        guard let workout = try? workout(with: id) else { return }
+        workout.powerCurve = curve
+        try? save(workout: workout)
     }
     
     func workout(with id: UUID) throws -> Workout? {

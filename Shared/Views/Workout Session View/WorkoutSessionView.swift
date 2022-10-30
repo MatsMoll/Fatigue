@@ -64,75 +64,75 @@ struct WorkoutSessionView: View {
     var body: some View {
         GeometryReader { proxy in
             List {
-//                Section(header: Label("Summary", symbol: .sum)) {
-//
-//                    ValueView(
-//                        title: "Elapsed Time",
-//                        value: viewModel.duration,
-//                        symbol: .clock,
-//                        imageColor: .primary
-//                    )
-//
-//                    if let powerSummary = viewModel.workout.powerSummary {
-//                        ValueView(
-//                            title: "Average Power",
-//                            value: "\(powerSummary.average) watts",
-//                            symbol: .boltFill,
-//                            imageColor: .blue
-//                        )
-//                        ValueView(
-//                            title: "Normalized",
-//                            value: "\(powerSummary.normalized) watts",
-//                            symbol: .boltFill,
-//                            imageColor: .blue
-//                        )
-//                        if let balance = powerSummary.powerBalance {
-//                            ValueView(
-//                                title: "Power Balance",
-//                                value: balance.description(),
-//                                symbol: .arrowtriangleAndLineVertical,
-//                                imageColor: .blue
-//                            )
-//                        }
-//                    }
-//
-//                    if let heartRateSummary = viewModel.workout.heartRateSummary {
-//                        ValueView(
-//                            title: "Average Heart Rate",
-//                            value: "\(heartRateSummary.average) bpm",
-//                            symbol: .heartFill,
-//                            imageColor: .red
-//                        )
-//                    }
-//
-//                    if let dfaSummary = viewModel.workout.dfaAlphaSummary {
-//                        ValueView(
-//                            title: "Average DFA",
-//                            value: Self.numberFormatter.string(from: .init(value: dfaSummary.average)) ?? "NaN",
-//                            symbol: .heartFill,
-//                            imageColor: .purple
-//                        )
-//                    }
-//
-//                    if let cadenceSummary = viewModel.workout.cadenceSummary {
-//                        ValueView(
-//                            title: "Average Cadence",
-//                            value: Self.numberFormatter.string(from: .init(value: cadenceSummary.average)) ?? "NaN",
-//                            symbol: .goForwared,
-//                            imageColor: .orange
-//                        )
-//                    }
-//                }
-//
-//                Section(header: Label("General", symbol: .figureWalk)) {
-//                    LineChartView(
-//                        data: viewModel.workoutChartData(maxDataPoints: Int(proxy.size.width / sizeModifier))
-//                    )
-//                    .xAxis(formatter: TimeAxisValueFormatter(scale: scale(width: proxy.size.width)))
-//                    .aspectRatio(chartAspectRatio, contentMode: .fit)
-//                    .frame(maxWidth: .infinity)
-//                }
-//
+                Section(header: Label("Summary", symbol: .sum)) {
+
+                    ValueView(
+                        title: "Elapsed Time",
+                        value: viewModel.duration,
+                        symbol: .clock,
+                        imageColor: .primary
+                    )
+
+                    if let powerSummary = viewModel.workout.powerSummary {
+                        ValueView(
+                            title: "Average Power",
+                            value: "\(powerSummary.average) watts",
+                            symbol: .boltFill,
+                            imageColor: .blue
+                        )
+                        ValueView(
+                            title: "Normalized",
+                            value: "\(powerSummary.normalized) watts",
+                            symbol: .boltFill,
+                            imageColor: .blue
+                        )
+                        if let balance = powerSummary.powerBalance {
+                            ValueView(
+                                title: "Power Balance",
+                                value: balance.description(),
+                                symbol: .arrowtriangleAndLineVertical,
+                                imageColor: .blue
+                            )
+                        }
+                    }
+
+                    if let heartRateSummary = viewModel.workout.heartRateSummary {
+                        ValueView(
+                            title: "Average Heart Rate",
+                            value: "\(heartRateSummary.average) bpm",
+                            symbol: .heartFill,
+                            imageColor: .red
+                        )
+                        
+                        if let dfaSummary = heartRateSummary.dfaAlpha {
+                            ValueView(
+                                title: "Average DFA",
+                                value: Self.numberFormatter.string(from: .init(value: dfaSummary.average)) ?? "NaN",
+                                symbol: .heartFill,
+                                imageColor: .purple
+                            )
+                        }
+                    }
+
+                    if let cadenceSummary = viewModel.workout.cadenceSummary {
+                        ValueView(
+                            title: "Average Cadence",
+                            value: Self.numberFormatter.string(from: .init(value: cadenceSummary.average)) ?? "NaN",
+                            symbol: .goForwared,
+                            imageColor: .orange
+                        )
+                    }
+                }
+
+                Section(header: Label("General", symbol: .figureWalk)) {
+                    LineChartView(
+                        data: viewModel.workoutChartData(maxDataPoints: Int(proxy.size.width / sizeModifier))
+                    )
+                    .xAxis(formatter: TimeAxisValueFormatter(scale: scale(width: proxy.size.width)))
+                    .aspectRatio(chartAspectRatio, contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                }
+
 //                Section(header: Label("DFA Alpha 1", symbol: .heartFill)) {
 //                    AsyncContentView(
 //                        value: viewModel.dfaAlphaComputation,
@@ -149,53 +149,53 @@ struct WorkoutSessionView: View {
 //                        }
 //                    }
 //                }
-//
-//                if viewModel.settings.baselineWorkoutID == nil {
-//                    Section(header: Label("LSCT Detection", symbol: .crossFill)) {
-//                        LSCTDetectionView()
-//                    }
-//                } else {
-//                    Section(header: Label("LSCT Result", symbol: .crossFill)) {
-//                        AsyncContentView(
-//                            value: viewModel.lsctRun
-//                        ) {
-//                            viewModel.computeLsctResult()
-//                        } content: { result in
-//                            LSCTResultView(lsctResult: .init(lsctResult: result))
-//                        }
-//                    }
-//                }
-//
-//                Section(header: Label("DFA Alpha Regression", symbol: .waveformPathEcg)) {
-//                    DFAAlpha1RegressionView(
-//                        maxDataPoints: Int(proxy.size.width / sizeModifier),
-//                        aspectRatio: chartAspectRatio
-//                    )
-//                }
-//
-//                Section(header: Label("Mean Maximum Power Curve", symbol: .boltFill)) {
-//                    MeanMaximumPowerView(aspectRatio: chartAspectRatio)
-//                }
-                
-//                Section(header: Label("Export", symbol: .recordCircle)) {
-//                    Button("Export to CSV") {
-//                        guard csvFile == nil else {
-//                            shouldExport = true
-//                            return
-//                        }
-//                        csvFile = CSVFile(
-//                            elements: viewModel.workout.values,
-//                            fields: [
-//                                ("timestamp", \.optionalTimestamp?.description),
-//                                ("heartRate", \.heartRate?.value.description),
-//                                ("dfaAlpha", \.heartRate?.dfaAlpha1?.description),
-//                                ("power", \.power?.value.description),
-//                                ("cadence", \.cadence?.value.description),
-//                            ]
-//                        )
-//                        shouldExport = true
-//                    }
-//                }
+
+                if viewModel.settings.baselineWorkoutID == nil {
+                    Section(header: Label("LSCT Detection", symbol: .crossFill)) {
+                        LSCTDetectionView()
+                    }
+                } else {
+                    Section(header: Label("LSCT Result", symbol: .crossFill)) {
+                        AsyncContentView(
+                            value: viewModel.lsctRun
+                        ) {
+                            viewModel.computeLsctResult()
+                        } content: { result in
+                            LSCTResultView(lsctResult: .init(lsctResult: result))
+                        }
+                    }
+                }
+
+                Section(header: Label("DFA Alpha Regression", symbol: .waveformPathEcg)) {
+                    DFAAlpha1RegressionView(
+                        maxDataPoints: Int(proxy.size.width / sizeModifier),
+                        aspectRatio: chartAspectRatio
+                    )
+                }
+
+                Section(header: Label("Mean Maximum Power Curve", symbol: .boltFill)) {
+                    MeanMaximumPowerView(aspectRatio: chartAspectRatio)
+                }
+
+                Section(header: Label("Export", symbol: .recordCircle)) {
+                    Button("Export to CSV") {
+                        guard csvFile == nil else {
+                            shouldExport = true
+                            return
+                        }
+                        csvFile = CSVFile(
+                            elements: viewModel.workout.frames,
+                            fields: [
+                                ("timestamp", \.optionalTimestamp?.description),
+                                ("heartRate", \.heartRate?.value.description),
+                                ("dfaAlpha", \.heartRate?.dfaAlpha1?.description),
+                                ("power", \.power?.value.description),
+                                ("cadence", \.cadence?.value.description),
+                            ]
+                        )
+                        shouldExport = true
+                    }
+                }
             }
             .listStyle(listStyle)
         }

@@ -139,6 +139,9 @@
 		3584B5992663B6D9005993D5 /* ImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B5982663B6D9005993D5 /* ImportView.swift */; };
 		3584B59A2663B6D9005993D5 /* ImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B5982663B6D9005993D5 /* ImportView.swift */; };
 		358E8C6926E4F2A7004E3920 /* SavingWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E8C6826E4F2A7004E3920 /* SavingWorkoutView.swift */; };
+		35B02B9F290EC08300CBA421 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35347CBC2671355400083FCB /* UserSettings.swift */; };
+		35B02BA0290EC08D00CBA421 /* DFAStreamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B59026639AE8005993D5 /* DFAStreamModel.swift */; };
+		35B02BA1290EC09800CBA421 /* WorkoutComputation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523A3342684E1B60007660F /* WorkoutComputation.swift */; };
 		35C1DE0526E38D6C0023A23A /* Workout+DataFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1DE0426E38D6C0023A23A /* Workout+DataFrame.swift */; };
 		35C1DE0626E38D6C0023A23A /* Workout+DataFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1DE0426E38D6C0023A23A /* Workout+DataFrame.swift */; };
 		35C1DE0726E38D6C0023A23A /* Workout+DataFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1DE0426E38D6C0023A23A /* Workout+DataFrame.swift */; };
@@ -1119,8 +1122,11 @@
 				3523A32A2684E1110007660F /* PowerMeterHandler.swift in Sources */,
 				3523A2F72684858D0007660F /* ComplicationController.swift in Sources */,
 				35C1DE0B26E38DF10023A23A /* Workout+DerivedData.swift in Sources */,
+				35B02BA1290EC09800CBA421 /* WorkoutComputation.swift in Sources */,
 				3523A2EF2684858D0007660F /* FatigueApp.swift in Sources */,
 				3523A3302684E1700007660F /* NormalizedPowerModel.swift in Sources */,
+				35B02BA0290EC08D00CBA421 /* DFAStreamModel.swift in Sources */,
+				35B02B9F290EC08300CBA421 /* UserSettings.swift in Sources */,
 				3523A2F52684858D0007660F /* NotificationView.swift in Sources */,
 				3531AAB22684F7570025CD25 /* WatchMessage.swift in Sources */,
 				358015CC26E3B3BB0062B199 /* Workout.swift in Sources */,

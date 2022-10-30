@@ -102,7 +102,7 @@ struct WorkoutListView: View {
                 allowedContentTypes: .fit,
                 allowsMultipleSelection: true
             ) { result in
-                model.importFile(result)
+                model.importFile(result, settings: settings)
             }
             .onAppear(perform: {
                 if model.workoutStore.hasLoadedFromFile { return }

@@ -70,60 +70,14 @@ class Workout: Identifiable, Codable {
         self.id = id
         self.startedAt = startedAt
         self.frames = values
-        
-        self.calculateSummary()
     }
     
-    func calculateSummary() {
-//        if powerSummary == nil {
-//            computePowerSummary(
-//                values: values.compactMap(\.power?.value).map(Double.init),
-//                powerBalance: values.compactMap(\.power?.balance)
-//            )
-//        }
-//        if heartRateSummary == nil {
-//            computeHeartRateSummary(values: values.compactMap(\.heartRate?.value).map(Double.init))
-//        }
-//        if cadenceSummary == nil {
-//            computeCadenceSummary(values: values.compactMap(\.cadence?.value).map(Double.init))
-//        }
-    }
-    
-    func computePowerSummary(values: [Double], powerBalance: [PowerBalance]) {
-        guard !values.isEmpty else { return }
-        var balance: PowerBalance?
-        if let firstBalance = powerBalance.first {
-            balance = PowerBalance(
-                percentage: powerBalance.map(\.percentage).mean(),
-                reference: firstBalance.reference
-            )
+    func calculateSummary(settings: UserSettings) {
+        do {
+            summary = try SummaryWorkoutComputation(workout: self).compute(with: settings)
+        } catch {
+            print(error)
         }
-//        powerSummary = PowerSummary(
-//            average: Int(values.averageWithoutZeros()),
-//            normalized: NormalizedPowerModel.compute(values: values),
-//            powerBalance: balance
-//        )
-    }
-    
-    func computeHeartRateSummary(values: [Double]) {
-        guard !values.isEmpty else { return }
-//        heartRateSummary = HeartRateSummary(
-//            average: Int(values.average())
-//        )
-    }
-    
-    func computeDfaSummary(values: [Double]) {
-        guard !values.isEmpty else { return }
-//        dfaAlphaSummary = DFAAlphaSummary(
-//            average: values.average()
-//        )
-    }
-    
-    func computeCadenceSummary(values: [Double]) {
-        guard !values.isEmpty else { return }
-//        cadenceSummary = CadenceSummary(
-//            average: Int(values.average())
-//        )
     }
     
     func update(dfaAlpha: [Double]) throws {
@@ -141,7 +95,7 @@ class Workout: Identifiable, Codable {
                 cadence: frame.cadence
             )
         }
-        computeDfaSummary(values: dfaAlpha)
+//        computeDfaSummary(values: dfaAlpha)
     }
 }
 
