@@ -32,6 +32,10 @@ struct BluetoothPowerHandler: PowerMeterHandler {
         var powerBalance: PowerBalance?
         var rpm: Int?
         
+        if flag.offsetCompensationIndicator {
+            power = power * 2
+        }
+        
         if flag.isPowerBalancePresent {
             // Send the power data
             
@@ -46,10 +50,6 @@ struct BluetoothPowerHandler: PowerMeterHandler {
                 percentage: balance,
                 reference: flag.powerBalanceReferance
             )
-        } else {
-            // Double the power if there is now pedel balance data
-            // Unsure if this is the correct way of doing it tho
-            power = power * 2
         }
         
         if flag.isAccumulatedTorquePresent {
