@@ -40,9 +40,3 @@ struct PowerBalance: Codable, Equatable {
         return "\(formatter.string(from: .init(value: leftBalance * 100)) ?? "0")% : \(formatter.string(from: .init(value: rightBalance * 100)) ?? "0")%"
     }
 }
-
-protocol PowerMeterHandler {
-    var powerPublisher: AnyPublisher<Int, Never> { get }
-    var pedalPowerBalancePublisher: AnyPublisher<PowerBalance, Never> { get }
-    var cadencePublisher: AnyPublisher<Int, Never> { get }
-}

@@ -8,19 +8,20 @@
 import Foundation
 import Combine
 
+struct CSCDeviceValue {
+    let cadence: Int?
+    let speed: Int?
+}
+
 protocol CyclingSpeedAndCadenceHandler {
-    var cadencePublisher: AnyPublisher<Int, Never> { get }
-    var speedPublisher: AnyPublisher<Int, Never> { get }
+    var cyclingAndSpeedListner: AnyPublisher<CSCDeviceValue, Never> { get }
 }
 
 struct BluetoothCSCHandler: CyclingSpeedAndCadenceHandler, BluetoothHandler {
     
-    var cadencePublisher: AnyPublisher<Int, Never> { cadenceSubject.eraseToAnyPublisher() }
+    var cyclingAndSpeedListner: AnyPublisher<CSCDeviceValue, Never> { cyclingAndSpeedSubject.eraseToAnyPublisher() }
     
-    var speedPublisher: AnyPublisher<Int, Never> { speedSubject.eraseToAnyPublisher() }
-    
-    private let speedSubject = PassthroughSubject<Int, Never>()
-    private let cadenceSubject = PassthroughSubject<Int, Never>()
+    private let cyclingAndSpeedSubject = PassthroughSubject<CSCDeviceValue, Never>()
     
     private let speedHandler = RevolutionHandler(
         maxEventValue: Double(UInt16.max) / pow(2, 11),
@@ -31,12 +32,14 @@ struct BluetoothCSCHandler: CyclingSpeedAndCadenceHandler, BluetoothHandler {
         maxRevolutionValue: Int(UInt16.max)
     )
     
-    let characteristicID: String = ""
+    let characteristic: BluetoothCharacteristics = .cyclingSpeedAndCadenceMeasurement
     
     func handle(values: Array<UInt8>) {
         let flags = CyclingSpeedAndCadenceFlag(flag: values[0])
         
         var valueOffset = 1
+        var speed: Int?
+        var cadence: Int?
         
         if flags.isWheelRevolutionPresent {
             let wheelRevolutions = Int(values, index: &valueOffset, format: .format32)
@@ -49,9 +52,7 @@ struct BluetoothCSCHandler: CyclingSpeedAndCadenceHandler, BluetoothHandler {
                 exponent: -11
             )
             
-            speedSubject.send(
-                speedHandler.update(event: lastWheelEvent, revolutions: wheelRevolutions)
-            )
+            speed = speedHandler.update(event: lastWheelEvent, revolutions: wheelRevolutions)
         }
         
         // Cadence revolution is present
@@ -66,9 +67,14 @@ struct BluetoothCSCHandler: CyclingSpeedAndCadenceHandler, BluetoothHandler {
                 exponent: -10
             )
             
-            cadenceSubject.send(
-                cadenceHandler.update(event: lastCrankEvent, revolutions: crankRevolutions)
-            )
+            cadence = cadenceHandler.update(event: lastCrankEvent, revolutions: crankRevolutions)
         }
+        
+        cyclingAndSpeedSubject.send(
+            CSCDeviceValue(
+                cadence: cadence,
+                speed: speed
+            )
+        )
     }
 }

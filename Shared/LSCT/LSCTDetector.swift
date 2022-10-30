@@ -34,11 +34,11 @@ class LSCTDetector {
         let meanSquareError: Double
     }
     
-    let dataFrames: [Workout.DataFrame]
+    let dataFrames: [WorkoutFrame]
     
     let stages: [LSCTStage]
     
-    init(dataFrames: [Workout.DataFrame], stages: [LSCTStage]) {
+    init(dataFrames: [WorkoutFrame], stages: [LSCTStage]) {
         self.dataFrames = dataFrames
         self.stages = stages
     }
@@ -57,7 +57,7 @@ class LSCTDetector {
         let streamDetector = LSCTStreamDetector(stages: stages, threshold: 0.4)
         
         for (index, value) in dataFrames.enumerated() {
-            streamDetector.add(power: Double(value.power ?? 0))
+            streamDetector.add(power: Double(value.power?.value ?? 0))
             
             if
                 index >= totalDuration,

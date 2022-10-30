@@ -115,6 +115,7 @@
       "size" : "1024x1024"
     },
     {
+      "filename" : "38mm@2x.png",
       "idiom" : "watch",
       "role" : "notificationCenter",
       "scale" : "2x",
@@ -122,6 +123,7 @@
       "subtype" : "38mm"
     },
     {
+      "filename" : "55pt.png",
       "idiom" : "watch",
       "role" : "notificationCenter",
       "scale" : "2x",
@@ -129,12 +131,14 @@
       "subtype" : "42mm"
     },
     {
+      "filename" : "58pt.png",
       "idiom" : "watch",
       "role" : "companionSettings",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
+      "filename" : "87pt.png",
       "idiom" : "watch",
       "role" : "companionSettings",
       "scale" : "3x",
@@ -149,6 +153,7 @@
       "subtype" : "38mm"
     },
     {
+      "filename" : "88pt.png",
       "idiom" : "watch",
       "role" : "appLauncher",
       "scale" : "2x",
@@ -156,6 +161,7 @@
       "subtype" : "40mm"
     },
     {
+      "filename" : "100pt.png",
       "idiom" : "watch",
       "role" : "appLauncher",
       "scale" : "2x",
@@ -163,6 +169,7 @@
       "subtype" : "44mm"
     },
     {
+      "filename" : "172pt.png",
       "idiom" : "watch",
       "role" : "quickLook",
       "scale" : "2x",
@@ -170,6 +177,7 @@
       "subtype" : "38mm"
     },
     {
+      "filename" : "196pt.png",
       "idiom" : "watch",
       "role" : "quickLook",
       "scale" : "2x",
@@ -177,6 +185,7 @@
       "subtype" : "42mm"
     },
     {
+      "filename" : "216pt.png",
       "idiom" : "watch",
       "role" : "quickLook",
       "scale" : "2x",
@@ -190,46 +199,55 @@
       "size" : "1024x1024"
     },
     {
+      "filename" : "16pt.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
+      "filename" : "16pt@2x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
+      "filename" : "16pt@2x-1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
+      "filename" : "16pt@4x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
     },
     {
+      "filename" : "16pt@8x.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
+      "filename" : "16pt@16x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
+      "filename" : "16pt@16x-1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
+      "filename" : "16pt@32x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
+      "filename" : "16pt@32x-1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"

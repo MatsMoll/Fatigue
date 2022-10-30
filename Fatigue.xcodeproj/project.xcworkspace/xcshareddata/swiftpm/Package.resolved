@@ -1,70 +1,68 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "AntMessageProtocol",
-        "repositoryURL": "https://github.com/FitnessKit/AntMessageProtocol",
-        "state": {
-          "branch": null,
-          "revision": "7aedde86a6875fc3ae2545ae6c70600ebef18e1c",
-          "version": "1.1.0"
-        }
-      },
-      {
-        "package": "Charts",
-        "repositoryURL": "https://github.com/danielgindi/Charts",
-        "state": {
-          "branch": null,
-          "revision": "8d134a78bb2cb9e7a0f05ecbd5880bb05cd02863",
-          "version": "4.0.1"
-        }
-      },
-      {
-        "package": "DataDecoder",
-        "repositoryURL": "https://github.com/FitnessKit/DataDecoder",
-        "state": {
-          "branch": null,
-          "revision": "8ca8aefc505833d3ca67e6070169472a7103594e",
-          "version": "5.0.0"
-        }
-      },
-      {
-        "package": "FitDataProtocol",
-        "repositoryURL": "https://github.com/MatsMoll/FitDataProtocol",
-        "state": {
-          "branch": "master",
-          "revision": "4102a80ff8d901c4377431e8e1921531fa361590",
-          "version": null
-        }
-      },
-      {
-        "package": "FitnessUnits",
-        "repositoryURL": "https://github.com/FitnessKit/FitnessUnits",
-        "state": {
-          "branch": null,
-          "revision": "12af59a7025decf46b7e0a4bb7b1eb480b1c9e5c",
-          "version": "3.1.0"
-        }
-      },
-      {
-        "package": "swift-algorithms",
-        "repositoryURL": "https://github.com/apple/swift-algorithms",
-        "state": {
-          "branch": null,
-          "revision": "2327673b0e9c7e90e6b1826376526ec3627210e4",
-          "version": "0.2.1"
-        }
-      },
-      {
-        "package": "swift-numerics",
-        "repositoryURL": "https://github.com/apple/swift-numerics",
-        "state": {
-          "branch": null,
-          "revision": "6583ac70c326c3ee080c1d42d9ca3361dca816cd",
-          "version": "0.1.0"
-        }
+  "pins" : [
+    {
+      "identity" : "antmessageprotocol",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FitnessKit/AntMessageProtocol",
+      "state" : {
+        "revision" : "f0350ce0eea3057af8a34b85c0fda25c2052b094",
+        "version" : "1.1.1"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "charts",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danielgindi/Charts",
+      "state" : {
+        "revision" : "07b23476ad52b926be772f317d8f1d4511ee8d02",
+        "version" : "4.1.0"
+      }
+    },
+    {
+      "identity" : "datadecoder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FitnessKit/DataDecoder",
+      "state" : {
+        "revision" : "8ca8aefc505833d3ca67e6070169472a7103594e",
+        "version" : "5.0.0"
+      }
+    },
+    {
+      "identity" : "fitdataprotocol",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/MatsMoll/FitDataProtocol",
+      "state" : {
+        "branch" : "master",
+        "revision" : "4102a80ff8d901c4377431e8e1921531fa361590"
+      }
+    },
+    {
+      "identity" : "fitnessunits",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FitnessKit/FitnessUnits",
+      "state" : {
+        "revision" : "12af59a7025decf46b7e0a4bb7b1eb480b1c9e5c",
+        "version" : "3.1.0"
+      }
+    },
+    {
+      "identity" : "swift-algorithms",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-algorithms",
+      "state" : {
+        "revision" : "b14b7f4c528c942f121c8b860b9410b2bf57825e",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swift-numerics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-numerics",
+      "state" : {
+        "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
+        "version" : "1.0.2"
+      }
+    }
+  ],
+  "version" : 2
 }

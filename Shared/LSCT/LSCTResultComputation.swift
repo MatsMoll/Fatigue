@@ -32,8 +32,8 @@ class LSCTResultComputation: WorkoutComputation {
         state = .computing
         
         let stages: [LSCTStage] = .defaultWith(ftp: Double(settings.ftp ?? 280))
-        let mainDetector = LSCTDetector(dataFrames: workout.values, stages: stages)
-        let baselineDetector = LSCTDetector(dataFrames: baseline.values, stages: stages)
+        let mainDetector = LSCTDetector(dataFrames: workout.frames, stages: stages)
+        let baselineDetector = LSCTDetector(dataFrames: baseline.frames, stages: stages)
         
         let durations = stages.filter{ $0.targetPower != 0 }.map(\.duration)
         let hrrDuration = stages.first(where: { $0.targetPower == 0 })?.duration ?? 60

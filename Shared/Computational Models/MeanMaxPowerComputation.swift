@@ -31,8 +31,8 @@ class MeanMaximumPowerComputation: WorkoutComputation {
         if workout.powerCurve != nil, state == .idle { return }
         
         state = .computing
-        let powerData = workout.values.compactMap({ frame -> Double? in
-            guard let power = frame.power else { return nil }
+        let powerData = workout.frames.compactMap({ frame -> Double? in
+            guard let power = frame.power?.value else { return nil }
             return Double(power)
         })
         guard !powerData.isEmpty else {

@@ -11,18 +11,19 @@ struct NormalizedPowerModel {
     
     static func compute(values: [Double]) -> Int {
         
-        var averageModel = AverageStreamModel(maxValues: 30)
+        let offset = 29
+        var averageModel = AverageStreamModel(maxValues: offset + 1)
         
-        let numberOfRolingAverages = values.count - 29
+        let numberOfRolingAverages = values.count - offset
         guard numberOfRolingAverages > 0 else { return 0 }
         
-        for index in 0..<29 {
+        for index in 0..<offset {
             averageModel.add(value: values[index])
         }
         
         var averageSum: Double = 0
-        for index in 29...numberOfRolingAverages {
-            averageModel.add(value: values[index])
+        for index in 0..<numberOfRolingAverages {
+            averageModel.add(value: values[index + offset])
             averageSum += pow(averageModel.average, 4)
         }
         

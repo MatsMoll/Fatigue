@@ -14,12 +14,10 @@ extension Workout {
         guard url.startAccessingSecurityScopedResource() else {
             throw GenericError(reason: "Couldn’t be opened because you don’t have permission to view it.")
         }
-        defer {
-            url.stopAccessingSecurityScopedResource()
-        }
+        defer { url.stopAccessingSecurityScopedResource() }
         let data = try Data(contentsOf: url)
         
-        var dataFrames: [Workout.DataFrame] = []
+        var dataFrames: [WorkoutFrame] = []
         
         var timestamp = 0
         var heartRate: Int?
@@ -74,13 +72,17 @@ extension Workout {
                 }
                 
                 dataFrames.append(
-                    .init(
+                    WorkoutFrame(
                         timestamp: timestamp,
-                        heartRate: heartRate,
-                        power: power,
-                        cadence: cadence,
-                        rrIntervals: rrIntervals,
-                        powerBalance: powerBalance
+                        power: power.map { WorkoutFrame.Power(value: $0, balance: powerBalance) },
+                        heartRate: heartRate.map {
+                            WorkoutFrame.HeartRate(
+                                value: $0,
+                                rrIntervals: rrIntervals ?? [],
+                                dfaAlpha1: nil
+                            )
+                        },
+                        cadence: cadence.map { WorkoutFrame.Cadence(value: $0) }
                     )
                 )
                 heartRate = nil
@@ -100,8 +102,7 @@ extension Workout {
         return .init(
             id: .init(),
             startedAt: startedAt ?? Date(),
-            values: dataFrames,
-            powerCurve: nil
+            values: dataFrames
         )
     }
 }

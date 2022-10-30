@@ -49,7 +49,7 @@ class AppModel: ObservableObject {
             logger.debug("Error when importing file: \(error.localizedDescription)")
         case .success(let urls):
             for url in urls {
-                DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                DispatchQueue.global(qos: .background).async { [weak self] in
                     do {
                         let newWorkout = try Workout.importFit(url) { progress in
                             DispatchQueue.main.async {
@@ -72,15 +72,15 @@ class AppModel: ObservableObject {
         }
     }
     
-    func save(recorder: ActivityRecorderCollector) {
-        let workout = recorder.recorder.workout
-        recorder.stopRecording()
-        guard !workout.values.isEmpty else { return }
-        workoutStore.add(workout)
-        workoutStore.selectedWorkoutId = workout.id
-        recorder.recorder = .init(workoutID: .init(), startedAt: .init())
-        #if os(iOS)
-        selectedTab = .history
-        #endif
-    }
+//    func save(recorder: ActivityRecorderCollector) {
+//        let workout = recorder.recorder.workout
+//        recorder.stopRecording()
+//        guard !workout.values.isEmpty else { return }
+//        workoutStore.add(workout)
+//        workoutStore.selectedWorkoutId = workout.id
+//        recorder.recorder = .init(workoutID: .init(), startedAt: .init())
+//        #if os(iOS)
+//        selectedTab = .history
+//        #endif
+//    }
 }

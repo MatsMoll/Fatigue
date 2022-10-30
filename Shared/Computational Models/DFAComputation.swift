@@ -31,16 +31,16 @@ class DFAComputation: WorkoutComputation {
         guard workout.heartRateSummary != nil, state == .idle else { return }
         
         state = .computing
-        let numberOfValues = Double(workout.values.count)
+        let numberOfValues = Double(workout.frames.count)
         let dfaAlphaModel = DFAStreamModel(artifactCorrectionThreshold: settings.artifactCorrectionThreshold)
         var lastProgress = 0.0
         
-        var dfaValues = [Double].init(repeating: 0, count: workout.values.count)
+        var dfaValues = [Double].init(repeating: 0, count: workout.frames.count)
         
-        for (index, frame) in workout.values.enumerated() {
+        for (index, frame) in workout.frames.enumerated() {
             var dfaAlpha1: Double?
             
-            if let rrIntervals = frame.rrIntervals {
+            if let rrIntervals = frame.heartRate?.rrIntervals {
                 for rrValue in rrIntervals {
                     dfaAlphaModel.add(value: rrValue)
                 }

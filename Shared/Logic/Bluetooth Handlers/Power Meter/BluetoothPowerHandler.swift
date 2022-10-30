@@ -8,39 +8,33 @@
 import Foundation
 import Combine
 
-
-
-struct BluetoothPowerHandler: PowerMeterHandler, BluetoothHandler {
+struct BluetoothPowerHandler: PowerMeterHandler {
     
-    var powerPublisher: AnyPublisher<Int, Never> { powerSubject.eraseToAnyPublisher() }
-    var pedalPowerBalancePublisher: AnyPublisher<PowerBalance, Never> { pedalPowerSubject.eraseToAnyPublisher() }
-    var cadencePublisher: AnyPublisher<Int, Never> { cadenceSubject.eraseToAnyPublisher() }
-    
-    private let powerSubject = PassthroughSubject<Int, Never>()
-    private let pedalPowerSubject = PassthroughSubject<PowerBalance, Never>()
-    private let cadenceSubject = PassthroughSubject<Int, Never>()
+    var powerListner: AnyPublisher<PowerDeviceValue, Never> { valuesSubject.eraseToAnyPublisher() }
+    private let valuesSubject = PassthroughSubject<PowerDeviceValue, Never>()
     
     let cadenceHandler = RevolutionHandler(
         maxEventValue: Double(UInt16.max) / pow(2, 10),
         maxRevolutionValue: Int(UInt16.max)
     )
     
-    let characteristicID: String = "2A63"
+    var characteristic: BluetoothCharacteristics = .cyclingPowerMeasurement
     
     func handle(values: Array<UInt8>) {
         
         guard values.count > 2 else { return }
         let flag = BluetoothPowerFlag(values: values)
         
-//        let flag = Int(values[0]) + Int(values[1]) * 256
-        
         // First two used for flag
         var valueOffset: Int = 2
         
-        let power = Int(values, index: &valueOffset, format: .format16)
-        powerSubject.send(power)
+        var power = Int(values, index: &valueOffset, format: .format16)
+        var powerBalance: PowerBalance?
+        var rpm: Int?
         
         if flag.isPowerBalancePresent {
+            // Send the power data
+            
             // Unit is in percentage with a resolution of 1/2.
             let balance = Double(
                 values,
@@ -48,12 +42,14 @@ struct BluetoothPowerHandler: PowerMeterHandler, BluetoothHandler {
                 format: .format8,
                 exponent: -1
             ) / 100
-            pedalPowerSubject.send(
-                PowerBalance(
-                    percentage: balance,
-                    reference: flag.powerBalanceReferance
-                )
+            powerBalance = PowerBalance(
+                percentage: balance,
+                reference: flag.powerBalanceReferance
             )
+        } else {
+            // Double the power if there is now pedel balance data
+            // Unsure if this is the correct way of doing it tho
+            power = power * 2
         }
         
         if flag.isAccumulatedTorquePresent {
@@ -91,8 +87,7 @@ struct BluetoothPowerHandler: PowerMeterHandler, BluetoothHandler {
                 exponent: -10
             )
             
-            let rpm = cadenceHandler.update(event: lastCrankEvent, revolutions: crankRevolutions)
-            cadenceSubject.send(rpm)
+            rpm = cadenceHandler.update(event: lastCrankEvent, revolutions: crankRevolutions)
         }
         
         if flag.isExtremeForceMagnitudePresent {
@@ -131,5 +126,30 @@ struct BluetoothPowerHandler: PowerMeterHandler, BluetoothHandler {
             let energy = Int(values, index: &valueOffset, format: .format16)
             print("Energy: \(energy)")
         }
+        
+        valuesSubject.send(
+            .init(
+                power: power,
+                cadence: rpm,
+                balence: powerBalance
+            )
+        )
+    }
+}
+
+
+struct BluetoothPowerHandlerMock: PowerMeterHandler {
+    
+    var powerListner: AnyPublisher<PowerDeviceValue, Never> { valuesSubject.eraseToAnyPublisher() }
+    private let valuesSubject = PassthroughSubject<PowerDeviceValue, Never>()
+    
+    var characteristic: BluetoothCharacteristics = .cyclingPowerMeasurement
+    
+    func handle(values: Array<UInt8>) {
+        valuesSubject.send(PowerDeviceValue(
+            power: 200 + Int.random(in: -20...20),
+            cadence: 85 + Int.random(in: -5...10),
+            balence: .init(percentage: 0.5 + Double.random(in: -0.1...0.1), reference: .left)
+        ))
     }
 }

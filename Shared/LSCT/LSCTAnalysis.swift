@@ -235,7 +235,7 @@ struct LSCTAnalysisError: Error {
 extension Workout {
     func lsctRun(startingAt: Int, stageDurations: [Int], hrrDuration: Int) throws -> LSCTRun {
         let totalDuration = hrrDuration + stageDurations.reduce(0, +)
-        guard startingAt + totalDuration < values.count else { throw LSCTAnalysisError.tooFewValuesInReference }
+        guard startingAt + totalDuration < frames.count else { throw LSCTAnalysisError.tooFewValuesInReference }
         
         var stageSummaries = [LSCTStageSummary]()
         for stageDuration in stageDurations {
@@ -245,16 +245,16 @@ extension Workout {
             var dfaAlphaSum: Double = 0
             for stageIndex in 0..<stageDuration {
                 let index = startingAt + stageIndex
-                if let heartRate = values[index].heartRate {
+                if let heartRate = frames[index].heartRate?.value {
                     heartRateSum += Double(heartRate)
                 }
-                if let power = values[index].power {
+                if let power = frames[index].power?.value {
                     powerSum += Double(power)
                 }
-                if let cadence = values[index].cadence {
+                if let cadence = frames[index].cadence?.value {
                     cadenceSum += Double(cadence)
                 }
-                if let dfaAlpha1 = values[index].dfaAlpha1 {
+                if let dfaAlpha1 = frames[index].heartRate?.dfaAlpha1 {
                     dfaAlphaSum += dfaAlpha1
                 }
             }
@@ -280,8 +280,8 @@ extension Workout {
             )
         }
         if
-            let hrrStartValue = values[startingAt + totalDuration - hrrDuration].heartRate,
-            let hrrEndValue = values[startingAt + totalDuration].heartRate
+            let hrrStartValue = frames[startingAt + totalDuration - hrrDuration].heartRate?.value,
+            let hrrEndValue = frames[startingAt + totalDuration].heartRate?.value
         {
             hrrAnalysis = .init(
                 alpha: Double(hrrStartValue),
@@ -322,10 +322,10 @@ class LSCTAnalysis {
     
     func analyse() throws {
         let totalStageDuration = stepDurations.reduce(0, +)
-        guard referenceWorkout.values.count > referenceStartingPoint + totalStageDuration else {
+        guard referenceWorkout.frames.count > referenceStartingPoint + totalStageDuration else {
             throw LSCTAnalysisError.tooFewValuesInReference
         }
-        guard analysisWorkout.values.count > analysisStartingPoint + totalStageDuration else {
+        guard analysisWorkout.frames.count > analysisStartingPoint + totalStageDuration else {
             throw LSCTAnalysisError.tooFewValuesInReference
         }
     }

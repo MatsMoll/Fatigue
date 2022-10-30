@@ -10,6 +10,10 @@ import Combine
 import Charts
 import SwiftUI
 
+// workout.computeDerivedData()
+// workout.lsctDetection
+// workout.didUpdateValue
+// workout.derived.lsctDetection
 
 class WorkoutSessionViewModel: ObservableObject {
     
@@ -23,7 +27,7 @@ class WorkoutSessionViewModel: ObservableObject {
     
     let workoutID: Workout.ID
     
-    var workout: Workout { model.workoutStore.workout(with: workoutID)! }
+    var workout: Workout { try! model.workoutStore.workout(with: workoutID)! }
     
     let computationStore: ComputationStore
     
@@ -86,24 +90,24 @@ class WorkoutSessionViewModel: ObservableObject {
     }
     
     func loadWorkout() {
-        let valuesCount = workout.values.count
+        let valuesCount = workout.frames.count
         
         var dfaValues = [Double].init(repeating: 0, count: valuesCount)
         var heartRateValues = [Double].init(repeating: 0, count: valuesCount)
         var powerValues = [Double].init(repeating: 0, count: valuesCount)
         var cadenceData = [Double].init(repeating: 0, count: valuesCount)
         
-        for (index, frames) in workout.values.enumerated() {
-            dfaValues[index] = frames.dfaAlpha1 ?? 0
-            heartRateValues[index] = Double(frames.heartRate ?? 0)
-            powerValues[index] = Double(frames.power ?? 0)
-            cadenceData[index] = Double(frames.cadence ?? 0)
+        for (index, frames) in workout.frames.enumerated() {
+            dfaValues[index] = frames.heartRate?.dfaAlpha1 ?? 0
+            heartRateValues[index] = Double(frames.heartRate?.value ?? 0)
+            powerValues[index] = Double(frames.power?.value ?? 0)
+            cadenceData[index] = Double(frames.cadence?.value ?? 0)
         }
         
-        if workout.hasDFAValues {
-            self.dfaAlphaValues = dfaValues
-            self.dfaAlphaComputation = .loaded(self)
-        }
+//        if workout.hasDFAValues {
+//            self.dfaAlphaValues = dfaValues
+//            self.dfaAlphaComputation = .loaded(self)
+//        }
         if workout.heartRateSummary != nil {
             self.heartRateData = heartRateValues
         }
@@ -151,7 +155,7 @@ class WorkoutSessionViewModel: ObservableObject {
     func computeLsctResult() {
         guard
             let baselineID = settings.baselineWorkoutID,
-            let baseline = model.workoutStore.workout(with: baselineID)
+            let baseline = try? model.workoutStore.workout(with: baselineID)
         else { return }
         var computation = LSCTResultComputation(
             workout: workout,
@@ -172,7 +176,7 @@ class WorkoutSessionViewModel: ObservableObject {
     
     func computeDfaAlpha1() {
         guard case LoadingState.idle = dfaAlphaComputation else { return }
-        if workout.hasDFAValues { return }
+//        if workout.hasDFAValues { return }
         
         dfaAlphaComputation = .loading(progress: 0)
         
@@ -226,7 +230,7 @@ class WorkoutSessionViewModel: ObservableObject {
     
     func computeDFAPowerReg(config: DFAAlphaRegression.Config) {
         
-        guard workout.hasDFAValues else { return }
+//        guard workout.hasDFAValues else { return }
         
         var shouldCompute = true
         if
@@ -238,14 +242,14 @@ class WorkoutSessionViewModel: ObservableObject {
         
         guard shouldCompute else { return }
         
-        let strongValues = workout.values
+        let strongValues = workout.frames
         self.dfaRegression = .loading()
         
         DispatchQueue.global().async { [weak self] in
             do {
                 let linearRegression = try DataFrameLinearRegression(
-                    yValues: strongValues.map { Double($0.power ?? 0) },
-                    xValues: strongValues.map { Double($0.dfaAlpha1 ?? 0) },
+                    yValues: strongValues.map { Double($0.power?.value ?? 0) },
+                    xValues: strongValues.map { Double($0.heartRate?.dfaAlpha1 ?? 0) },
                     averagingInterval: config.averageInterval,
                     xAxisOffset: config.dfaAlphaOffset,
                     isIncluded: { (dfaAlpha, _) in (config.dfaLowerBound...config.dfaUpperBound).contains(dfaAlpha) }
@@ -271,7 +275,7 @@ class WorkoutSessionViewModel: ObservableObject {
     
     func detectLSCT() {
         guard case LoadingState.idle = lsctDetection else { return }
-        let dataFrames = workout.values
+        let dataFrames = workout.frames
         lsctDetection = .loading(progress: nil)
         let ftp = Double(settings.ftp ?? 280)
         print("Used FTP: \(ftp)")

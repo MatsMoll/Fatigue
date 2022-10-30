@@ -11,14 +11,12 @@ struct ContentView: View {
     
     @EnvironmentObject var model: AppModel
     
-    @StateObject private var recorder: ActivityRecorderCollector
+    @StateObject private var recorder: ActivityRecorder
+    @StateObject var computationStore: WorkoutComputationStore
     
-    init(settings: UserSettings, manager: BluetoothManager) {
-        _recorder = StateObject(wrappedValue: ActivityRecorderCollector(
-            manager: manager,
-            settings: settings,
-            activityRecorder: .init(workoutID: .init(), startedAt: .init())
-        ))
+    init(settings: UserSettings, manager: DeviceManager) {
+        _computationStore = StateObject(wrappedValue: WorkoutComputationStore(settings: settings))
+        _recorder = StateObject(wrappedValue: ActivityRecorder(deviceManager: manager))
     }
     
     #if os(OSX)
@@ -36,7 +34,7 @@ struct ContentView: View {
                 .tag(AppTabs.history)
             
             NavigationView {
-                ActivityRecorderView()
+                RecordWorkoutView()
             }
             .tabItem { Label("Record", symbol: .recordCircle) }
             .tag(AppTabs.recording)
@@ -49,6 +47,7 @@ struct ContentView: View {
         }
         .environmentObject(model)
         .environmentObject(recorder)
+        .environmentObject(computationStore)
         #elseif os(OSX)
         WorkoutListView()
             .toolbar {
@@ -61,7 +60,7 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $presentRecordView) {
-                ActivityRecorderView()
+                RecordWorkoutView()
             }
             .environmentObject(model)
             .environmentObject(recorder)
