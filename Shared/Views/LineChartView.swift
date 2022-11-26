@@ -185,11 +185,15 @@ struct LineChartView: UIViewRepresentable {
     let data: LineChartData
     private let xAxisFormatter: AxisValueFormatter
     private let view: Charts.LineChartView
+    private let laps: [Int]
+    private let visableRange: ClosedRange<Double>?
     
-    init(data: LineChartData, xAxisFormatter: AxisValueFormatter = DefaultAxisValueFormatter(), view: Charts.LineChartView = Charts.LineChartView()) {
+    init(data: LineChartData, laps: [Int] = [], visableRange: ClosedRange<Double>? = nil, xAxisFormatter: AxisValueFormatter = DefaultAxisValueFormatter(), view: Charts.LineChartView = Charts.LineChartView()) {
         self.data = data
         self.xAxisFormatter = xAxisFormatter
+        self.laps = laps
         self.view = view
+        self.visableRange = visableRange
     }
     
     func makeUIView(context: Context) -> some UIView {
@@ -211,6 +215,20 @@ struct LineChartView: UIViewRepresentable {
         view.doubleTapToZoomEnabled = false
         view.highlightPerTapEnabled = false
         view.highlightPerDragEnabled = false
+        view.maxVisibleCount = 40
+        for lap in laps {
+            view.xAxis.addLimitLine(.init(limit: Double(lap)))
+        }
+        view.layoutIfNeeded()
+        if let visableRange = visableRange {
+            let padding = 1.4
+            let width = (visableRange.upperBound - visableRange.lowerBound)
+            let viewWidth = (visableRange.upperBound - visableRange.lowerBound) * padding
+            let minX = max(0, visableRange.lowerBound)
+            let scale = data.xMax / viewWidth
+            let xValue = minX + width / 2
+            view.zoom(scaleX: scale, scaleY: 1, xValue: xValue, yValue: 0, axis: .left)
+        }
         return view
     }
     
@@ -225,7 +243,11 @@ struct LineChartView: UIViewRepresentable {
     }
     
     func xAxis(formatter: AxisValueFormatter) -> Self {
-        .init(data: data, xAxisFormatter: formatter, view: view)
+        .init(data: data, laps: laps, visableRange: visableRange, xAxisFormatter: formatter, view: view)
+    }
+    
+    func xScale(startX: Int, endX: Int) -> Self {
+        return .init(data: data, laps: laps, visableRange: Double(startX)...Double(endX), xAxisFormatter: xAxisFormatter, view: view)
     }
 }
 
@@ -322,13 +344,13 @@ extension LineChartDataSet {
         return dataSet
     }
     
-    static func dataSet(type: WorkoutValueType, values: [Double], maxDataPoints: Int, xScale: Double = 1, fillOpacity: Double = 0.6) -> LineChartDataSet {
-        return .dataSet(values: values, maxDataPoints: maxDataPoints, label: type.name, color: type.tintColor, xScale: xScale, fillOpacity: fillOpacity)
+    static func dataSet(type: WorkoutValueType, values: [Double], maxDataPoints: Int, xScale: Double = 1, fillOpacity: Double = 0.6, startX: Double = 0) -> LineChartDataSet {
+        return .dataSet(values: values, maxDataPoints: maxDataPoints, label: type.name, color: type.tintColor, xScale: xScale, fillOpacity: fillOpacity, startX: startX)
     }
     
-    static func dataSet(values: [(Double, Double)], label: String, color: Color, fillOpacity: Double = 0.6) -> LineChartDataSet {
+    static func dataSet(values: [(Double, Double)], label: String, color: Color, fillOpacity: Double = 0.6, startX: Double = 0) -> LineChartDataSet {
         let dataSet = LineChartDataSet(
-            entries: values.map { ChartDataEntry(x: Double($0.0), y: $0.1) },
+            entries: values.map { ChartDataEntry(x: Double($0.0) + startX, y: $0.1) },
             label: label
         )
         dataSet.drawCircleHoleEnabled = false

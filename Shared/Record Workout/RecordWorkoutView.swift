@@ -28,10 +28,13 @@ struct RecordWorkoutView: View {
     @State
     var shouldSave: Bool = false
     
+    #if os(iOS)
     @Environment(\.horizontalSizeClass)
     var horizontalSizeClass
+    #endif
     
     var columns: [GridItem] {
+        #if os(iOS)
         if horizontalSizeClass == .regular {
             return [
                 GridItem(.flexible()),
@@ -43,6 +46,13 @@ struct RecordWorkoutView: View {
                 GridItem(.flexible()),
             ]
         }
+        #else
+        return [
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+        ]
+        #endif
     }
     
     var body: some View {
@@ -126,10 +136,19 @@ struct RecordWorkoutView: View {
                 }
                 .padding()
             }
+            
+            VStack(spacing: 70) {
+                ForEach(recorder.lapSummaries.reversed()) { lap in
+                    WorkoutLapSummary(workout: recorder.workout, lap: lap)
+                }
+            }
+            .padding()
         }
+        #if os(iOS)
         .listStyle(InsetGroupedListStyle())
-        .navigationTitle("Activity")
         .navigationBarItems(trailing: deviceItem)
+        #endif
+        .navigationTitle("Activity")
         .sheet(isPresented: $shouldPresentDevices) { deviceTypesView }
         .sheet(isPresented: $shouldSave) { savingView }
         .onAppear(perform: { recorder.startObservingValues() })

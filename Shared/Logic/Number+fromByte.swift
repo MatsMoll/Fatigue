@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 extension String {
     
@@ -35,6 +36,11 @@ extension Int {
     init(_ values: Array<UInt8>, index: inout Int, format: ArrayIntegerFormat, exponent: UInt = 0) {
         // Raw value is the exponent
         self = 0
+        guard index + format.rawValue < values.count else {
+            let indexString = "\(index)"
+            Logger().critical("Unable to decode int from \(values, privacy: .public), bytes: \(format.rawValue, privacy: .public), index: \(indexString, privacy: .public)")
+            return
+        }
         for i in 0..<format.rawValue {
             self += Int(values[index + i]) * Int(pow(Double(UInt8.max), Double(i)))
         }

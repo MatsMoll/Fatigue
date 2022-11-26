@@ -46,15 +46,7 @@ struct ComputeDfaAlphaView: View {
             )
             
             VStack {
-                WorkoutValueView(
-                    type: .dfaAlpha1.average,
-                    value: dfaAlpha1.average.formatted(with: .defaultFormatter)
-                )
-                
-                WorkoutValueView(
-                    type: .dfaAlpha1.min,
-                    value: dfaAlpha1.min.formatted(with: .defaultFormatter)
-                )
+                WorkoutDfaSummaryView(dfaAlpha: dfaAlpha1)
                 
                 Spacer().frame(height: 5)
                 
@@ -129,6 +121,25 @@ struct ComputeDfaAlphaView: View {
             try appModel.workoutStore.update(workout: workout)
         } catch {
             print("Error: \(error.localizedDescription)")
+        }
+    }
+}
+
+struct WorkoutDfaSummaryView: View {
+    
+    let dfaAlpha: Workout.DFAAlphaSummary
+    
+    var body: some View {
+        LazyVGrid(columns: .defaultGrid()) {
+            WorkoutValueView(
+                type: .dfaAlpha1.average,
+                value: dfaAlpha.average.formatted(with: .defaultFormatter)
+            )
+            
+            WorkoutValueView(
+                type: .dfaAlpha1.min,
+                value: dfaAlpha.min.formatted(with: .defaultFormatter)
+            )
         }
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1250"
+   LastUpgradeVersion = "1310"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -46,9 +46,29 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "35D5D8E52662AA0700A68199"
-               BuildableName = "Tests macOS.xctest"
-               BlueprintName = "Tests macOS"
+               BlueprintIdentifier = "35B62E172767ED3100D5A82A"
+               BuildableName = "Unit Test MacOS.xctest"
+               BlueprintName = "Unit Test MacOS"
+               ReferencedContainer = "container:Fatigue.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "35B62E242767ED5300D5A82A"
+               BuildableName = "FatigueUITests.xctest"
+               BlueprintName = "FatigueUITests"
+               ReferencedContainer = "container:Fatigue.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "35B62E332767EDC700D5A82A"
+               BuildableName = "FatigueTests.xctest"
+               BlueprintName = "FatigueTests"
                ReferencedContainer = "container:Fatigue.xcodeproj">
             </BuildableReference>
          </TestableReference>

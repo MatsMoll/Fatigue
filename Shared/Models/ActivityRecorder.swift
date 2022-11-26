@@ -84,6 +84,7 @@ class ActivityRecorder: ObservableObject {
     var elapsedRoundTime: Int
     
     var recordedLaps: [Int]
+    var lapSummaries: [WorkoutLap] = []
     var recordedFrames: [WorkoutFrame]
     private var prevRawFrame: WorkoutFrame
     
@@ -175,15 +176,19 @@ class ActivityRecorder: ObservableObject {
         isRecording = false
     }
     
-    func stopRecording() -> Workout? {
-        guard let startedAt = startedAt else { return nil }
-        recordLap()
+    var workout: Workout {
         return Workout(
             id: .init(),
-            startedAt: startedAt,
+            startedAt: startedAt ?? .init(),
             values: recordedFrames,
             laps: recordedLaps
         )
+    }
+    
+    func stopRecording() -> Workout? {
+        guard let startedAt = startedAt else { return nil }
+        recordLap()
+        return workout
     }
     
     func resetRecorder() {
@@ -273,6 +278,15 @@ class ActivityRecorder: ObservableObject {
         guard isRecording else { return }
         recordedLaps.append(elapsedRoundTime)
         elapsedRoundTime = 0
+            
+        let tempWorkout = workout
+        Task {
+            do {
+                lapSummaries = try await ComputeWorkoutLapsSummaries(workout: tempWorkout, laps: recordedLaps).compute(with: .init())
+            } catch {
+                print(error)
+            }
+        }
     }
 }
 

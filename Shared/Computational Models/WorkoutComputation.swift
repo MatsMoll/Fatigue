@@ -74,12 +74,15 @@ struct SummaryWorkoutComputation: ComputationalTask {
                 )
             }
             
-            powerSummary = Workout.PowerSummary(
-                average: Int(power.meanWithoutZeros()),
-                normalized: NormalizedPowerModel.compute(values: power.map(Double.init)),
-                powerBalance: balance,
-                max: power.max() ?? 0
-            )
+            let average = power.meanWithoutZeros()
+            if average.isNormal {
+                powerSummary = Workout.PowerSummary(
+                    average: Int(average),
+                    normalized: NormalizedPowerModel.compute(values: power.map(Double.init)),
+                    powerBalance: balance,
+                    max: power.max() ?? 0
+                )
+            }
         }
         if !dfaAlpha.isEmpty {
             dfaSummary = .init(

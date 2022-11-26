@@ -72,6 +72,12 @@ class AppModel: ObservableObject {
         }
     }
     
+    func updateWorkouts() async throws {
+        workoutStore.workouts = workoutStore.loadWorkouts()
+        workoutStore.workouts += try await workoutStore.upgradeOldWorkouts()
+        try workoutStore.saveWorkouts()
+    }
+    
 //    func save(recorder: ActivityRecorderCollector) {
 //        let workout = recorder.recorder.workout
 //        recorder.stopRecording()

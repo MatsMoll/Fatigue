@@ -9,14 +9,14 @@ import Foundation
 import Combine
 
 extension NumberFormatter {
-    static let defaultFormatter: NumberFormatter = {
+    public static let defaultFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = 3
         formatter.minimumFractionDigits = 0
         return formatter
     }()
     
-    static func maxFractionDigits(_ digits: Int) -> NumberFormatter {
+    public static func maxFractionDigits(_ digits: Int) -> NumberFormatter {
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = digits
         formatter.minimumFractionDigits = 0
@@ -24,11 +24,11 @@ extension NumberFormatter {
     }
 }
 
-struct PowerBalance: Codable, Equatable {
-    let percentage: Double
-    let reference: PowerBalanceReferance
+public struct PowerBalance: Codable, Equatable {
+    public let percentage: Double
+    public let reference: PowerBalanceReferance
     
-    func description(formatter: NumberFormatter = .maxFractionDigits(1)) -> String {
+    public func description(formatter: NumberFormatter = .maxFractionDigits(1)) -> String {
         var leftBalance: Double = percentage
         var rightBalance: Double = 1 - percentage
         switch reference {

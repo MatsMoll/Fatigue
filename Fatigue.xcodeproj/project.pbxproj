@@ -10,8 +10,6 @@
 		351DCCF026B559DF00FEA6F2 /* GarminDeviceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351DCCEF26B559DF00FEA6F2 /* GarminDeviceListView.swift */; };
 		351DCCF226B5623100FEA6F2 /* Deeplinker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351DCCF126B5623100FEA6F2 /* Deeplinker.swift */; };
 		351DCCF326B5623100FEA6F2 /* Deeplinker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351DCCF126B5623100FEA6F2 /* Deeplinker.swift */; };
-		351DCCFC26B56AD600FEA6F2 /* ConnectIQ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 351DCCED26B5573900FEA6F2 /* ConnectIQ.framework */; };
-		351DCCFE26B56AEA00FEA6F2 /* ConnectIQ.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 351DCCED26B5573900FEA6F2 /* ConnectIQ.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3523A2EA2684858D0007660F /* WatchOS Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 3523A2E92684858D0007660F /* WatchOS Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3523A2EF2684858D0007660F /* FatigueApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523A2EE2684858D0007660F /* FatigueApp.swift */; };
 		3523A2F12684858D0007660F /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3523A2F02684858D0007660F /* ActivityView.swift */; };
@@ -52,13 +50,8 @@
 		3525BD7C2676130C00138BA9 /* BluetoothCSCHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BD7A2676130C00138BA9 /* BluetoothCSCHandler.swift */; };
 		3525BD7E2676230B00138BA9 /* RevolutionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BD7D2676230B00138BA9 /* RevolutionHandler.swift */; };
 		3525BD7F2676230B00138BA9 /* RevolutionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BD7D2676230B00138BA9 /* RevolutionHandler.swift */; };
-		3525BD8026768F5100138BA9 /* BluetoothHeartRateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CD826725A1800CB6573 /* BluetoothHeartRateHandler.swift */; };
-		3525BD93267691AB00138BA9 /* NormalizedPowerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BD742673AE9900138BA9 /* NormalizedPowerModel.swift */; };
-		3525BD94267691AC00138BA9 /* NormalizedPowerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BD742673AE9900138BA9 /* NormalizedPowerModel.swift */; };
 		3525BD992676946A00138BA9 /* FitDataProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 3525BD982676946A00138BA9 /* FitDataProtocol */; };
 		3525BD9B2676947500138BA9 /* FitDataProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = 3525BD9A2676947500138BA9 /* FitDataProtocol */; };
-		3525BDA426769EAD00138BA9 /* BluetoothPowerHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CE32672C44200CB6573 /* BluetoothPowerHandler.swift */; };
-		3525BDA526769EE900138BA9 /* RevolutionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BD7D2676230B00138BA9 /* RevolutionHandler.swift */; };
 		3525BDA72676A19900138BA9 /* LSCTAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BDA62676A19900138BA9 /* LSCTAnalysis.swift */; };
 		3525BDA82676A19900138BA9 /* LSCTAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BDA62676A19900138BA9 /* LSCTAnalysis.swift */; };
 		3525BDAA267766E300138BA9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3525BDA9267766E300138BA9 /* ContentView.swift */; };
@@ -114,14 +107,12 @@
 		355F87CE266A848D00AA5E25 /* MeanMaximumPowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87CC266A848D00AA5E25 /* MeanMaximumPowerView.swift */; };
 		355F87D1266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D0266A8A0300AA5E25 /* DataFrameLinearRegression.swift */; };
 		355F87D2266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D0266A8A0300AA5E25 /* DataFrameLinearRegression.swift */; };
-		355F87D3266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D0266A8A0300AA5E25 /* DataFrameLinearRegression.swift */; };
 		355F87D5266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D4266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift */; };
 		355F87D6266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D4266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift */; };
 		355F87DA266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D9266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift */; };
 		355F87DB266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D9266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift */; };
 		356C043D275EA843005054D2 /* ComputePowerDfaRegressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356C043C275EA843005054D2 /* ComputePowerDfaRegressionView.swift */; };
 		356C043E275EA843005054D2 /* ComputePowerDfaRegressionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356C043C275EA843005054D2 /* ComputePowerDfaRegressionView.swift */; };
-		35709A672670E53200087EE5 /* DFAStreamModel+testData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35709A662670E53200087EE5 /* DFAStreamModel+testData.swift */; };
 		358015A426E39C620062B199 /* Device Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015A326E39C620062B199 /* Device Type.swift */; };
 		358015A626E39C880062B199 /* Device Discoverer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015A526E39C880062B199 /* Device Discoverer.swift */; };
 		358015AB26E39E220062B199 /* Bluetooth Characteristics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015AA26E39E220062B199 /* Bluetooth Characteristics.swift */; };
@@ -150,13 +141,31 @@
 		3584B59226639AE8005993D5 /* DFAStreamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B59026639AE8005993D5 /* DFAStreamModel.swift */; };
 		3584B5942663A21A005993D5 /* LinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B5932663A21A005993D5 /* LinearRegression.swift */; };
 		3584B5952663A21A005993D5 /* LinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B5932663A21A005993D5 /* LinearRegression.swift */; };
-		3584B5962663B061005993D5 /* DFAStreamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B59026639AE8005993D5 /* DFAStreamModel.swift */; };
-		3584B5972663B0AA005993D5 /* LinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B5932663A21A005993D5 /* LinearRegression.swift */; };
 		3584B5992663B6D9005993D5 /* ImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B5982663B6D9005993D5 /* ImportView.swift */; };
 		3584B59A2663B6D9005993D5 /* ImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B5982663B6D9005993D5 /* ImportView.swift */; };
 		358D64A42724599E00C99C35 /* LSCTResultDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358D64A32724599E00C99C35 /* LSCTResultDetailView.swift */; };
 		358D64A52724599E00C99C35 /* LSCTResultDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358D64A32724599E00C99C35 /* LSCTResultDetailView.swift */; };
 		358E8C6926E4F2A7004E3920 /* SavingWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E8C6826E4F2A7004E3920 /* SavingWorkoutView.swift */; };
+		35B1A6FE27668C01005B556A /* View+roundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015B826E3A25E0062B199 /* View+roundedButton.swift */; };
+		35B1A6FF27668D12005B556A /* Power Meter Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015C026E3A55D0062B199 /* Power Meter Handler.swift */; };
+		35B1A70027668D18005B556A /* Power Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015BA26E3A3BC0062B199 /* Power Device.swift */; };
+		35B1A70127668D25005B556A /* Device Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015A326E39C620062B199 /* Device Type.swift */; };
+		35B1A70227668D2A005B556A /* DeciveTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015CA26E3B2960062B199 /* DeciveTypesView.swift */; };
+		35B1A70327668D78005B556A /* Device Wrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015BC26E3A4160062B199 /* Device Wrapper.swift */; };
+		35B1A70427668D8F005B556A /* Bluetooth Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015B026E3A0320062B199 /* Bluetooth Device.swift */; };
+		35B1A70527668DBA005B556A /* Device Discoverer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015A526E39C880062B199 /* Device Discoverer.swift */; };
+		35B1A70627668DFF005B556A /* BatteryLevelHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015BE26E3A4DC0062B199 /* BatteryLevelHandler.swift */; };
+		35B1A70727668E13005B556A /* Array+mean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015AE26E39F870062B199 /* Array+mean.swift */; };
+		35B1A70827668E37005B556A /* BluetoothDeviceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015B426E3A0860062B199 /* BluetoothDeviceMock.swift */; };
+		35B1A70927668E64005B556A /* ConnectionListner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015C526E3AF8F0062B199 /* ConnectionListner.swift */; };
+		35B1A70A27668E89005B556A /* ConnectableDeviceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015C326E3AF580062B199 /* ConnectableDeviceListView.swift */; };
+		35B1A70B27668ED9005B556A /* DeviceCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015B626E3A22A0062B199 /* DeviceCard.swift */; };
+		35B1A70C27668EF2005B556A /* HeartRateDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015CD26E3E4D50062B199 /* HeartRateDevice.swift */; };
+		35B1A70D27668F96005B556A /* RecordWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015D026E3E9810062B199 /* RecordWorkoutView.swift */; };
+		35B1A70E27668FC9005B556A /* RecorderControllsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015D226E3EA980062B199 /* RecorderControllsView.swift */; };
+		35B1A70F27668FE0005B556A /* SavingWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E8C6826E4F2A7004E3920 /* SavingWorkoutView.swift */; };
+		35B1A71027669025005B556A /* ConnectableDeviceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015C726E3B1650062B199 /* ConnectableDeviceCell.swift */; };
+		35B62E812767EF3C00D5A82A /* LSCTStreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B62E802767EF3C00D5A82A /* LSCTStreamTests.swift */; };
 		35C1DE0526E38D6C0023A23A /* Workout+DataFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1DE0426E38D6C0023A23A /* Workout+DataFrame.swift */; };
 		35C1DE0626E38D6C0023A23A /* Workout+DataFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1DE0426E38D6C0023A23A /* Workout+DataFrame.swift */; };
 		35C1DE0726E38D6C0023A23A /* Workout+DataFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1DE0426E38D6C0023A23A /* Workout+DataFrame.swift */; };
@@ -165,17 +174,8 @@
 		35C1DE0F26E398F80023A23A /* Workout+Summary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1DE0C26E398F80023A23A /* Workout+Summary.swift */; };
 		35CE23332721F1B30089D6C5 /* WorkoutValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015D426E3EAE40062B199 /* WorkoutValueView.swift */; };
 		35CE23342721F2860089D6C5 /* Bluetooth Characteristics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358015AA26E39E220062B199 /* Bluetooth Characteristics.swift */; };
-		35CE23352721F3170089D6C5 /* LSCTStreamDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FA479D267D101300C51045 /* LSCTStreamDetector.swift */; };
-		35CE23362721F32B0089D6C5 /* LSCTDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35512DC8266A690C00E7C68B /* LSCTDetector.swift */; };
-		35CE23372721F3350089D6C5 /* Workout+DataFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1DE0426E38D6C0023A23A /* Workout+DataFrame.swift */; };
-		35CE23382721F3410089D6C5 /* PowerMeterHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D58344267BAF460079B4A0 /* PowerMeterHandler.swift */; };
-		35CE23392721F3490089D6C5 /* BluetoothPowerFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5833E267BA6140079B4A0 /* BluetoothPowerFlag.swift */; };
-		35CE233A2721F3540089D6C5 /* Number+fromByte.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5834C267BB0460079B4A0 /* Number+fromByte.swift */; };
-		35CE233B2721F3600089D6C5 /* DataFrameLinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355F87D0266A8A0300AA5E25 /* DataFrameLinearRegression.swift */; };
-		35CE233C2721F3670089D6C5 /* LinearRegression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3584B5932663A21A005993D5 /* LinearRegression.swift */; };
 		35D263062739AA0900FC526F /* UserLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D263052739AA0900FC526F /* UserLoginView.swift */; };
 		35D263072739AA0900FC526F /* UserLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D263052739AA0900FC526F /* UserLoginView.swift */; };
-		35D263092739AACB00FC526F /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D263082739AACA00FC526F /* HealthKit.framework */; };
 		35D2630B2739AE2C00FC526F /* FatigueAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D2630A2739AE2C00FC526F /* FatigueAPI.swift */; };
 		35D2630C2739AE2C00FC526F /* FatigueAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D2630A2739AE2C00FC526F /* FatigueAPI.swift */; };
 		35D2630E2739AECB00FC526F /* SiwaCreateUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D2630D2739AECB00FC526F /* SiwaCreateUsernameView.swift */; };
@@ -184,21 +184,14 @@
 		35D26312273FD9C400FC526F /* ComputeDfaAlphaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D26310273FD9C300FC526F /* ComputeDfaAlphaView.swift */; };
 		35D5833F267BA6140079B4A0 /* BluetoothPowerFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5833E267BA6140079B4A0 /* BluetoothPowerFlag.swift */; };
 		35D58340267BA6140079B4A0 /* BluetoothPowerFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5833E267BA6140079B4A0 /* BluetoothPowerFlag.swift */; };
-		35D58341267BA6140079B4A0 /* BluetoothPowerFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5833E267BA6140079B4A0 /* BluetoothPowerFlag.swift */; };
 		35D58345267BAF460079B4A0 /* PowerMeterHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D58344267BAF460079B4A0 /* PowerMeterHandler.swift */; };
 		35D58346267BAF460079B4A0 /* PowerMeterHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D58344267BAF460079B4A0 /* PowerMeterHandler.swift */; };
-		35D58347267BAF460079B4A0 /* PowerMeterHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D58344267BAF460079B4A0 /* PowerMeterHandler.swift */; };
 		35D58349267BB0020079B4A0 /* BluetoothHeartRateFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D58348267BB0020079B4A0 /* BluetoothHeartRateFlag.swift */; };
 		35D5834A267BB0020079B4A0 /* BluetoothHeartRateFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D58348267BB0020079B4A0 /* BluetoothHeartRateFlag.swift */; };
-		35D5834B267BB0020079B4A0 /* BluetoothHeartRateFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D58348267BB0020079B4A0 /* BluetoothHeartRateFlag.swift */; };
 		35D5834D267BB0460079B4A0 /* Number+fromByte.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5834C267BB0460079B4A0 /* Number+fromByte.swift */; };
 		35D5834E267BB0460079B4A0 /* Number+fromByte.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5834C267BB0460079B4A0 /* Number+fromByte.swift */; };
-		35D5834F267BB0460079B4A0 /* Number+fromByte.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5834C267BB0460079B4A0 /* Number+fromByte.swift */; };
 		35D58355267BB0AB0079B4A0 /* CyclingSpeedAndCadenceFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D58354267BB0AB0079B4A0 /* CyclingSpeedAndCadenceFlag.swift */; };
 		35D58356267BB0AB0079B4A0 /* CyclingSpeedAndCadenceFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D58354267BB0AB0079B4A0 /* CyclingSpeedAndCadenceFlag.swift */; };
-		35D58357267BB0AB0079B4A0 /* CyclingSpeedAndCadenceFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D58354267BB0AB0079B4A0 /* CyclingSpeedAndCadenceFlag.swift */; };
-		35D5D8E02662AA0700A68199 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D8DF2662AA0700A68199 /* Tests_iOS.swift */; };
-		35D5D8EB2662AA0700A68199 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D8EA2662AA0700A68199 /* Tests_macOS.swift */; };
 		35D5D8ED2662AA0700A68199 /* FatigueApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D8C42662AA0600A68199 /* FatigueApp.swift */; };
 		35D5D8EE2662AA0700A68199 /* FatigueApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D8C42662AA0600A68199 /* FatigueApp.swift */; };
 		35D5D8F12662AA0700A68199 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35D5D8C62662AA0700A68199 /* Assets.xcassets */; };
@@ -209,9 +202,19 @@
 		35D5D90B2662BC9B00A68199 /* WorkoutStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D5D9092662BC9B00A68199 /* WorkoutStore.swift */; };
 		35D7FDC12671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7FDC02671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift */; };
 		35D7FDC22671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D7FDC02671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift */; };
+		35F2C77B27B7E11900E534A8 /* WorkoutLapsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F2C77A27B7E11800E534A8 /* WorkoutLapsView.swift */; };
+		35F2C77C27B7E11900E534A8 /* WorkoutLapsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F2C77A27B7E11800E534A8 /* WorkoutLapsView.swift */; };
+		35F2C77E27B7E17A00E534A8 /* WorkoutLapSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F2C77D27B7E17A00E534A8 /* WorkoutLapSummary.swift */; };
+		35F2C77F27B7E17A00E534A8 /* WorkoutLapSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F2C77D27B7E17A00E534A8 /* WorkoutLapSummary.swift */; };
+		35F2C78027B7F64600E534A8 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D263082739AACA00FC526F /* HealthKit.framework */; };
+		35F909C127627ECA00F1AFCF /* Workout+Old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F909C027627ECA00F1AFCF /* Workout+Old.swift */; };
+		35F909C227627ECA00F1AFCF /* Workout+Old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F909C027627ECA00F1AFCF /* Workout+Old.swift */; };
+		35F909C42763FC1A00F1AFCF /* RunLSCTView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F909C32763FC1A00F1AFCF /* RunLSCTView.swift */; };
+		35F909C52763FC1A00F1AFCF /* RunLSCTView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F909C32763FC1A00F1AFCF /* RunLSCTView.swift */; };
+		35F909C82764EEAE00F1AFCF /* ComputeWorkoutLaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F909C72764EEAE00F1AFCF /* ComputeWorkoutLaps.swift */; };
+		35F909C92764EEAE00F1AFCF /* ComputeWorkoutLaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F909C72764EEAE00F1AFCF /* ComputeWorkoutLaps.swift */; };
 		35FA479E267D101300C51045 /* LSCTStreamDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FA479D267D101300C51045 /* LSCTStreamDetector.swift */; };
 		35FA479F267D101300C51045 /* LSCTStreamDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FA479D267D101300C51045 /* LSCTStreamDetector.swift */; };
-		35FA47A4267E010900C51045 /* LSCTStreamDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FA479D267D101300C51045 /* LSCTStreamDetector.swift */; };
 		35FB0CC926721CDE00CB6573 /* Array+binarySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CC826721CDE00CB6573 /* Array+binarySearch.swift */; };
 		35FB0CCA26721CDE00CB6573 /* Array+binarySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CC826721CDE00CB6573 /* Array+binarySearch.swift */; };
 		35FB0CCC2672247000CB6573 /* BluetoothDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FB0CCB2672247000CB6573 /* BluetoothDeviceManager.swift */; };
@@ -259,33 +262,23 @@
 			remoteGlobalIDString = 3523A2DF268485890007660F;
 			remoteInfo = WatchOS;
 		};
-		35D5D8DC2662AA0700A68199 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35D5D8BF2662AA0500A68199 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 35D5D8CA2662AA0700A68199;
-			remoteInfo = "Fatigue (iOS)";
-		};
-		35D5D8E72662AA0700A68199 /* PBXContainerItemProxy */ = {
+		35B62E2B2767ED5300D5A82A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 35D5D8BF2662AA0500A68199 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 35D5D8D22662AA0700A68199;
 			remoteInfo = "Fatigue (macOS)";
 		};
+		35B62E7B2767EEEA00D5A82A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 35D5D8BF2662AA0500A68199 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 35D5D8CA2662AA0700A68199;
+			remoteInfo = "Fatigue (iOS)";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		351DCCFD26B56ADB00FEA6F2 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				351DCCFE26B56AEA00FEA6F2 /* ConnectIQ.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3523A31B2684858E0007660F /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -311,7 +304,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		351DCCED26B5573900FEA6F2 /* ConnectIQ.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ConnectIQ.framework; sourceTree = "<group>"; };
 		351DCCEF26B559DF00FEA6F2 /* GarminDeviceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GarminDeviceListView.swift; sourceTree = "<group>"; };
 		351DCCF126B5623100FEA6F2 /* Deeplinker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deeplinker.swift; sourceTree = "<group>"; };
 		351DCCF726B56A4900FEA6F2 /* Fatigue.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Fatigue.xcodeproj; sourceTree = "<group>"; };
@@ -373,7 +365,6 @@
 		355F87D4266AA1E800AA5E25 /* DFAAlpha1RegressionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DFAAlpha1RegressionView.swift; sourceTree = "<group>"; };
 		355F87D9266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSessionViewModel.swift; sourceTree = "<group>"; };
 		356C043C275EA843005054D2 /* ComputePowerDfaRegressionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputePowerDfaRegressionView.swift; sourceTree = "<group>"; };
-		35709A662670E53200087EE5 /* DFAStreamModel+testData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DFAStreamModel+testData.swift"; sourceTree = "<group>"; };
 		35709A682670E8C800087EE5 /* Fatigue.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fatigue.entitlements; sourceTree = "<group>"; };
 		358015A326E39C620062B199 /* Device Type.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device Type.swift"; sourceTree = "<group>"; };
 		358015A526E39C880062B199 /* Device Discoverer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device Discoverer.swift"; sourceTree = "<group>"; };
@@ -402,6 +393,12 @@
 		3584B5982663B6D9005993D5 /* ImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.swift; sourceTree = "<group>"; };
 		358D64A32724599E00C99C35 /* LSCTResultDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSCTResultDetailView.swift; sourceTree = "<group>"; };
 		358E8C6826E4F2A7004E3920 /* SavingWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingWorkoutView.swift; sourceTree = "<group>"; };
+		35B62D0C27669BA200D5A82A /* Unit_Test_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit_Test_iOS.swift; sourceTree = "<group>"; };
+		35B62D1327669BD800D5A82A /* DFAStreamModel+testData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DFAStreamModel+testData.swift"; sourceTree = "<group>"; };
+		35B62E252767ED5300D5A82A /* FatigueUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FatigueUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		35B62E712767EEB800D5A82A /* FatigueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FatigueTests.swift; sourceTree = "<group>"; };
+		35B62E772767EEEA00D5A82A /* Unit Test iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Test iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		35B62E802767EF3C00D5A82A /* LSCTStreamTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSCTStreamTests.swift; sourceTree = "<group>"; };
 		35C1DE0426E38D6C0023A23A /* Workout+DataFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Workout+DataFrame.swift"; sourceTree = "<group>"; };
 		35C1DE0C26E398F80023A23A /* Workout+Summary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Workout+Summary.swift"; sourceTree = "<group>"; };
 		35D263052739AA0900FC526F /* UserLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginView.swift; sourceTree = "<group>"; };
@@ -421,15 +418,16 @@
 		35D5D8D32662AA0700A68199 /* Fatigue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fatigue.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D5D8D52662AA0700A68199 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35D5D8D62662AA0700A68199 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
-		35D5D8DB2662AA0700A68199 /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		35D5D8DF2662AA0700A68199 /* Tests_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOS.swift; sourceTree = "<group>"; };
+		35D5D8DF2662AA0700A68199 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		35D5D8E12662AA0700A68199 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		35D5D8E62662AA0700A68199 /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		35D5D8EA2662AA0700A68199 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
-		35D5D8EC2662AA0700A68199 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35D5D9012662AA9300A68199 /* WorkoutListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListView.swift; sourceTree = "<group>"; };
 		35D5D9092662BC9B00A68199 /* WorkoutStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutStore.swift; sourceTree = "<group>"; };
 		35D7FDC02671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DFAAlpha1RegressionSettingsView.swift; sourceTree = "<group>"; };
+		35F2C77A27B7E11800E534A8 /* WorkoutLapsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutLapsView.swift; sourceTree = "<group>"; };
+		35F2C77D27B7E17A00E534A8 /* WorkoutLapSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutLapSummary.swift; sourceTree = "<group>"; };
+		35F909C027627ECA00F1AFCF /* Workout+Old.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Workout+Old.swift"; sourceTree = "<group>"; };
+		35F909C32763FC1A00F1AFCF /* RunLSCTView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunLSCTView.swift; sourceTree = "<group>"; };
+		35F909C72764EEAE00F1AFCF /* ComputeWorkoutLaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputeWorkoutLaps.swift; sourceTree = "<group>"; };
 		35FA479D267D101300C51045 /* LSCTStreamDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LSCTStreamDetector.swift; sourceTree = "<group>"; };
 		35FB0CC826721CDE00CB6573 /* Array+binarySearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+binarySearch.swift"; sourceTree = "<group>"; };
 		35FB0CCB2672247000CB6573 /* BluetoothDeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDeviceManager.swift; sourceTree = "<group>"; };
@@ -464,12 +462,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		35B62E222767ED5300D5A82A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		35B62E742767EEEA00D5A82A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		35D5D8C82662AA0700A68199 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				351DCCFC26B56AD600FEA6F2 /* ConnectIQ.framework in Frameworks */,
-				35D263092739AACB00FC526F /* HealthKit.framework in Frameworks */,
+				35F2C78027B7F64600E534A8 /* HealthKit.framework in Frameworks */,
 				3525BD992676946A00138BA9 /* FitDataProtocol in Frameworks */,
 				353B38132663D09C00D1C9B2 /* Charts in Frameworks */,
 			);
@@ -481,20 +492,6 @@
 			files = (
 				3525BD9B2676947500138BA9 /* FitDataProtocol in Frameworks */,
 				353B380E2663D06C00D1C9B2 /* Charts in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		35D5D8D82662AA0700A68199 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		35D5D8E32662AA0700A68199 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,6 +569,7 @@
 				3525BDB7267802D900138BA9 /* LSCTResultView.swift */,
 				35FA479D267D101300C51045 /* LSCTStreamDetector.swift */,
 				35512DC8266A690C00E7C68B /* LSCTDetector.swift */,
+				35F909C32763FC1A00F1AFCF /* RunLSCTView.swift */,
 				358D64A32724599E00C99C35 /* LSCTResultDetailView.swift */,
 				3525BDA62676A19900138BA9 /* LSCTAnalysis.swift */,
 				3525BDB32677FD3700138BA9 /* LSCTResultComputation.swift */,
@@ -693,11 +691,30 @@
 			path = "Record Workout";
 			sourceTree = "<group>";
 		};
+		35B62D0B27669BA200D5A82A /* Unit Test iOS */ = {
+			isa = PBXGroup;
+			children = (
+				35B62D0C27669BA200D5A82A /* Unit_Test_iOS.swift */,
+				35B62E802767EF3C00D5A82A /* LSCTStreamTests.swift */,
+				35B62D1327669BD800D5A82A /* DFAStreamModel+testData.swift */,
+			);
+			path = "Unit Test iOS";
+			sourceTree = "<group>";
+		};
+		35B62E692767EEA400D5A82A /* FatigueTests */ = {
+			isa = PBXGroup;
+			children = (
+				35B62E712767EEB800D5A82A /* FatigueTests.swift */,
+			);
+			path = FatigueTests;
+			sourceTree = "<group>";
+		};
 		35C1DE0326E38D550023A23A /* Workout */ = {
 			isa = PBXGroup;
 			children = (
 				35512DC42669009700E7C68B /* Workout.swift */,
 				35C1DE0C26E398F80023A23A /* Workout+Summary.swift */,
+				35F909C027627ECA00F1AFCF /* Workout+Old.swift */,
 				35C1DE0426E38D6C0023A23A /* Workout+DataFrame.swift */,
 			);
 			path = Workout;
@@ -744,16 +761,16 @@
 			isa = PBXGroup;
 			children = (
 				35709A682670E8C800087EE5 /* Fatigue.entitlements */,
-				351DCCED26B5573900FEA6F2 /* ConnectIQ.framework */,
 				35D5D8C32662AA0600A68199 /* Shared */,
 				35D5D8CD2662AA0700A68199 /* iOS */,
 				35D5D8D42662AA0700A68199 /* macOS */,
 				35D5D8DE2662AA0700A68199 /* Tests iOS */,
-				35D5D8E92662AA0700A68199 /* Tests macOS */,
 				3523A2E1268485890007660F /* WatchOS */,
 				3523A2ED2684858D0007660F /* WatchOS Extension */,
 				3523A3062684858E0007660F /* WatchOSTests */,
 				3523A3112684858E0007660F /* WatchOSUITests */,
+				35B62D0B27669BA200D5A82A /* Unit Test iOS */,
+				35B62E692767EEA400D5A82A /* FatigueTests */,
 				35D5D8CC2662AA0700A68199 /* Products */,
 				35D5D9122662BF9400A68199 /* Frameworks */,
 			);
@@ -765,6 +782,7 @@
 				35D5D8C42662AA0600A68199 /* FatigueApp.swift */,
 				3525BDA9267766E300138BA9 /* ContentView.swift */,
 				358015B826E3A25E0062B199 /* View+roundedButton.swift */,
+				35F909C62764EE9100F1AFCF /* Workout Laps */,
 				35D2630A2739AE2C00FC526F /* FatigueAPI.swift */,
 				35D263042739A9F500FC526F /* User */,
 				358015CF26E3E94C0062B199 /* Record Workout */,
@@ -785,12 +803,12 @@
 			children = (
 				35D5D8CB2662AA0700A68199 /* Fatigue.app */,
 				35D5D8D32662AA0700A68199 /* Fatigue.app */,
-				35D5D8DB2662AA0700A68199 /* Tests iOS.xctest */,
-				35D5D8E62662AA0700A68199 /* Tests macOS.xctest */,
 				3523A2E0268485890007660F /* WatchOS.app */,
 				3523A2E92684858D0007660F /* WatchOS Extension.appex */,
 				3523A3032684858E0007660F /* WatchOSTests.xctest */,
 				3523A30E2684858E0007660F /* WatchOSUITests.xctest */,
+				35B62E252767ED5300D5A82A /* FatigueUITests.xctest */,
+				35B62E772767EEEA00D5A82A /* Unit Test iOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -815,20 +833,10 @@
 		35D5D8DE2662AA0700A68199 /* Tests iOS */ = {
 			isa = PBXGroup;
 			children = (
-				35D5D8DF2662AA0700A68199 /* Tests_iOS.swift */,
+				35D5D8DF2662AA0700A68199 /* Tests.swift */,
 				35D5D8E12662AA0700A68199 /* Info.plist */,
 			);
 			path = "Tests iOS";
-			sourceTree = "<group>";
-		};
-		35D5D8E92662AA0700A68199 /* Tests macOS */ = {
-			isa = PBXGroup;
-			children = (
-				35D5D8EA2662AA0700A68199 /* Tests_macOS.swift */,
-				35709A662670E53200087EE5 /* DFAStreamModel+testData.swift */,
-				35D5D8EC2662AA0700A68199 /* Info.plist */,
-			);
-			path = "Tests macOS";
 			sourceTree = "<group>";
 		};
 		35D5D9122662BF9400A68199 /* Frameworks */ = {
@@ -840,6 +848,16 @@
 				3531AAB42685126E0025CD25 /* HealthKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		35F909C62764EE9100F1AFCF /* Workout Laps */ = {
+			isa = PBXGroup;
+			children = (
+				35F909C72764EEAE00F1AFCF /* ComputeWorkoutLaps.swift */,
+				35F2C77A27B7E11800E534A8 /* WorkoutLapsView.swift */,
+				35F2C77D27B7E17A00E534A8 /* WorkoutLapSummary.swift */,
+			);
+			path = "Workout Laps";
 			sourceTree = "<group>";
 		};
 		35FB0CC5267209BB00CB6573 /* Workout Session View */ = {
@@ -961,6 +979,42 @@
 			productReference = 3523A30E2684858E0007660F /* WatchOSUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		35B62E242767ED5300D5A82A /* FatigueUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 35B62E2D2767ED5300D5A82A /* Build configuration list for PBXNativeTarget "FatigueUITests" */;
+			buildPhases = (
+				35B62E212767ED5300D5A82A /* Sources */,
+				35B62E222767ED5300D5A82A /* Frameworks */,
+				35B62E232767ED5300D5A82A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				35B62E2C2767ED5300D5A82A /* PBXTargetDependency */,
+			);
+			name = FatigueUITests;
+			productName = FatigueUITests;
+			productReference = 35B62E252767ED5300D5A82A /* FatigueUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		35B62E762767EEEA00D5A82A /* Unit Test iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 35B62E7D2767EEEA00D5A82A /* Build configuration list for PBXNativeTarget "Unit Test iOS" */;
+			buildPhases = (
+				35B62E732767EEEA00D5A82A /* Sources */,
+				35B62E742767EEEA00D5A82A /* Frameworks */,
+				35B62E752767EEEA00D5A82A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				35B62E7C2767EEEA00D5A82A /* PBXTargetDependency */,
+			);
+			name = "Unit Test iOS";
+			productName = "Unit Test iOS";
+			productReference = 35B62E772767EEEA00D5A82A /* Unit Test iOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		35D5D8CA2662AA0700A68199 /* Fatigue (iOS) */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 35D5D8F52662AA0700A68199 /* Build configuration list for PBXNativeTarget "Fatigue (iOS)" */;
@@ -969,7 +1023,6 @@
 				35D5D8C82662AA0700A68199 /* Frameworks */,
 				35D5D8C92662AA0700A68199 /* Resources */,
 				3523A31F2684858E0007660F /* Embed Watch Content */,
-				351DCCFD26B56ADB00FEA6F2 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1006,52 +1059,14 @@
 			productReference = 35D5D8D32662AA0700A68199 /* Fatigue.app */;
 			productType = "com.apple.product-type.application";
 		};
-		35D5D8DA2662AA0700A68199 /* Tests iOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 35D5D8FB2662AA0700A68199 /* Build configuration list for PBXNativeTarget "Tests iOS" */;
-			buildPhases = (
-				35D5D8D72662AA0700A68199 /* Sources */,
-				35D5D8D82662AA0700A68199 /* Frameworks */,
-				35D5D8D92662AA0700A68199 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				35D5D8DD2662AA0700A68199 /* PBXTargetDependency */,
-			);
-			name = "Tests iOS";
-			productName = "Tests iOS";
-			productReference = 35D5D8DB2662AA0700A68199 /* Tests iOS.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
-		35D5D8E52662AA0700A68199 /* Tests macOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 35D5D8FE2662AA0700A68199 /* Build configuration list for PBXNativeTarget "Tests macOS" */;
-			buildPhases = (
-				35D5D8E22662AA0700A68199 /* Sources */,
-				35D5D8E32662AA0700A68199 /* Frameworks */,
-				35D5D8E42662AA0700A68199 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				35D5D8E82662AA0700A68199 /* PBXTargetDependency */,
-			);
-			name = "Tests macOS";
-			packageProductDependencies = (
-			);
-			productName = "Tests macOS";
-			productReference = 35D5D8E62662AA0700A68199 /* Tests macOS.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		35D5D8BF2662AA0500A68199 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1250;
+				LastSwiftUpdateCheck = 1310;
+				LastUpgradeCheck = 1310;
 				TargetAttributes = {
 					3523A2DF268485890007660F = {
 						CreatedOnToolsVersion = 12.5;
@@ -1067,19 +1082,20 @@
 						CreatedOnToolsVersion = 12.5;
 						TestTargetID = 3523A2DF268485890007660F;
 					};
+					35B62E242767ED5300D5A82A = {
+						CreatedOnToolsVersion = 13.1;
+						TestTargetID = 35D5D8D22662AA0700A68199;
+					};
+					35B62E762767EEEA00D5A82A = {
+						CreatedOnToolsVersion = 13.1;
+						LastSwiftMigration = 1310;
+						TestTargetID = 35D5D8CA2662AA0700A68199;
+					};
 					35D5D8CA2662AA0700A68199 = {
 						CreatedOnToolsVersion = 12.5;
 					};
 					35D5D8D22662AA0700A68199 = {
 						CreatedOnToolsVersion = 12.5;
-					};
-					35D5D8DA2662AA0700A68199 = {
-						CreatedOnToolsVersion = 12.5;
-						TestTargetID = 35D5D8CA2662AA0700A68199;
-					};
-					35D5D8E52662AA0700A68199 = {
-						CreatedOnToolsVersion = 12.5;
-						TestTargetID = 35D5D8D22662AA0700A68199;
 					};
 				};
 			};
@@ -1108,12 +1124,12 @@
 			targets = (
 				35D5D8CA2662AA0700A68199 /* Fatigue (iOS) */,
 				35D5D8D22662AA0700A68199 /* Fatigue (macOS) */,
-				35D5D8DA2662AA0700A68199 /* Tests iOS */,
-				35D5D8E52662AA0700A68199 /* Tests macOS */,
 				3523A2DF268485890007660F /* WatchOS */,
 				3523A2E82684858D0007660F /* WatchOS Extension */,
 				3523A3022684858E0007660F /* WatchOSTests */,
 				3523A30D2684858E0007660F /* WatchOSUITests */,
+				35B62E242767ED5300D5A82A /* FatigueUITests */,
+				35B62E762767EEEA00D5A82A /* Unit Test iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -1150,6 +1166,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		35B62E232767ED5300D5A82A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		35B62E752767EEEA00D5A82A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		35D5D8C92662AA0700A68199 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1163,20 +1193,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				35D5D8F22662AA0700A68199 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		35D5D8D92662AA0700A68199 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		35D5D8E42662AA0700A68199 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1227,6 +1243,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		35B62E212767ED5300D5A82A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		35B62E732767EEEA00D5A82A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				35B62E812767EF3C00D5A82A /* LSCTStreamTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		35D5D8C72662AA0700A68199 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1249,6 +1280,7 @@
 				3525BD6F2673618A00138BA9 /* AppModel.swift in Sources */,
 				3557CD25271C258D006855B9 /* ComputeWorkoutSummaryView.swift in Sources */,
 				3535CDDB271AE46F00082FF1 /* WorkoutLineChart.swift in Sources */,
+				35F2C77B27B7E11900E534A8 /* WorkoutLapsView.swift in Sources */,
 				35D2630E2739AECB00FC526F /* SiwaCreateUsernameView.swift in Sources */,
 				3525BDAD26776B4200138BA9 /* ComputationStore.swift in Sources */,
 				35D263062739AA0900FC526F /* UserLoginView.swift in Sources */,
@@ -1281,6 +1313,7 @@
 				358015BF26E3A4DC0062B199 /* BatteryLevelHandler.swift in Sources */,
 				35FA479E267D101300C51045 /* LSCTStreamDetector.swift in Sources */,
 				3584B59126639AE8005993D5 /* DFAStreamModel.swift in Sources */,
+				35F2C77E27B7E17A00E534A8 /* WorkoutLapSummary.swift in Sources */,
 				358015B526E3A0860062B199 /* BluetoothDeviceMock.swift in Sources */,
 				3525BDAA267766E300138BA9 /* ContentView.swift in Sources */,
 				35D5D9022662AA9300A68199 /* WorkoutListView.swift in Sources */,
@@ -1305,12 +1338,15 @@
 				353B38082663C08D00D1C9B2 /* WorkoutSessionView.swift in Sources */,
 				358015A426E39C620062B199 /* Device Type.swift in Sources */,
 				35D5834D267BB0460079B4A0 /* Number+fromByte.swift in Sources */,
+				35F909C82764EEAE00F1AFCF /* ComputeWorkoutLaps.swift in Sources */,
+				35F909C42763FC1A00F1AFCF /* RunLSCTView.swift in Sources */,
 				3525BD72267365EB00138BA9 /* AsyncView.swift in Sources */,
 				3525BD752673AE9900138BA9 /* NormalizedPowerModel.swift in Sources */,
 				35FB0CDE2672627E00CB6573 /* ActivityRecorder.swift in Sources */,
 				35D7FDC12671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift in Sources */,
 				355F87CD266A848D00AA5E25 /* MeanMaximumPowerView.swift in Sources */,
 				358015C126E3A55D0062B199 /* Power Meter Handler.swift in Sources */,
+				35F909C127627ECA00F1AFCF /* Workout+Old.swift in Sources */,
 				35FB0CD526723CE200CB6573 /* BluetoothConnectionView.swift in Sources */,
 				3525BDB02677AEE800138BA9 /* NumberField.swift in Sources */,
 				358015B126E3A0320062B199 /* Bluetooth Device.swift in Sources */,
@@ -1330,17 +1366,24 @@
 			files = (
 				3535CDDC271AE46F00082FF1 /* WorkoutLineChart.swift in Sources */,
 				35FB0CD326722D0100CB6573 /* ValueView.swift in Sources */,
+				35B1A70327668D78005B556A /* Device Wrapper.swift in Sources */,
 				3525BD7C2676130C00138BA9 /* BluetoothCSCHandler.swift in Sources */,
+				35B1A70B27668ED9005B556A /* DeviceCard.swift in Sources */,
 				3584B59A2663B6D9005993D5 /* ImportView.swift in Sources */,
+				35F909C227627ECA00F1AFCF /* Workout+Old.swift in Sources */,
+				35B1A70927668E64005B556A /* ConnectionListner.swift in Sources */,
 				355F87D2266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */,
 				35D5D8EE2662AA0700A68199 /* FatigueApp.swift in Sources */,
 				355F87DB266AAD2A00AA5E25 /* WorkoutSessionViewModel.swift in Sources */,
+				35F909C52763FC1A00F1AFCF /* RunLSCTView.swift in Sources */,
 				35D58340267BA6140079B4A0 /* BluetoothPowerFlag.swift in Sources */,
 				35FB0CCA26721CDE00CB6573 /* Array+binarySearch.swift in Sources */,
 				3535CDD9271ADEDE00082FF1 /* WorkoutDetailLoaderView.swift in Sources */,
+				35B1A70E27668FC9005B556A /* RecorderControllsView.swift in Sources */,
 				35D5D90B2662BC9B00A68199 /* WorkoutStore.swift in Sources */,
 				356C043E275EA843005054D2 /* ComputePowerDfaRegressionView.swift in Sources */,
 				3525BD702673618A00138BA9 /* AppModel.swift in Sources */,
+				35B1A70727668E13005B556A /* Array+mean.swift in Sources */,
 				3525BDAE26776B4200138BA9 /* ComputationStore.swift in Sources */,
 				3557CD26271C258D006855B9 /* ComputeWorkoutSummaryView.swift in Sources */,
 				35CE23332721F1B30089D6C5 /* WorkoutValueView.swift in Sources */,
@@ -1355,30 +1398,41 @@
 				35512DCF266A831900E7C68B /* LSCTDetectionView.swift in Sources */,
 				35D58346267BAF460079B4A0 /* PowerMeterHandler.swift in Sources */,
 				35512DC62669009700E7C68B /* Workout.swift in Sources */,
+				35F2C77C27B7E11900E534A8 /* WorkoutLapsView.swift in Sources */,
 				35512DCA266A690C00E7C68B /* LSCTDetector.swift in Sources */,
 				3525BD792673CE9C00138BA9 /* Image+SFSymbol.swift in Sources */,
+				35B1A70527668DBA005B556A /* Device Discoverer.swift in Sources */,
+				35B1A70827668E37005B556A /* BluetoothDeviceMock.swift in Sources */,
+				35B1A70127668D25005B556A /* Device Type.swift in Sources */,
 				3523A3362684E1B60007660F /* WorkoutComputation.swift in Sources */,
 				3557CD29271C6244006855B9 /* ComputeLsctView.swift in Sources */,
 				35FA479F267D101300C51045 /* LSCTStreamDetector.swift in Sources */,
 				3584B59226639AE8005993D5 /* DFAStreamModel.swift in Sources */,
 				3525BDAB267766E300138BA9 /* ContentView.swift in Sources */,
 				35D5D9032662AA9300A68199 /* WorkoutListView.swift in Sources */,
+				35F909C92764EEAE00F1AFCF /* ComputeWorkoutLaps.swift in Sources */,
 				35D263072739AA0900FC526F /* UserLoginView.swift in Sources */,
 				35347CBB2671352E00083FCB /* UserSettingsPage.swift in Sources */,
 				35D5834A267BB0020079B4A0 /* BluetoothHeartRateFlag.swift in Sources */,
+				35B1A70F27668FE0005B556A /* SavingWorkoutView.swift in Sources */,
+				35B1A70A27668E89005B556A /* ConnectableDeviceListView.swift in Sources */,
 				353B38112663D09200D1C9B2 /* LineChartView.swift in Sources */,
 				35D26312273FD9C400FC526F /* ComputeDfaAlphaView.swift in Sources */,
 				35CE23342721F2860089D6C5 /* Bluetooth Characteristics.swift in Sources */,
+				35B1A70027668D18005B556A /* Power Device.swift in Sources */,
 				351DCCF326B5623100FEA6F2 /* Deeplinker.swift in Sources */,
 				35347CBE2671355400083FCB /* UserSettings.swift in Sources */,
 				3557CD2C271C62E5006855B9 /* LsctDetectionComputation.swift in Sources */,
 				35400C7126A8B5EC00615DF8 /* Array+toCsv.swift in Sources */,
 				3525BD7F2676230B00138BA9 /* RevolutionHandler.swift in Sources */,
+				35B1A70627668DFF005B556A /* BatteryLevelHandler.swift in Sources */,
 				3523A3292684E0E50007660F /* Workout+importFit.swift in Sources */,
 				3523A3332684E19F0007660F /* MeanMaxPowerComputation.swift in Sources */,
+				35F2C77F27B7E17A00E534A8 /* WorkoutLapSummary.swift in Sources */,
 				35512DBD2668098500E7C68B /* MeanMaximalPower.swift in Sources */,
 				3525BDB9267802D900138BA9 /* LSCTResultView.swift in Sources */,
 				35D2630C2739AE2C00FC526F /* FatigueAPI.swift in Sources */,
+				35B1A6FE27668C01005B556A /* View+roundedButton.swift in Sources */,
 				35FB0CE52672C44200CB6573 /* BluetoothPowerHandler.swift in Sources */,
 				353B38092663C08D00D1C9B2 /* WorkoutSessionView.swift in Sources */,
 				35D5834E267BB0460079B4A0 /* Number+fromByte.swift in Sources */,
@@ -1386,55 +1440,22 @@
 				3525BD762673AE9900138BA9 /* NormalizedPowerModel.swift in Sources */,
 				35FB0CDF2672627E00CB6573 /* ActivityRecorder.swift in Sources */,
 				35D7FDC22671525E00B66629 /* DFAAlpha1RegressionSettingsView.swift in Sources */,
+				35B1A70227668D2A005B556A /* DeciveTypesView.swift in Sources */,
 				3535CDD62717500700082FF1 /* WorkoutDetailView.swift in Sources */,
 				355F87CE266A848D00AA5E25 /* MeanMaximumPowerView.swift in Sources */,
+				35B1A70D27668F96005B556A /* RecordWorkoutView.swift in Sources */,
 				35FB0CD626723CE200CB6573 /* BluetoothConnectionView.swift in Sources */,
+				35B1A70427668D8F005B556A /* Bluetooth Device.swift in Sources */,
 				358D64A52724599E00C99C35 /* LSCTResultDetailView.swift in Sources */,
 				3525BDB12677AEE800138BA9 /* NumberField.swift in Sources */,
 				35FB0CE2267264B100CB6573 /* ActivityRecorderView.swift in Sources */,
 				35FB0CDA26725A1800CB6573 /* BluetoothHeartRateHandler.swift in Sources */,
+				35B1A71027669025005B556A /* ConnectableDeviceCell.swift in Sources */,
 				3584B5952663A21A005993D5 /* LinearRegression.swift in Sources */,
 				35C1DE0E26E398F80023A23A /* Workout+Summary.swift in Sources */,
 				3525BDA82676A19900138BA9 /* LSCTAnalysis.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		35D5D8D72662AA0700A68199 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				35CE233B2721F3600089D6C5 /* DataFrameLinearRegression.swift in Sources */,
-				35CE23352721F3170089D6C5 /* LSCTStreamDetector.swift in Sources */,
-				35CE23362721F32B0089D6C5 /* LSCTDetector.swift in Sources */,
-				35CE23372721F3350089D6C5 /* Workout+DataFrame.swift in Sources */,
-				35D5D8E02662AA0700A68199 /* Tests_iOS.swift in Sources */,
-				35CE233A2721F3540089D6C5 /* Number+fromByte.swift in Sources */,
-				35CE23382721F3410089D6C5 /* PowerMeterHandler.swift in Sources */,
-				3525BD93267691AB00138BA9 /* NormalizedPowerModel.swift in Sources */,
-				35CE23392721F3490089D6C5 /* BluetoothPowerFlag.swift in Sources */,
-				35CE233C2721F3670089D6C5 /* LinearRegression.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		35D5D8E22662AA0700A68199 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3525BDA426769EAD00138BA9 /* BluetoothPowerHandler.swift in Sources */,
-				355F87D3266A8A0300AA5E25 /* DataFrameLinearRegression.swift in Sources */,
-				35709A672670E53200087EE5 /* DFAStreamModel+testData.swift in Sources */,
-				3525BD8026768F5100138BA9 /* BluetoothHeartRateHandler.swift in Sources */,
-				35D5834F267BB0460079B4A0 /* Number+fromByte.swift in Sources */,
-				3525BD94267691AC00138BA9 /* NormalizedPowerModel.swift in Sources */,
-				35FA47A4267E010900C51045 /* LSCTStreamDetector.swift in Sources */,
-				35D5834B267BB0020079B4A0 /* BluetoothHeartRateFlag.swift in Sources */,
-				35D5D8EB2662AA0700A68199 /* Tests_macOS.swift in Sources */,
-				3584B5962663B061005993D5 /* DFAStreamModel.swift in Sources */,
-				3584B5972663B0AA005993D5 /* LinearRegression.swift in Sources */,
-				3525BDA526769EE900138BA9 /* RevolutionHandler.swift in Sources */,
-				35D58357267BB0AB0079B4A0 /* CyclingSpeedAndCadenceFlag.swift in Sources */,
-				35D58347267BAF460079B4A0 /* PowerMeterHandler.swift in Sources */,
-				35D58341267BA6140079B4A0 /* BluetoothPowerFlag.swift in Sources */,
+				35B1A70C27668EF2005B556A /* HeartRateDevice.swift in Sources */,
+				35B1A6FF27668D12005B556A /* Power Meter Handler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1461,15 +1482,15 @@
 			target = 3523A2DF268485890007660F /* WatchOS */;
 			targetProxy = 3523A3152684858E0007660F /* PBXContainerItemProxy */;
 		};
-		35D5D8DD2662AA0700A68199 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 35D5D8CA2662AA0700A68199 /* Fatigue (iOS) */;
-			targetProxy = 35D5D8DC2662AA0700A68199 /* PBXContainerItemProxy */;
-		};
-		35D5D8E82662AA0700A68199 /* PBXTargetDependency */ = {
+		35B62E2C2767ED5300D5A82A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 35D5D8D22662AA0700A68199 /* Fatigue (macOS) */;
-			targetProxy = 35D5D8E72662AA0700A68199 /* PBXContainerItemProxy */;
+			targetProxy = 35B62E2B2767ED5300D5A82A /* PBXContainerItemProxy */;
+		};
+		35B62E7C2767EEEA00D5A82A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 35D5D8CA2662AA0700A68199 /* Fatigue (iOS) */;
+			targetProxy = 35B62E7B2767EEEA00D5A82A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1481,7 +1502,7 @@
 				CODE_SIGN_ENTITLEMENTS = "WatchOS Extension/WatchOS Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchOS Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = M276UPEHPQ;
 				ENABLE_PREVIEWS = YES;
@@ -1509,7 +1530,7 @@
 				CODE_SIGN_ENTITLEMENTS = "WatchOS Extension/WatchOS Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchOS Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = M276UPEHPQ;
 				ENABLE_PREVIEWS = YES;
@@ -1539,7 +1560,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = M276UPEHPQ;
 				IBSC_MODULE = WatchOS_Extension;
 				INFOPLIST_FILE = WatchOS/Info.plist;
@@ -1562,7 +1583,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = M276UPEHPQ;
 				IBSC_MODULE = WatchOS_Extension;
 				INFOPLIST_FILE = WatchOS/Info.plist;
@@ -1668,6 +1689,108 @@
 			};
 			name = Release;
 		};
+		35B62E2E2767ED5300D5A82A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M276UPEHPQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mollestad.rested.FatigueUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "Fatigue (macOS)";
+			};
+			name = Debug;
+		};
+		35B62E2F2767ED5300D5A82A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M276UPEHPQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mollestad.rested.FatigueUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "Fatigue (macOS)";
+			};
+			name = Release;
+		};
+		35B62E7E2767EEEA00D5A82A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M276UPEHPQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mollestad.rested.Unit-Test-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fatigue.app/Fatigue";
+			};
+			name = Debug;
+		};
+		35B62E7F2767EEEA00D5A82A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M276UPEHPQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mollestad.rested.Unit-Test-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fatigue.app/Fatigue";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		35D5D8F32662AA0700A68199 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1719,6 +1842,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1772,6 +1897,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1785,10 +1912,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Fatigue.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = M276UPEHPQ;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/iOS",
@@ -1803,6 +1932,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mollestad.rested;
 				PRODUCT_NAME = Fatigue;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1815,8 +1945,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Fatigue.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = M276UPEHPQ;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1833,6 +1964,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mollestad.rested;
 				PRODUCT_NAME = Fatigue;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1846,6 +1978,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = M276UPEHPQ;
@@ -1870,6 +2003,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = M276UPEHPQ;
@@ -1885,97 +2019,6 @@
 				PRODUCT_NAME = Fatigue;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		35D5D8FC2662AA0700A68199 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M276UPEHPQ;
-				INFOPLIST_FILE = "Tests iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mem.Tests-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Fatigue (iOS)";
-			};
-			name = Debug;
-		};
-		35D5D8FD2662AA0700A68199 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M276UPEHPQ;
-				INFOPLIST_FILE = "Tests iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mem.Tests-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Fatigue (iOS)";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		35D5D8FF2662AA0700A68199 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = M276UPEHPQ;
-				INFOPLIST_FILE = "Tests macOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mem.Tests-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "Fatigue (macOS)";
-			};
-			name = Debug;
-		};
-		35D5D9002662AA0700A68199 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = M276UPEHPQ;
-				INFOPLIST_FILE = "Tests macOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mem.Tests-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "Fatigue (macOS)";
 			};
 			name = Release;
 		};
@@ -2018,6 +2061,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		35B62E2D2767ED5300D5A82A /* Build configuration list for PBXNativeTarget "FatigueUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				35B62E2E2767ED5300D5A82A /* Debug */,
+				35B62E2F2767ED5300D5A82A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		35B62E7D2767EEEA00D5A82A /* Build configuration list for PBXNativeTarget "Unit Test iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				35B62E7E2767EEEA00D5A82A /* Debug */,
+				35B62E7F2767EEEA00D5A82A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		35D5D8C22662AA0500A68199 /* Build configuration list for PBXProject "Fatigue" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2041,24 +2102,6 @@
 			buildConfigurations = (
 				35D5D8F92662AA0700A68199 /* Debug */,
 				35D5D8FA2662AA0700A68199 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		35D5D8FB2662AA0700A68199 /* Build configuration list for PBXNativeTarget "Tests iOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				35D5D8FC2662AA0700A68199 /* Debug */,
-				35D5D8FD2662AA0700A68199 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		35D5D8FE2662AA0700A68199 /* Build configuration list for PBXNativeTarget "Tests macOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				35D5D8FF2662AA0700A68199 /* Debug */,
-				35D5D9002662AA0700A68199 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

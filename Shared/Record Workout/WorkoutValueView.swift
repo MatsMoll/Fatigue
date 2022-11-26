@@ -29,6 +29,10 @@ struct WorkoutValueType {
         .init(name: "Baseline \(name)", unit: unit, symbol: symbol, tintColor: tintColor.opacity(0.7))
     }
     
+    func intensity(to measurement: String) -> WorkoutValueType {
+        return .init(name: "\(name) Intensity", unit: "\(unit ?? "1") / \(measurement)", symbol: symbol, tintColor: tintColor)
+    }
+    
     func withUnits(from valueType: WorkoutValueType) -> WorkoutValueType {
         .init(name: name, unit: valueType.unit, symbol: valueType.symbol, tintColor: tintColor)
     }
@@ -116,8 +120,10 @@ struct WorkoutValueView: View {
     let type: WorkoutValueType
     let value: String
     
+    #if os(iOS)
     @Environment(\.horizontalSizeClass)
     var horizontalSizeClass
+    #endif
     
     var valueFont: Font {
         return .title2.bold()
@@ -132,7 +138,7 @@ struct WorkoutValueView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Label(
-                title: { Text(type.name.uppercased()).foregroundColor(Color.init(UIColor.secondaryLabel)) },
+                title: { Text(type.name.uppercased()).foregroundColor(Color.secondary) },
                 icon: { Image(symbol: type.symbol).foregroundColor(type.tintColor) }
             )
             .font(.footnote)
@@ -156,7 +162,7 @@ struct WorkoutValueView: View {
             .padding(.horizontal)
             .padding(.vertical, 8)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color(UIColor.secondarySystemBackground))
+            .background(Color.background)
             .cornerRadius(10)
         }
     }

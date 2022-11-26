@@ -9,11 +9,11 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 extension View {
-    func card() -> some View {
+    func card(color: Color = .background) -> some View {
         self
             .padding(.horizontal)
             .padding(.vertical, 8)
-            .background(Color(UIColor.secondarySystemBackground))
+            .background(color)
             .cornerRadius(10)
     }
 }
@@ -113,6 +113,7 @@ struct WorkoutListView: View {
             ) { result in
                 model.importFile(result)
             }
+            #if !DEBUG
             .onAppear(perform: {
                 if model.workoutStore.hasLoadedFromFile { return }
                 isLoading = true
@@ -126,6 +127,7 @@ struct WorkoutListView: View {
                     }
                 }
             })
+            #endif
         }
         .navigationViewStyle(DefaultNavigationViewStyle())
     }

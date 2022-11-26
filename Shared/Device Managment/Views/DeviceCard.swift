@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UIKit
 
 struct DeviceCard: View {
     
@@ -42,7 +41,7 @@ struct DeviceCard: View {
                 Button("Connect Device", action: connectToDevice)
                     .frame(maxWidth: .infinity)
                     .roundedButton(color: .primary)
-                    .foregroundColor(.init(UIColor.systemBackground))
+                    .foregroundColor(.background)
             }
         }
     }

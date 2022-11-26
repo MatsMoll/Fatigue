@@ -72,9 +72,11 @@ struct ConnectableDevicesListView: View {
                 dismissButton: .default(Text("Ok"))
             )
         }
-        .listStyle(InsetGroupedListStyle())
         .navigationTitle("Connect Device")
+        #if os(iOS)
+        .listStyle(InsetGroupedListStyle())
         .navigationBarItems(trailing: cancelButton)
+        #endif
     }
     
     var cancelButton: some View {

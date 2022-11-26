@@ -30,6 +30,8 @@ struct LSCTResultDetailView: View {
         return NumberFormatter.defaultFormatter.string(from: .init(value: number)) ?? "\(number)"
     }
     
+    let xAxisFormatter = TimeAxisValueFormatter()
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -41,9 +43,9 @@ struct LSCTResultDetailView: View {
                         value: numberString(powerResult.absoluteDifferance)
                     )
                     GeometryReader { proxy in
-                        if let power = power(proxy.size) {
+                        if let power = data(for: \.power?.value.asDouble, size: proxy.size) {
                             LineChartView(data: power)
-                                .card()
+                                .xAxis(formatter: xAxisFormatter)
                         }
                     }
                     .aspectRatio(chartAspectRatio, contentMode: .fit)
@@ -64,9 +66,9 @@ struct LSCTResultDetailView: View {
                         value: numberString(hrResult.intensityResponse.beta)
                     )
                     GeometryReader { proxy in
-                        if let heartRate = heartRate(proxy.size) {
+                        if let heartRate = data(for: \.heartRate?.value.asDouble, size: proxy.size) {
                             LineChartView(data: heartRate)
-                                .card()
+                                .xAxis(formatter: xAxisFormatter)
                         }
                     }
                     .aspectRatio(chartAspectRatio, contentMode: .fit)
@@ -79,10 +81,10 @@ struct LSCTResultDetailView: View {
                         value: numberString(cadenceResult.absoluteDifferance)
                     )
                     GeometryReader { proxy in
-                        if let cadence = cadence(proxy.size) {
+                        if let cadence = data(for: \.cadence?.value.asDouble, size: proxy.size) {
                             
                             LineChartView(data: cadence)
-                                .card()
+                                .xAxis(formatter: xAxisFormatter)
                         }
                     }
                     .aspectRatio(chartAspectRatio, contentMode: .fit)
@@ -95,9 +97,9 @@ struct LSCTResultDetailView: View {
                         value: numberString(alphaResult.absoluteDifferance)
                     )
                     GeometryReader { proxy in
-                        if let dfaAlpha = alpha(proxy.size) {
+                        if let dfaAlpha = data(for: \.heartRate?.dfaAlpha1, size: proxy.size) {
                             LineChartView(data: dfaAlpha)
-                                .card()
+                                .xAxis(formatter: xAxisFormatter)
                         }
                     }
                     .aspectRatio(chartAspectRatio, contentMode: .fit)
@@ -123,43 +125,15 @@ struct LSCTResultDetailView: View {
         return workout.frames[indexRange]
     }
     
-    func power(_ size: CGSize) -> LineChartData? {
+    func data(for valuePath: KeyPath<WorkoutFrame, Double?>, size: CGSize) -> LineChartData? {
         guard result.power != nil else { return nil }
-        let baselineValues = baselineFrames.map { Double($0.power?.value ?? 0) }
-        let values = workoutFrames.map { Double($0.power?.value ?? 0) }
+        
+        let baselineValues = baselineFrames.map { $0[keyPath: valuePath] ?? 0 }
+        let values = workoutFrames.map { $0[keyPath: valuePath] ?? 0 }
+        let xScale = Double(values.count * scale) / Double(size.width)
         return LineChartData(dataSets: [
-            LineChartDataSet.dataSet(values: baselineValues, maxDataPoints: Int(size.width) / scale, label: "Baseline", color: baselineColor),
-            LineChartDataSet.dataSet(values: values, maxDataPoints: Int(size.width) / scale, label: "Workout", color: workoutColor),
-        ])
-    }
-    
-    func cadence(_ size: CGSize) -> LineChartData? {
-        guard result.cadence != nil else { return nil }
-        let baselineValues = baselineFrames.map { Double($0.cadence?.value ?? 0) }
-        let values = workoutFrames.map { Double($0.cadence?.value ?? 0) }
-        return LineChartData(dataSets: [
-            LineChartDataSet.dataSet(values: baselineValues, maxDataPoints: Int(size.width) / scale, label: "Baseline", color: baselineColor),
-            LineChartDataSet.dataSet(values: values, maxDataPoints: Int(size.width) / scale, label: "Workout", color: workoutColor),
-        ])
-    }
-    
-    func alpha(_ size: CGSize) -> LineChartData? {
-        guard result.dfaAlpha1 != nil else { return nil }
-        let baselineValues = baselineFrames.map { $0.heartRate?.dfaAlpha1 ?? 0 }
-        let values = workoutFrames.map { $0.heartRate?.dfaAlpha1 ?? 0 }
-        return LineChartData(dataSets: [
-            LineChartDataSet.dataSet(values: baselineValues, maxDataPoints: Int(size.width) / scale, label: "Baseline", color: baselineColor),
-            LineChartDataSet.dataSet(values: values, maxDataPoints: Int(size.width) / scale, label: "Workout", color: workoutColor),
-        ])
-    }
-    
-    func heartRate(_ size: CGSize) -> LineChartData? {
-        guard result.heartRate != nil else { return nil }
-        let baselineValues = baselineFrames.map { Double($0.heartRate?.value ?? 0) }
-        let values = workoutFrames.map { Double($0.heartRate?.value ?? 0) }
-        return LineChartData(dataSets: [
-            LineChartDataSet.dataSet(values: baselineValues, maxDataPoints: Int(size.width) / scale, label: "Baseline", color: baselineColor),
-            LineChartDataSet.dataSet(values: values, maxDataPoints: Int(size.width) / scale, label: "Workout", color: workoutColor),
+            LineChartDataSet.dataSet(values: baselineValues, maxDataPoints: Int(size.width) / scale, label: "Baseline", color: baselineColor, xScale: xScale),
+            LineChartDataSet.dataSet(values: values, maxDataPoints: Int(size.width) / scale, label: "Workout", color: workoutColor, xScale: xScale),
         ])
     }
 }

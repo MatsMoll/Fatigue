@@ -16,6 +16,9 @@ struct WorkoutDetailView: View {
     @State
     var result: LSCTResult?
     
+    @State
+    var laps: [WorkoutLap] = []
+    
     let durationFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
@@ -29,6 +32,9 @@ struct WorkoutDetailView: View {
     
     @EnvironmentObject
     var appModel: AppModel
+    
+    @EnvironmentObject
+    var settings: UserSettings
     
     var columns: [GridItem] {
         #if os(iOS)
@@ -53,25 +59,32 @@ struct WorkoutDetailView: View {
         ScrollView {
             LazyVGrid(columns: columns) {
                 
-                sectionStack {
+                WorkoutValueView(
+                    type: .duration,
+                    value: durationFormatter.string(from: TimeInterval(workout.elapsedTime)) ?? "\(workout.elapsedTime)"
+                )
+                
+                if workout.laps.count > 0 {
                     WorkoutValueView(
-                        type: .duration,
-                        value: durationFormatter.string(from: TimeInterval(workout.elapsedTime)) ?? "\(workout.elapsedTime)"
+                        type: .lapNumber,
+                        value: "\(workout.laps.count)"
                     )
-                    
-                    if workout.laps.count > 0 {
-                        WorkoutValueView(
-                            type: .lapNumber,
-                            value: "\(workout.laps.count)"
-                        )
+                }
+                
+                if !laps.isEmpty {
+                    NavigationLink("View Lap Details") {
+                        WorkoutLapsView(workout: workout, laps: laps)
                     }
+                    .foregroundColor(Color.primary)
+                    .background(Color.background)
+                    .cornerRadius(10)
                 }
                 
                 if let baseline = appModel.workoutStore.baseline {
                     
                     VStack(alignment: .leading) {
                         Text("LSCT")
-                            .foregroundColor(Color.init(UIColor.secondaryLabel))
+                            .foregroundColor(.secondary)
                             .font(.footnote)
                         
                         ComputeLsctView(workout: workout, baseline: baseline, result: $result)
@@ -87,29 +100,8 @@ struct WorkoutDetailView: View {
                         frameKey: \.power?.value.asDouble
                     )
                     
-                    VStack {
-                        WorkoutValueView(
-                            type: .power.average,
-                            value: power.average.formatted()
-                        )
-                        WorkoutValueView(
-                            type: .power.normalized,
-                            value: power.normalized.formatted()
-                        )
-                        WorkoutValueView(
-                            type: .power.max,
-                            value: power.max.formatted()
-                        )
-                        
-                        if let balance = power.powerBalance {
-                            WorkoutValueView(
-                                type: .powerBalance.average,
-                                value: balance.description()
-                            )
-                        }
-                        
-                        sectionSpacer
-                    }
+                    WorkoutPowerSummaryView(power: power)
+                    sectionSpacer
                 }
                 
                 if let heartRate = summary.heartRate {
@@ -121,17 +113,8 @@ struct WorkoutDetailView: View {
                         frameKey: \.heartRate?.value.asDouble
                     )
                  
-                    VStack {
-                        WorkoutValueView(
-                            type: .heartRate.average,
-                            value: "\(heartRate.average)"
-                        )
-                        WorkoutValueView(
-                            type: .heartRate.max,
-                            value: "\(heartRate.max)"
-                        )
-                        sectionSpacer
-                    }
+                    HeartRateSummaryView(heartRate: heartRate)
+                    sectionSpacer
                     
                     ComputeDfaAlphaView(workout: workout)
                 }
@@ -144,25 +127,25 @@ struct WorkoutDetailView: View {
                         frameKey: \.cadence?.value.asDouble
                     )
                     
-                    VStack {
-                        WorkoutValueView(
-                            type: .cadence.average,
-                            value: "\(cadence.average)"
-                        )
-                        
-                        WorkoutValueView(
-                            type: .cadence.max,
-                            value: "\(cadence.max)"
-                        )
-                        
-                        sectionSpacer
-                    }
+                    WorkoutCadenceSummaryView(cadence: cadence)
+                    sectionSpacer
                 }
                 
             }
             .padding()
         }
         .navigationTitle("Workout Summary")
+        .task {
+            do {
+                if workout.laps.count > 1 {
+                    laps = try await ComputeWorkoutLapsSummaries(workout: workout, laps: workout.laps).compute(with: settings)
+                } else {
+                    laps = try await ComputeWorkoutLaps(workout: workout).compute(with: settings)
+                }
+            } catch {
+                print("Error: \(error.localizedDescription)")
+            }
+        }
     }
     
     var sectionSpacer: some View {
@@ -186,5 +169,90 @@ struct WorkoutDetailView: View {
             builder()
         }
         #endif
+    }
+}
+
+extension Array where Element == GridItem {
+    
+    static func defaultGrid(isWide: Bool = false) -> [GridItem] {
+        
+        if isWide {
+            return [
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+            ]
+        } else {
+            return [
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+            ]
+        }
+    }
+}
+
+struct WorkoutCadenceSummaryView: View {
+    
+    let cadence: Workout.CadenceSummary
+    
+    var body: some View {
+        LazyVGrid(columns: .defaultGrid()) {
+            WorkoutValueView(
+                type: .cadence.average,
+                value: "\(cadence.average)"
+            )
+            
+            WorkoutValueView(
+                type: .cadence.max,
+                value: "\(cadence.max)"
+            )
+        }
+    }
+}
+
+struct WorkoutPowerSummaryView: View {
+    
+    let power: Workout.PowerSummary
+    
+    var body: some View {
+        LazyVGrid(columns: .defaultGrid()) {
+            WorkoutValueView(
+                type: .power.average,
+                value: power.average.formatted()
+            )
+            WorkoutValueView(
+                type: .power.normalized,
+                value: power.normalized.formatted()
+            )
+            WorkoutValueView(
+                type: .power.max,
+                value: power.max.formatted()
+            )
+            
+            if let balance = power.powerBalance {
+                WorkoutValueView(
+                    type: .powerBalance.average,
+                    value: balance.description()
+                )
+            }
+        }
+    }
+}
+
+struct HeartRateSummaryView: View {
+    
+    let heartRate: Workout.HeartRateSummary
+    
+    var body: some View {
+        LazyVGrid(columns: .defaultGrid()) {
+            WorkoutValueView(
+                type: .heartRate.average,
+                value: "\(heartRate.average)"
+            )
+            WorkoutValueView(
+                type: .heartRate.max,
+                value: "\(heartRate.max)"
+            )
+        }
     }
 }

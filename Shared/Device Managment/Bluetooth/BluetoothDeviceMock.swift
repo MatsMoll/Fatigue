@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import CoreBluetooth
 
 /// Mocking a bluetooth device for testing purpuses
 class BluetoothDeviceMock: BluetoothDevice, Hashable {

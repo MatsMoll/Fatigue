@@ -36,11 +36,11 @@ struct LSCTDetectorError: Error {
     static let workoutIsToShort = LSCTDetectorError(reason: "Workout is shorter then the LSCT Test")
 }
 
-class LSCTDetector {
+public class LSCTDetector {
     
-    struct Detection: Codable, Equatable {
-        let frameWorkout: Int
-        let meanSquareError: Double
+    public struct Detection: Codable, Equatable {
+        public let frameWorkout: Int
+        public let meanSquareError: Double
     }
     
     let dataFrames: [WorkoutFrame]

@@ -161,4 +161,25 @@ struct WorkoutStore {
         let data = try Data(contentsOf: url)
         return try decoder.decode(Workout.self, from: data)
     }
+    
+    func upgradeOldWorkouts() async throws -> [Workout.Overview] {
+        do {
+            guard let url = oldWorkoutsURL else {
+                throw GenericError(reason: "Unable to get workout url")
+            }
+            let data = try Data(contentsOf: url)
+            let workouts = try decoder.decode([Workout.Old].self, from: data)
+            var overviews = [Workout.Overview]()
+            for workout in workouts {
+                let updated = try await workout.updateFormat()
+                try save(workout: updated)
+                overviews.append(updated.overview)
+            }
+            try fileManager.removeItem(at: url)
+            return overviews
+        } catch {
+            logger.warning("Unable to upgrade workouts \(error.localizedDescription)")
+            throw error
+        }
+    }
 }

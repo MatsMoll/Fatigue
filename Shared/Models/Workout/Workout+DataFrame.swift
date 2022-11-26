@@ -7,13 +7,21 @@
 
 import Foundation
 
-struct WorkoutFrame: Codable {
-    let timestamp: Int
-    let power: Power?
-    let heartRate: HeartRate?
-    let cadence: Cadence?
+public struct WorkoutFrame: Codable {
     
-    func fill(with frame: WorkoutFrame) -> WorkoutFrame {
+    public let timestamp: Int
+    public let power: Power?
+    public let heartRate: HeartRate?
+    public let cadence: Cadence?
+    
+    public init(timestamp: Int, power: WorkoutFrame.Power?, heartRate: WorkoutFrame.HeartRate?, cadence: WorkoutFrame.Cadence?) {
+        self.timestamp = timestamp
+        self.power = power
+        self.heartRate = heartRate
+        self.cadence = cadence
+    }
+    
+    public func fill(with frame: WorkoutFrame) -> WorkoutFrame {
         return .init(
             timestamp: timestamp,
             power: power ?? frame.power,
@@ -22,7 +30,7 @@ struct WorkoutFrame: Codable {
         )
     }
     
-    func update(with frame: WorkoutFrame) -> WorkoutFrame {
+    public func update(with frame: WorkoutFrame) -> WorkoutFrame {
         return .init(
             timestamp: timestamp,
             power: frame.power ?? power,
@@ -42,19 +50,37 @@ extension WorkoutFrame {
 }
 
 extension WorkoutFrame {
-    struct Power: Codable {
-        let value: Int
-        let balance: PowerBalance?
+    public struct Power: Codable {
+        
+        public let value: Int
+        public let balance: PowerBalance?
+        
+        public init(value: Int, balance: PowerBalance?) {
+            self.value = value
+            self.balance = balance
+        }
     }
     
-    struct HeartRate: Codable {
-        let value: Int
-        let rrIntervals: [Double]
-        let dfaAlpha1: Double?
+    public struct HeartRate: Codable {
+        
+        public let value: Int
+        public let rrIntervals: [Double]
+        public let dfaAlpha1: Double?
+        
+        public init(value: Int, rrIntervals: [Double], dfaAlpha1: Double?) {
+            self.value = value
+            self.rrIntervals = rrIntervals
+            self.dfaAlpha1 = dfaAlpha1
+        }
     }
     
-    struct Cadence: Codable {
-        let value: Int
+    public struct Cadence: Codable {
+        
+        public let value: Int
+        
+        public init(value: Int) {
+            self.value = value
+        }
     }
     
     struct Mutable {

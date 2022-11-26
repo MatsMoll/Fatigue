@@ -19,6 +19,7 @@ struct AverageStreamModel {
     }
     
     var average: Double { totalSum / Double(currentValues.count) }
+    var isMaxedOut: Bool { currentValues.count == maxValues }
     
     mutating func add(value: Double) {
         if currentValues.count < maxValues {
@@ -28,6 +29,62 @@ struct AverageStreamModel {
             currentValues.append(value)
             totalSum += value
             totalSum -= currentValues.removeFirst()
+        }
+    }
+}
+
+extension Array where Element == Double {
+    
+    func sum() -> Double {
+        self.reduce(into: 0, { $0 += $1 })
+    }
+    
+    func rolling(average: Int) -> [Double] {
+        var averageModel = AverageStreamModel(maxValues: average)
+        return self.map { value in
+            averageModel.add(value: value)
+            return averageModel.average
+        }
+    }
+    
+    func rollingAndStd(over: Int) -> [(average: Double, std: Double)] {
+        var averageModel = AverageStreamModel(maxValues: over)
+        return self.map { value in
+            averageModel.add(value: value)
+            let average = averageModel.average
+            let variance = averageModel.currentValues.map { pow(average - $0, 2) }
+            let std = sqrt(variance.sum() / Double(averageModel.currentValues.count))
+            return (average, std)
+        }
+    }
+    
+    func deltaDifferance(offset: Int) -> [Double] {
+        return self.enumerated().map { index, value in
+            guard index >= offset else { return .nan }
+            return value - self[index - offset]
+        }
+    }
+}
+
+extension Array where Element == Int {
+    
+    func rollingAndStd(over: Int) -> [(average: Double, std: Double)] {
+        var averageModel = AverageStreamModel(maxValues: over)
+        return self.map { value in
+            averageModel.add(value: Double(value))
+//            guard averageModel.isMaxedOut else { return (.nan, .nan) }
+            let average = averageModel.average
+            let variance = averageModel.currentValues.map { pow(average - $0, 2) }
+            let std = sqrt(variance.sum() / Double(averageModel.currentValues.count))
+            return (average, std)
+        }
+    }
+    
+    func rolling(average: Int) -> [Double] {
+        var averageModel = AverageStreamModel(maxValues: average)
+        return self.map { value in
+            averageModel.add(value: Double(value))
+            return averageModel.average
         }
     }
 }

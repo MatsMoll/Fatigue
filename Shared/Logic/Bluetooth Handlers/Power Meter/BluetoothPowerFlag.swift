@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PowerBalanceReferance: Int, Codable {
+public enum PowerBalanceReferance: Int, Codable {
     case right
     case left
 }

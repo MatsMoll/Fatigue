@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if os(iOS)
 import CoreBluetooth
+#endif
 import Combine
 
 enum DeviceDiscovererState: Int {
@@ -17,9 +19,11 @@ enum DeviceDiscovererState: Int {
     case poweredOff = 4
     case poweredOn = 5
     
+    #if os(iOS)
     init?(state: CBManagerState) {
         self.init(rawValue: state.rawValue)
     }
+    #endif
     
     var description: String {
         switch self {
@@ -90,6 +94,7 @@ struct CoreBluetoothDeviceDiscovererError: Error, LocalizedError {
     var errorDescription: String? { reason }
 }
 
+#if os(iOS)
 class CoreBluetoothDeviceDiscoverer: NSObject, DeviceDiscoverer {
     
     private static var _sharedBluetoothCentral: CBCentralManager?
@@ -190,4 +195,40 @@ extension CoreBluetoothDeviceDiscoverer: CBCentralManagerDelegate {
         unableToConnectSubject.send(peripheral.identifier)
     }
 }
-
+#else
+class CoreBluetoothDeviceDiscoverer: DeviceDiscoverer {
+    
+    @Published
+    var devices: [BluetoothDevice] = []
+    
+    @Published
+    var state: DeviceDiscovererState = .unknown
+    
+    let searchingType: BluetoothDeviceType
+    
+    
+    var didConnect: AnyPublisher<UUID, Never> { didConnectSubject.eraseToAnyPublisher() }
+    var unableToConnect: AnyPublisher<UUID, Never> { unableToConnectSubject.eraseToAnyPublisher() }
+    var didDisconnect: AnyPublisher<UUID, Never> { didDisconnectedSubject.eraseToAnyPublisher() }
+    var onUpdatedValues: AnyPublisher<[BluetoothDevice], Never> { $devices.eraseToAnyPublisher() }
+    var onUpdatedState: AnyPublisher<DeviceDiscovererState, Never> { $state.eraseToAnyPublisher() }
+    
+    private var didConnectSubject = PassthroughSubject<UUID, Never>()
+    private var unableToConnectSubject = PassthroughSubject<UUID, Never>()
+    private let didDisconnectedSubject = PassthroughSubject<UUID, Never>()
+    
+    
+    init(searchingFor: BluetoothDeviceType) {
+        self.searchingType = searchingFor
+        state = .unknown
+    }
+    
+    func startSearch() throws {
+        throw CoreBluetoothDeviceDiscovererError(reason: "Bluetooth is not powered on")
+    }
+    
+    func stopSearch() {
+        
+    }
+}
+#endif

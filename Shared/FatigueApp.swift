@@ -15,7 +15,7 @@ struct FatigueApp: App {
     @StateObject private var deviceManager = DeviceManager()
 //    @StateObject private var bluetoothManager: BluetoothManager = .init()
     
-    @StateObject var garminDeviceManager: GarminDeviceListViewModel = .init()
+//    @StateObject var garminDeviceManager: GarminDeviceListViewModel = .init()
     
     var body: some Scene {
         WindowGroup {
@@ -23,14 +23,23 @@ struct FatigueApp: App {
                 .environmentObject(model)
                 .environmentObject(settings)
                 .environmentObject(deviceManager)
-                .environmentObject(garminDeviceManager)
-                .onOpenURL(perform: { url in
-                    let deeplink = Deeplinker(garminDeviceManager: garminDeviceManager).manage(url: url)
-                    guard let deeplink = deeplink else { return }
-                    if deeplink == .recorderPage {
-                        model.selectedTab = .recording
+//                .environmentObject(garminDeviceManager)
+//                .onOpenURL(perform: { url in
+//                    let deeplink = Deeplinker(garminDeviceManager: garminDeviceManager).manage(url: url)
+//                    guard let deeplink = deeplink else { return }
+//                    if deeplink == .recorderPage {
+//                        model.selectedTab = .recording
+//                    }
+//                })
+                #if !DEBUG
+                .task {
+                    do {
+                        try await model.updateWorkouts()
+                    } catch {
+                        print("Error updating workouts: \(error.localizedDescription)")
                     }
-                })
+                }
+                #endif
         }
         
         #if os(OSX)
@@ -39,7 +48,7 @@ struct FatigueApp: App {
                 .frame(width: 350, height: 400)
                 .environmentObject(model)
                 .environmentObject(settings)
-                .environmentObject(computationStore)
+//                .environmentObject(computationStore)
         }
         #endif
     }

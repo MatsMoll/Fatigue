@@ -18,34 +18,41 @@ struct WorkoutLineChart: View {
     
     var chartAspectRatio: CGFloat = 1.5
     
+    var frameRange: ClosedRange<Int>? = nil
+    
+    var verticalLines: [Int] = []
+    
     var body: some View {
         VStack(alignment: .leading) {
             Label(
-                title: { Text(type.name.uppercased()).foregroundColor(Color.init(UIColor.secondaryLabel)) },
+                title: { Text(type.name.uppercased()).foregroundColor(.secondary) },
                 icon: { Image(symbol: type.symbol).foregroundColor(type.tintColor) }
             )
             .font(.footnote)
             
             GeometryReader { proxy in
                 LineChartView(
-                    data: lineChartData(maxPoints: Int(proxy.size.width / 3))
+                    data: lineChartData(maxPoints: Int(proxy.size.width / 3)),
+                    laps: verticalLines
                 )
+                .xAxis(formatter: TimeAxisValueFormatter())
+                .xScale(startX: frameRange?.lowerBound ?? 0, endX: frameRange?.upperBound ?? workout.frames.count)
             }
             .aspectRatio(chartAspectRatio, contentMode: .fit)
             .frame(maxWidth: .infinity)
-            .card()
         }
     }
     
     private func lineChartData(maxPoints: Int) -> LineChartData {
         var values = [Double]()
-        
         for frame in workout.frames {
             values.append(frame[keyPath: frameKey] ?? 0)
         }
         
+        let xScale = max(Double(values.count) / Double(maxPoints), 1)
+        
         return LineChartData(dataSets: [
-            LineChartDataSet.dataSet(type: type, values: values, maxDataPoints: maxPoints)
+            LineChartDataSet.dataSet(type: type, values: values, maxDataPoints: maxPoints, xScale: xScale)
         ])
     }
 }

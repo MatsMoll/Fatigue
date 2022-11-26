@@ -18,7 +18,7 @@ extension URL {
 
 struct Deeplinker {
     
-    let garminDeviceManager: GarminDeviceListViewModel
+//    let garminDeviceManager: GarminDeviceListViewModel
     
     enum Deeplink {
         case recorderPage
@@ -28,12 +28,12 @@ struct Deeplinker {
         print(url)
         guard url.scheme == URL.appScheme else { return nil }
         if url.host == URL.connectToGarminPath {
-            do {
-                try garminDeviceManager.connect(to: url)
-                return .recorderPage
-            } catch {
-                print(error)
-            }
+//            do {
+//                try garminDeviceManager.connect(to: url)
+//                return .recorderPage
+//            } catch {
+//                print(error)
+//            }
         }
         return nil
     }

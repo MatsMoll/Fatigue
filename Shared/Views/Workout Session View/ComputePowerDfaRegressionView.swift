@@ -51,6 +51,8 @@ struct ComputeDfaRegressionView: View {
             )
         } else if let error = error {
             Text("Error: \(error.localizedDescription)")
+                .foregroundColor(.secondary)
+                .padding()
         } else {
             ProgressView("Computing Regression")
                 .task { await computeRegression() }
@@ -64,9 +66,12 @@ struct ComputeDfaRegressionView: View {
                 xValues: workout.frames.map { Double($0.heartRate?.dfaAlpha1 ?? 0) },
                 averagingInterval: config.averageInterval,
                 xAxisOffset: config.dfaAlphaOffset,
-                isIncluded: { (dfaAlpha, _) in config.dfaRange.contains(dfaAlpha) }
+                isIncluded: { (dfaAlpha, tooValue) in config.dfaRange.contains(dfaAlpha) && tooValue > 0 }
             )
             let regression = try await linearRegression.compute()
+            guard !regression.values.isEmpty else {
+                throw GenericError(reason: "To few values for regression")
+            }
             DispatchQueue.main.async {
                 self.regression = .init(
                     regresion: regression,
@@ -79,7 +84,6 @@ struct ComputeDfaRegressionView: View {
                 self.error = error
             }
         }
-        
     }
 }
 

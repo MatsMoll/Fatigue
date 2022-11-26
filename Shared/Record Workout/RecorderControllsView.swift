@@ -22,7 +22,7 @@ struct ControllAction: View {
                 Text(title)
             }
         })
-        .roundedButton(color: .init(.secondarySystemBackground))
+        .roundedButton(color: .background)
     }
 }
 

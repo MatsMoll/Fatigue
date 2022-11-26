@@ -57,6 +57,7 @@ struct SavingWorkoutView: View {
                 recorder.resetRecorder()
             }
         } catch {
+            Logger().warning("Error: \(error.localizedDescription)")
             print("Error: \(error)")
         }
     }

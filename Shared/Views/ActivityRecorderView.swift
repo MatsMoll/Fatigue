@@ -12,7 +12,7 @@ struct ActivityRecorderView: View {
     
     @EnvironmentObject var model: AppModel
 //    @EnvironmentObject var recorder: ActivityRecorderCollector
-    @EnvironmentObject var garminDeviceManager: GarminDeviceListViewModel
+//    @EnvironmentObject var garminDeviceManager: GarminDeviceListViewModel
     
     @State
     var shouldPresentDevices: Bool = false
@@ -142,7 +142,9 @@ struct ActivityRecorderView: View {
 //            .padding()
         }
         .navigationTitle("Record")
+        #if os(iOS)
         .navigationBarItems(trailing: devicesButton)
+        #endif
         .sheet(isPresented: $shouldPresentDevices) { devicesView }
 //        .sheet(item: $connectToDeviceType) { type in
 //            #if os(iOS)

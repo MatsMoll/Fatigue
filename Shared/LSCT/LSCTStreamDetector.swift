@@ -7,13 +7,19 @@
 
 import Foundation
 
-struct LSCTStage {
+public struct LSCTStage {
     
     /// The number of data frames / seconds in a stage
-    let duration: Int
+    public let duration: Int
     
     /// The target power
-    let targetPower: Double
+    public let targetPower: Double
+    
+    
+    public init(duration: Int, targetPower: Double) {
+        self.duration = duration
+        self.targetPower = targetPower
+    }
 }
 
 struct FixedSizeArray<Element> {
@@ -55,24 +61,24 @@ struct FixedSizeArray<Element> {
     }
 }
 
-class LSCTStreamDetector {
+public class LSCTStreamDetector {
     
     private var totalError: Double = 0
-    var meanSquareError: Double { totalError / Double(valueCount) }
-    let stages: [LSCTStage]
+    public var meanSquareError: Double { totalError / Double(valueCount) }
+    public let stages: [LSCTStage]
     
     private var values: [FixedSizeArray<Double>]
     private let totalDuration: Int
-    private(set) var valueCount: Int = 0
-    private(set) var totalValueCount: Int = 0
+    public private(set) var valueCount: Int = 0
+    public private(set) var totalValueCount: Int = 0
     private let minTargetPower: Double
     
     let threshold: Double
     var isBelowThreshold: Bool { (detection?.meanSquareError ?? .infinity) < threshold }
     
-    var detection: LSCTDetector.Detection?
+    public var detection: LSCTDetector.Detection?
     
-    init(stages: [LSCTStage], threshold: Double) {
+    public init(stages: [LSCTStage], threshold: Double) {
         self.threshold = threshold
         let stageDurations = stages.map(\.duration)
         self.stages = stages
@@ -81,7 +87,7 @@ class LSCTStreamDetector {
         totalDuration = stageDurations.reduce(0, +)
     }
     
-    func add(power: Double) {
+    public func add(power: Double) {
         totalValueCount += 1
         var duration = 0
         if valueCount < totalDuration {

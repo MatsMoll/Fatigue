@@ -7,7 +7,9 @@
 
 import Foundation
 import Combine
+#if os(iOS)
 import CoreBluetooth
+#endif
 
 enum ConnectionState {
     case connecting
@@ -16,6 +18,7 @@ enum ConnectionState {
     case disconnected
 }
 
+#if os(iOS)
 extension ConnectionState {
     init?(state: CBPeripheralState) {
         switch state {
@@ -27,6 +30,7 @@ extension ConnectionState {
         }
     }
 }
+#endif
 
 protocol Device {
     var id: UUID { get }

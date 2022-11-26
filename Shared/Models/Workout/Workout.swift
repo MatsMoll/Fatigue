@@ -8,15 +8,15 @@
 import Foundation
 import Combine
 
-class Workout: Identifiable, Codable {
+public class Workout: Identifiable, Codable {
     
-    struct Summary: Codable {
+    public struct Summary: Codable, Equatable {
         let power: PowerSummary?
         let heartRate: HeartRateSummary?
         let cadence: CadenceSummary?
     }
     
-    struct PowerSummary: Codable {
+    public struct PowerSummary: Codable, Equatable {
         let average: Int
         let normalized: Int
         let powerBalance: PowerBalance?
@@ -24,19 +24,19 @@ class Workout: Identifiable, Codable {
         let max: Int
     }
     
-    struct HeartRateSummary: Codable {
+    public struct HeartRateSummary: Codable, Equatable {
         let average: Int
         let max: Int
         
         let dfaAlpha: DFAAlphaSummary?
     }
     
-    struct DFAAlphaSummary: Codable {
+    public struct DFAAlphaSummary: Codable, Equatable {
         let average: Double
         let min: Double
     }
     
-    struct CadenceSummary: Codable {
+    public struct CadenceSummary: Codable, Equatable {
         let average: Int
         let max: Int
     }
@@ -46,7 +46,7 @@ class Workout: Identifiable, Codable {
     }
     
     
-    let id: UUID
+    public let id: UUID
     let startedAt: Date
     
     var frames: [WorkoutFrame]
@@ -67,7 +67,7 @@ class Workout: Identifiable, Codable {
     
     var elapsedTime: Int { frames.last?.timestamp ?? 0 }
     
-    internal init(id: UUID, startedAt: Date, values: [WorkoutFrame], laps: [Int]) {
+    public init(id: UUID, startedAt: Date, values: [WorkoutFrame], laps: [Int]) {
         self.id = id
         self.startedAt = startedAt
         self.frames = values
@@ -75,8 +75,11 @@ class Workout: Identifiable, Codable {
     }
 }
 
-struct GenericError: Error {
+struct GenericError: Error, LocalizedError {
     let reason: String
+    
+    var errorDescription: String? { reason }
+    var failureReason: String? { reason }
     
     init(reason: String) {
         self.reason = reason
@@ -89,6 +92,25 @@ extension Workout {
             id: id,
             duration: elapsedTime,
             startedAt: startedAt
+        )
+    }
+}
+
+extension Workout.Summary {
+    static var preview: Workout.Summary {
+        Workout.Summary(
+            power: Workout.PowerSummary(
+                average: 300,
+                normalized: 321,
+                powerBalance: PowerBalance(percentage: 0.54, reference: .left),
+                max: 469
+            ),
+            heartRate: Workout.HeartRateSummary(
+                average: 183,
+                max: 188,
+                dfaAlpha: Workout.DFAAlphaSummary(average: 0.5432, min: 0.444)
+            ),
+            cadence: Workout.CadenceSummary(average: 92, max: 103)
         )
     }
 }

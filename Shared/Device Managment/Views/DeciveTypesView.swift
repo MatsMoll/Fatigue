@@ -6,6 +6,21 @@
 //
 
 import SwiftUI
+#if os(iOS)
+import UIKit
+#else
+import AppKit
+#endif
+
+extension Color {
+    static var background: Color {
+        #if os(iOS)
+        return Color(.secondarySystemBackground)
+        #else
+        return Color(.windowBackgroundColor)
+        #endif
+    }
+}
 
 struct DeviceTypesView: View {
     
@@ -17,13 +32,16 @@ struct DeviceTypesView: View {
     
     let deviceTypes: [DeviceType]
     
+    #if os(iOS)
     @Environment(\.horizontalSizeClass)
     var horizontalSizeClass
+    #endif
     
     @EnvironmentObject
     var recorder: ActivityRecorder
     
     var columns: [GridItem] {
+        #if os(iOS)
         if horizontalSizeClass == .regular {
             return [
                 GridItem(.flexible()),
@@ -36,6 +54,13 @@ struct DeviceTypesView: View {
                 GridItem(.flexible())
             ]
         }
+        #else
+        return [
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+        ]
+        #endif
     }
     
     var body: some View {
@@ -47,7 +72,9 @@ struct DeviceTypesView: View {
             connectableDeviceList(discoverer: deviceDiscoverer.discoverer)
         }
         .navigationTitle("Devices")
+        #if os(iOS)
         .navigationBarItems(trailing: cancelButton)
+        #endif
         .onAppear { recorder.stopObservingValues() }
         .onDisappear { recorder.startObservingValues() }
     }
@@ -65,7 +92,7 @@ struct DeviceTypesView: View {
                 type: type,
                 deviceDiscoverer: $deviceDiscoverer
             )
-            .roundedButton(color: .init(.secondarySystemBackground))
+            .roundedButton(color: .background)
         }
     }
     
@@ -87,7 +114,9 @@ struct DeviceTypesView: View {
                 )
             )
         }
+        #if os(iOS)
         .navigationViewStyle(StackNavigationViewStyle())
+        #endif
     }
 }
 

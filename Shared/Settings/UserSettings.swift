@@ -37,7 +37,7 @@ public class UserSettings: ObservableObject, Codable {
     
     var listners: [AnyCancellable] = []
     
-    internal init(
+    public init(
         ftp: Int? = nil,
         artifactCorrection: Double? = nil,
         dfaWindow: TimeInterval = 120,
